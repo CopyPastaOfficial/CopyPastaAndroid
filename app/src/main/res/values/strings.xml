@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">CopyPasta</string>
+
+    <string name="add_device_title">Add device</string>
+    <string name="add_device_input_name">Device name</string>
+    <string name="add_device_input_ip">IP address</string>
+    <string name="add_device_button">@string/add_device_title</string>
+    <string name="add_device_scan_manual_button">Enter the information manually</string>
+    <string name="add_device_scan_text">Download CopyPasta software on your Computer (https://xxxxxxx.com). Open the CopyPasta software and scan the QR Code that appears on the screen.</string>
+    <string name="add_device_error_qr_code">The QR Code is invalid</string>
+    <string name="add_device_scan_qr_code">Scan QR Code</string>
+    <string name="main_select_device">Choose a device :</string>
+    <string name="main_add_button_device">@string/add_device_title</string>
+    <string name="main_local_button">Use this app locally</string>
+    <string name="select_mode_barcode_button">Qr code / Barcode</string>
+    <string name="select_mode_text_button">Scan text</string>
+    <string name="select_mode_image_button">Send image</string>
+
+    <string name="camera_message">Scan or choose a picture from gallery</string>
+    <string name="camera_ask_permission_camera">You must enable camera permission</string>
+    <string name="camera_ask_permission_settings">Settings</string>
+    <string name="image_message">Loading ...</string>
+    <string name="image_button">Save</string>
+    <string name="main_divider">Or</string>
+    <string name="select_mode_object_button">Scan object</string>
+    <string name="select_mode_copy_button">Copy to clipboard</string>
+    <string name="select_mode_share_button">Share</string>
+    <string name="select_mode_card_title">Last scanned text</string>
+    <string name="select_mode_copy_success">The text has been copied to the clipboard</string>
+
+</resources>

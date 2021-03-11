@@ -1,0 +1,36 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.CopyPasta" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">#009c74</item>
+        <item name="colorPrimaryVariant">#007f58</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">#8b43a9</item>
+        <item name="colorSecondaryVariant">#6d3898</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="fontFamily">@font/font</item>
+        <item name="materialButtonStyle">@style/Theme.CopyPasta.Button</item>
+        <item name="android:forceDarkAllowed">false</item>
+
+    </style>
+
+    <style name="Theme.CopyPasta.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.CopyPasta.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.CopyPasta.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="Theme.CopyPasta.Button" parent="Widget.MaterialComponents.Button">
+
+        <item name="android:paddingBottom">20sp</item>
+        <item name="android:paddingTop">20sp</item>
+    </style>
+
+</resources>
