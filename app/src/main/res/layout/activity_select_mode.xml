@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     android:orientation="vertical"
     tools:context="fr.remialban.copypasta.SelectModeActivity">
     <ScrollView
@@ -125,6 +126,7 @@
                             app:icon="@drawable/ic_clipboard"
                             android:text="@string/select_mode_copy_button"
                             style="?attr/borderlessButtonStyle"
+                            android:textAlignment="textStart"
                             />
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/card_share_button"
@@ -133,6 +135,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/select_mode_share_button"
                             style="?attr/borderlessButtonStyle"
+                            android:textAlignment="textStart"
                             />
                     </LinearLayout>
 
@@ -143,4 +146,4 @@
 
     </ScrollView>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

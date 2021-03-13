@@ -1,6 +1,7 @@
 package fr.remialban.copypasta;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.FileProvider;
@@ -8,6 +9,7 @@ import androidx.core.content.FileProvider;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -156,6 +160,14 @@ public class SelectModeActivity extends AppCompatActivity {
                             out.close();
                             s.close();
                         } catch (IOException e) {
+                            Log.i("erreur", "test");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    alertErrorConnection();
+                                }
+                            });
+                        } catch (Exception e) {
                             //Toast.makeText(SelectModeActivity.this, "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
                             Log.i("erreur", "erreur");
                         }
@@ -183,7 +195,7 @@ public class SelectModeActivity extends AppCompatActivity {
 
             } catch (Exception e) {
                 Log.i("TEST", "DANS EXCEPTION");
-                e.printStackTrace();
+               // e.printStackTrace();
 
             }
 
@@ -193,11 +205,6 @@ public class SelectModeActivity extends AppCompatActivity {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        Toast.makeText(SelectModeActivity.this, "Finco is Daddy", Toast.LENGTH_LONG);
-                    }
-                });
                 try {
                     //lis l'ip depuis un fichier, à remplacer par ta méthode pour l'IP, le port ne change pas
                     Socket socket = new Socket(ip, 8836);
@@ -210,10 +217,12 @@ public class SelectModeActivity extends AppCompatActivity {
                     Log.i("erreur", "erreur");
                     runOnUiThread(new Runnable() {
                         public void run() {
-                            Toast.makeText(SelectModeActivity.this, "Finco is Daddy", Toast.LENGTH_LONG);
+                            alertErrorConnection();
                         }
                     });
                     //Toast.makeText(getApplicationContext(), "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
+                } catch(Exception e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -221,5 +230,18 @@ public class SelectModeActivity extends AppCompatActivity {
 
     }
 
+    private void alertErrorConnection()
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
+        alert.setTitle(getString(R.string.select_mode_error_server_title));
+        alert.setMessage(getString(R.string.select_mode_error_server_content));
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.show();
+    }
 
 }

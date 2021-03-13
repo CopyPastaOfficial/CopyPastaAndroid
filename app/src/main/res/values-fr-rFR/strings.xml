@@ -26,5 +26,7 @@
     <string name="select_mode_share_button">Partager</string>
     <string name="select_mode_card_title">Dernier texte scanné</string>
     <string name="select_mode_copy_success">Le texte a bien été copié dans le presse-papier</string>
+    <string name="select_mode_error_server_title">Impossible de communiquer avec votre ordinateur</string>
+    <string name="select_mode_error_server_content">"Veuillez connecter votre appareil sur le même WiFi que votre ordinateur. Si c'est déjà le cas, revenez à l'écran d'accueil, supprimez l'ordinateur et rajouter le."</string>
 
 </resources>
