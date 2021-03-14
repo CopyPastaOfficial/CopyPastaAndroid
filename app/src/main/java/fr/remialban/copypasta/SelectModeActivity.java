@@ -52,6 +52,10 @@ public class SelectModeActivity extends AppCompatActivity {
         ip = getIntent().getStringExtra("ip");
         Button button = findViewById(R.id.scan_qr_code_button);
         Button upload_image_button = findViewById(R.id.upload_image_button);
+        if(!getIntent().getBooleanExtra("isLocally", false))
+        {
+            upload_image_button.setVisibility(View.VISIBLE);
+        }
         upload_image_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +114,7 @@ public class SelectModeActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -213,6 +218,7 @@ public class SelectModeActivity extends AppCompatActivity {
                     dOut.write(msgbytes);
                     dOut.close();
                     socket.close();
+
                 } catch (java.io.IOException e) {
                     Log.i("erreur", "erreur");
                     runOnUiThread(new Runnable() {
@@ -243,5 +249,7 @@ public class SelectModeActivity extends AppCompatActivity {
         });
         alert.show();
     }
+
+
 
 }

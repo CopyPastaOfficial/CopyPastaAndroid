@@ -43,7 +43,7 @@
                         android:id="@+id/manual_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="invisible"
+                        android:visibility="gone"
                         android:drawableLeft="@drawable/ic_edit"
                         android:text="@string/add_device_scan_manual_button"/>
                 </LinearLayout>
@@ -58,7 +58,7 @@
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/submit_button"
-        android:enabled="true"
+        android:enabled="false"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

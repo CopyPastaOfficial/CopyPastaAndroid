@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         >
         <LinearLayout
-            android:padding="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -28,9 +27,12 @@
                 android:text="@string/select_mode_barcode_button"
                 android:textAlignment="textStart"
                 android:textSize="22sp"
+                android:layout_marginHorizontal="20dp"
                 app:backgroundTint="#23FFFFFF" />
 
             <Button
+                android:layout_marginHorizontal="20dp"
+
                 android:id="@+id/scan_text_button"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
@@ -45,6 +47,7 @@
                 app:backgroundTint="#23FFFFFF" />
 
             <Button
+                android:layout_marginHorizontal="20dp"
                 android:id="@+id/scan_image_button"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
@@ -60,6 +63,7 @@
                 app:backgroundTint="#23FFFFFF" />
 
             <Button
+                android:layout_marginHorizontal="20dp"
                 android:id="@+id/upload_image_button"
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
@@ -69,15 +73,16 @@
                 android:drawableLeft="@drawable/ic_image"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/select_mode_image_button"
+                android:visibility="gone"
                 android:textAlignment="textStart"
                 android:textSize="22sp"
 
                 app:backgroundTint="#23FFFFFF" />
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:layout_width="match_parent"
-                android:layout_margin="8dp"
+                android:layout_marginHorizontal="20dp"
                 android:layout_height="wrap_content">
 
                 <LinearLayout

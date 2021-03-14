@@ -12,7 +12,7 @@
     <string name="select_mode_image_button">Envoyer une image</string>
     <string name="camera_message">Scannez ou choisissez une image depuis la gallerie</string>
     <string name="image_message">Chargement...</string>
-    <string name="image_button">Enregistrer</string>
+    <string name="image_button">Envoyer</string>
     <string name="main_divider">Ou</string>
     <string name="add_device_scan_manual_button">Entrez les informations manuellement</string>
     <string name="add_device_scan_text">Télécharger le logiciel CopyPasta sur votre ordinateur (https://xxxxxxx.com). Ouvrez le logiciel et scanner le QR Code qui apparaît à l\'écran.</string>

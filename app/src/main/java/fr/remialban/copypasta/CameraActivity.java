@@ -164,6 +164,13 @@ public class CameraActivity extends AppCompatActivity {
                     public void onSuccess(String text) {
                         textResult.setText(text);
                         submitButton.setEnabled(true);
+                        textResult.setTypeface(Typeface.DEFAULT);
+                        if(text== null || text.trim().equals(""))
+                        {
+                            textResult.setText(getString(R.string.camera_message));
+                            textResult.setTypeface(Typeface.DEFAULT_BOLD);
+                            submitButton.setEnabled(false);
+                        }
                         if(getIntent().getIntExtra("request", -1) == CODE_SCAN_BARCODE)
                         {
                             Intent intent = getIntent();

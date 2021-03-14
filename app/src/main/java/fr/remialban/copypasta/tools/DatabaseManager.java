@@ -26,7 +26,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i("DATABASE", "onCreate1");
-        Toast.makeText(context, "onCreate", Toast.LENGTH_SHORT).show();
         String query = "CREATE TABLE devices (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "name TEXT NOT NULL," +
