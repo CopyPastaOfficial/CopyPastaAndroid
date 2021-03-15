@@ -44,19 +44,41 @@ import fr.remialban.copypasta.tools.Scan;
 public class SelectModeActivity extends AppCompatActivity {
 
     String ip;
+    Boolean isLocally;
+
+    Button scanQrCodeButton;
+    Button uploadImageButton;
+    Button scanTextButton;
+    Button scanObjectButton;
+
+    MaterialButton copyButton;
+    TextView content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode);
+        initRessources();
+        initEvents();
+        init();
 
+    }
+
+    private void initRessources()
+    {
+        scanQrCodeButton = findViewById(R.id.scan_qr_code_button);
+        uploadImageButton = findViewById(R.id.upload_image_button);
+        scanTextButton = findViewById(R.id.scan_text_button);
+        scanObjectButton = findViewById(R.id.scan_object_button);
+        copyButton = findViewById(R.id.card_copy_button);
+        content = findViewById(R.id.card_content);
         ip = getIntent().getStringExtra("ip");
-        Button button = findViewById(R.id.scan_qr_code_button);
-        Button upload_image_button = findViewById(R.id.upload_image_button);
-        if(!getIntent().getBooleanExtra("isLocally", false))
-        {
-            upload_image_button.setVisibility(View.VISIBLE);
-        }
-        upload_image_button.setOnClickListener(new View.OnClickListener() {
+        isLocally = getIntent().getBooleanExtra("isLocally", false);
+    }
+
+    private void initEvents()
+    {
+        uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -64,32 +86,12 @@ public class SelectModeActivity extends AppCompatActivity {
                 startActivityForResult(galleryIntent, 4);
             }
         });
-        findViewById(R.id.scan_qr_code_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                intent.putExtra("request", Scan.CODE_SCAN_BARCODE);
-                startActivityForResult(intent, 1);
-            }
-        });
-        findViewById(R.id.scan_text_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                intent.putExtra("request", Scan.CODE_SCAN_TEXT);
-                startActivityForResult(intent, 1);
-            }
-        });
-        findViewById(R.id.scan_image_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                intent.putExtra("request", Scan.CODE_SCAN_IMAGE);
-                startActivityForResult(intent, 1);
-            }
-        });
-        MaterialButton copyButton = findViewById(R.id.card_copy_button);
-        TextView content = findViewById(R.id.card_content);
+
+        scanQrCodeButton.setOnClickListener(new OpenCamera(Scan.CODE_SCAN_BARCODE));
+
+        scanTextButton.setOnClickListener(new OpenCamera( Scan.CODE_SCAN_TEXT));
+        scanObjectButton.setOnClickListener(new OpenCamera( Scan.CODE_SCAN_IMAGE));
+
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +101,32 @@ public class SelectModeActivity extends AppCompatActivity {
                 Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_copy_success), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+
+
+    class OpenCamera implements View.OnClickListener
+    {
+        private int request;
+        public OpenCamera(int request)
+        {
+            this.request = request;
+        }
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+            intent.putExtra("request", request);
+            startActivityForResult(intent, 1);
+        }
+    }
+    private void init()
+    {
+
+        if(!isLocally)
+        {
+            uploadImageButton.setVisibility(View.VISIBLE);
+        }
+
 
         MaterialButton shareButton = findViewById(R.id.card_share_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +142,6 @@ public class SelectModeActivity extends AppCompatActivity {
             }
         });
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
