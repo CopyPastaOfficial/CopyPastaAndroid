@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CopyPasta">
         <activity android:name=".ImageActivity" android:parentActivityName=".CameraActivity"></activity>
-        <activity android:name=".CameraActivity" android:parentActivityName=".SelectModeActivity"/>
+        <activity android:name=".CameraActivity" android:parentActivityName=".MainActivity"/>
         <activity android:name=".SelectModeActivity" />
         <activity
             android:name=".AddDeviceActivity"

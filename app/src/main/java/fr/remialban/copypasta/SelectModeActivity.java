@@ -22,6 +22,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,15 +46,17 @@ public class SelectModeActivity extends AppCompatActivity {
 
     String ip;
     Boolean isLocally;
-
+    ProgressBar progressBar;
     Button scanQrCodeButton;
     Button uploadImageButton;
     Button scanTextButton;
     Button scanObjectButton;
+    Button sendClipboard;
 
     MaterialButton copyButton;
     TextView content;
-
+    MaterialButton shareButton;
+    MaterialButton sendButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +75,12 @@ public class SelectModeActivity extends AppCompatActivity {
         scanObjectButton = findViewById(R.id.scan_object_button);
         copyButton = findViewById(R.id.card_copy_button);
         content = findViewById(R.id.card_content);
+        shareButton = findViewById(R.id.card_share_button);
         ip = getIntent().getStringExtra("ip");
         isLocally = getIntent().getBooleanExtra("isLocally", false);
+        sendButton = findViewById(R.id.card_send_button);
+        progressBar = findViewById(R.id.progress_bar);
+        sendClipboard = findViewById(R.id.send_clipboard_button);
     }
 
     private void initEvents()
@@ -101,6 +108,29 @@ public class SelectModeActivity extends AppCompatActivity {
                 Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_copy_success), Toast.LENGTH_LONG).show();
             }
         });
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMessage(
+                        content.getText().toString());
+            }
+        });
+
+        sendClipboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+                String clipboard = (String) clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()).toString();
+                CardView cardView = findViewById(R.id.card);
+                TextView content = findViewById(R.id.card_content);
+                cardView.setVisibility(View.VISIBLE);
+                content.setText(clipboard);
+                sendMessage(clipboard);
+
+
+            }
+        });
     }
 
 
@@ -125,10 +155,11 @@ public class SelectModeActivity extends AppCompatActivity {
         if(!isLocally)
         {
             uploadImageButton.setVisibility(View.VISIBLE);
+            sendButton.setVisibility(View.VISIBLE);
+            sendClipboard.setVisibility(View.VISIBLE);
         }
 
 
-        MaterialButton shareButton = findViewById(R.id.card_share_button);
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,57 +185,7 @@ public class SelectModeActivity extends AppCompatActivity {
             //Toast.makeText(getApplicationContext(),data.getStringExtra("content"), Toast.LENGTH_LONG).show();
             if(!getIntent().getBooleanExtra("isLocally", false))
             {
-                Log.i("test","A");
-                Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.i("test","B");
-
-                        try {
-                            //lis l'ip depuis un fichier, à remplacer par ta méthode pour l'IP, le port ne change pas
-                            Log.i("test","C");
-
-                            Socket s = new Socket(ip, 8835);
-                            Log.i("test","D");
-
-                            OutputStream out = s.getOutputStream();
-                            Log.i("test","E");
-
-                            PrintWriter output = new PrintWriter(out);
-                            Log.i("test","F");
-
-                            output.print(data.getStringExtra("content"));
-                            Log.i("test","G");
-
-                            output.flush();
-                            Log.i("test","H");
-
-                            Log.d("MSG", "msg sent");
-                            Log.i("test","I");
-
-
-                    /*if(st.contains("OK")){
-                    }*/
-                            Toast.makeText(getApplicationContext(), "Scan sent !", Toast.LENGTH_SHORT).show();
-
-                            output.close();
-                            out.close();
-                            s.close();
-                        } catch (IOException e) {
-                            Log.i("erreur", "test");
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    alertErrorConnection();
-                                }
-                            });
-                        } catch (Exception e) {
-                            //Toast.makeText(SelectModeActivity.this, "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
-                            Log.i("erreur", "erreur");
-                        }
-                    }
-                });
-                thread.start();
+                sendMessage(data.getStringExtra("content"));
 
 
             }
@@ -220,7 +201,7 @@ public class SelectModeActivity extends AppCompatActivity {
                 StringBuilder b = new StringBuilder();
                 byte[] bytes = stream.toByteArray();
 
-                sendMessage(bytes);
+                sendImage(bytes);
 
                 Log.d("MESSAGE","ALL BYTES ARE SENT");
 
@@ -232,11 +213,100 @@ public class SelectModeActivity extends AppCompatActivity {
 
         }
     }
-    private void sendMessage(final byte[] msgbytes) {
+
+    private void sendMessage(String content)
+    {
+        Log.i("test","A");
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("test","B");
+
+                try {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.VISIBLE);
+                            sendButton.setEnabled(false);
+
+                        }
+                    });
+                    //lis l'ip depuis un fichier, à remplacer par ta méthode pour l'IP, le port ne change pas
+                    Log.i("test","C");
+
+                    Socket s = new Socket(ip, 8835);
+                    Log.i("test","D");
+
+                    OutputStream out = s.getOutputStream();
+                    Log.i("test","E");
+
+                    PrintWriter output = new PrintWriter(out);
+                    Log.i("test","F");
+
+                    output.print(content);
+                    Log.i("test","G");
+
+                    output.flush();
+                    Log.i("test","H");
+
+                    Log.d("MSG", "msg sent");
+                    Log.i("test","I");
+
+
+                    /*if(st.contains("OK")){
+                    }*/
+                    Toast.makeText(getApplicationContext(), "Scan sent !", Toast.LENGTH_SHORT).show();
+
+                    output.close();
+                    out.close();
+                    s.close();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            sendButton.setEnabled(true);
+
+                        }
+                    });
+                } catch (IOException e) {
+                    Log.i("erreur", "test");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            sendButton.setEnabled(true);
+
+                            alertErrorConnection();
+                        }
+                    });
+                } catch (Exception e) {
+                    //Toast.makeText(SelectModeActivity.this, "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
+                    Log.i("erreur", "erreur");
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            sendButton.setEnabled(true);
+
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+    }
+    private void sendImage(final byte[] msgbytes) {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.VISIBLE);
+                            sendButton.setEnabled(false);
+                        }
+                    });
                     //lis l'ip depuis un fichier, à remplacer par ta méthode pour l'IP, le port ne change pas
                     Socket socket = new Socket(ip, 8836);
 
@@ -244,14 +314,25 @@ public class SelectModeActivity extends AppCompatActivity {
                     dOut.write(msgbytes);
                     dOut.close();
                     socket.close();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            sendButton.setEnabled(true);
+
+                        }
+                    });
 
                 } catch (java.io.IOException e) {
                     Log.i("erreur", "erreur");
                     runOnUiThread(new Runnable() {
                         public void run() {
+                            progressBar.setVisibility(View.GONE);
+                            sendButton.setEnabled(true);
                             alertErrorConnection();
                         }
                     });
+
                     //Toast.makeText(getApplicationContext(), "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
                 } catch(Exception e) {
                     e.printStackTrace();
@@ -270,7 +351,7 @@ public class SelectModeActivity extends AppCompatActivity {
         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                
             }
         });
         alert.show();

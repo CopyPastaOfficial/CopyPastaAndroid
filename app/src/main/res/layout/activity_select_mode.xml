@@ -7,9 +7,18 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     tools:context="fr.remialban.copypasta.SelectModeActivity">
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:indeterminate="true" />
+    
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
         android:scrollbars="none"
         >
         <LinearLayout
@@ -79,6 +88,22 @@
                 android:textSize="22sp"
 
                 app:backgroundTint="#23FFFFFF" />
+            <Button
+                android:layout_marginHorizontal="20dp"
+                android:id="@+id/send_clipboard_button"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:layout_gravity="start"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="?colorSecondary"
+                android:drawableLeft="@drawable/ic_send_clipboard"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/select_mode_clipboard_button"
+                android:visibility="gone"
+                android:textAlignment="textStart"
+                android:textSize="22sp"
+
+                app:backgroundTint="#23FFFFFF" />
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card"
                 android:visibility="gone"
@@ -141,6 +166,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/select_mode_share_button"
+                            style="?attr/borderlessButtonStyle"
+                            android:textAlignment="textStart"
+                            />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/card_send_button"
+                            app:icon="@drawable/ic_send"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/select_mode_send_button"
+                            android:visibility="gone"
                             style="?attr/borderlessButtonStyle"
                             android:textAlignment="textStart"
                             />

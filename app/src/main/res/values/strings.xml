@@ -29,5 +29,7 @@
     <string name="select_mode_copy_success">The text has been copied to the clipboard</string>
     <string name="select_mode_error_server_title">Cannot communicate with your computer</string>
     <string name="select_mode_error_server_content">Please connect your device to the same WiFi as your computer. If it is already the case, go back to the home screen, delete the computer and add it back.</string>
+    <string name="select_mode_send_button">Send at computer</string>
+    <string name="select_mode_clipboard_button">Send clipboard</string>
 
 </resources>
