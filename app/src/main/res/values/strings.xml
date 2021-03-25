@@ -31,5 +31,7 @@
     <string name="select_mode_error_server_content">Please connect your device to the same WiFi as your computer. If it is already the case, go back to the home screen, delete the computer and add it back.</string>
     <string name="select_mode_send_button">Send at computer</string>
     <string name="select_mode_clipboard_button">Send clipboard</string>
+    <string name="select_mode_error_clipboard_content">You must copy a text to use this functionality.</string>
+    <string name="select_mode_error_clipboard_title">Clipboard empty</string>
 
 </resources>

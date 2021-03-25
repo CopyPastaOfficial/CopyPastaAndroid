@@ -119,15 +119,29 @@ public class SelectModeActivity extends AppCompatActivity {
         sendClipboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                try {
 
-                String clipboard = (String) clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()).toString();
-                CardView cardView = findViewById(R.id.card);
-                TextView content = findViewById(R.id.card_content);
-                cardView.setVisibility(View.VISIBLE);
-                content.setText(clipboard);
-                sendMessage(clipboard);
 
+                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+                    String clipboard = (String) clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()).toString();
+                    CardView cardView = findViewById(R.id.card);
+                    TextView content = findViewById(R.id.card_content);
+                    cardView.setVisibility(View.VISIBLE);
+                    content.setText(clipboard);
+                    sendMessage(clipboard);
+                } catch (NullPointerException exception) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
+                    alert.setTitle(getString(R.string.select_mode_error_clipboard_title));
+                    alert.setMessage(getString(R.string.select_mode_error_clipboard_content));
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    alert.show();
+                }
 
             }
         });

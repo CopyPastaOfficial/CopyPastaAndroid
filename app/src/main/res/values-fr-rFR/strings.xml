@@ -31,4 +31,7 @@
 
     <string name="select_mode_send_button">"Envoyer à l'ordinateur"</string>
     <string name="select_mode_clipboard_button">Envoyer le presse-papier</string>
+    <string name="select_mode_error_clipboard_content">Vous devez copier un texte pour utiliser cette fonctionalité</string>
+    <string name="select_mode_error_clipboard_title">Presse-papier vide</string>
+
 </resources>
