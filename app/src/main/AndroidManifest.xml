@@ -5,9 +5,9 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,19 +15,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CopyPasta">
-        <activity android:name=".ImageActivity" android:parentActivityName=".CameraActivity"></activity>
-        <activity android:name=".CameraActivity" android:parentActivityName=".MainActivity"/>
+        <activity
+            android:name=".ImageActivity"
+            android:parentActivityName=".CameraActivity" />
+        <activity
+            android:name=".CameraActivity"
+            android:parentActivityName=".SelectDeviceActivity" />
         <activity android:name=".SelectModeActivity" />
         <activity
             android:name=".AddDeviceActivity"
             android:label="@string/add_device_title"
-            android:parentActivityName=".MainActivity"/>
+            android:parentActivityName=".SelectDeviceActivity" />
+        <activity android:name=".SelectDeviceActivity"/>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+        <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+
+        <category android:name="android.intent.category.LAUNCHER" />
+    </intent-filter>
         </activity>
 
         <meta-data
