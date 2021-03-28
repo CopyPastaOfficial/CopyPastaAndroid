@@ -23,7 +23,7 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-import fr.remialban.copypasta.tools.Scan;
+import fr.remialban.copypasta.tools.ScanHelper;
 
 public class ImageActivity extends AppCompatActivity {
 
@@ -78,11 +78,11 @@ public class ImageActivity extends AppCompatActivity {
         try {
             InputImage inputImage = InputImage.fromFilePath(getApplicationContext(), imageUri);
 
-            Scan scan = new Scan(inputImage, getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
+            ScanHelper scan = new ScanHelper(inputImage, getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                 @Override
                 public void onSuccess(String text) {
                     textResult.setText(text);
-                    if (getIntent().getIntExtra("request", -1) == Scan.CODE_SCAN_BARCODE)
+                    if (getIntent().getIntExtra("request", -1) == ScanHelper.CODE_SCAN_BARCODE)
                     {
                         Intent intent = getIntent().putExtra("content", textResult.getText());
                         setResult(1, intent);

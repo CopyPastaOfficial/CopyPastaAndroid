@@ -40,7 +40,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import fr.remialban.copypasta.tools.Scan;
+import fr.remialban.copypasta.tools.ScanHelper;
 
 public class SelectModeActivity extends AppCompatActivity {
 
@@ -94,10 +94,10 @@ public class SelectModeActivity extends AppCompatActivity {
             }
         });
 
-        scanQrCodeButton.setOnClickListener(new OpenCamera(Scan.CODE_SCAN_BARCODE));
+        scanQrCodeButton.setOnClickListener(new OpenCamera(ScanHelper.CODE_SCAN_BARCODE));
 
-        scanTextButton.setOnClickListener(new OpenCamera( Scan.CODE_SCAN_TEXT));
-        scanObjectButton.setOnClickListener(new OpenCamera( Scan.CODE_SCAN_IMAGE));
+        scanTextButton.setOnClickListener(new OpenCamera( ScanHelper.CODE_SCAN_TEXT));
+        scanObjectButton.setOnClickListener(new OpenCamera( ScanHelper.CODE_SCAN_IMAGE));
 
         copyButton.setOnClickListener(new View.OnClickListener() {
             @Override

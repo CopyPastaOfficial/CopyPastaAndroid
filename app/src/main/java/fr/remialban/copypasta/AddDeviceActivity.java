@@ -18,7 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import fr.remialban.copypasta.tools.Scan;
+import fr.remialban.copypasta.tools.ScanHelper;
 
 public class AddDeviceActivity extends AppCompatActivity {
 
@@ -72,7 +72,7 @@ public class AddDeviceActivity extends AppCompatActivity {
 
     private void startCamera() {
         Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-        intent.putExtra("request", Scan.CODE_SCAN_BARCODE);
+        intent.putExtra("request", ScanHelper.CODE_SCAN_BARCODE);
         intent.putExtra("addDevice", true);
         startActivityForResult(intent, 1);
     }

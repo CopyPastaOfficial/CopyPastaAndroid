@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -29,7 +28,7 @@ import java.util.List;
 
 import javax.xml.transform.Result;
 
-public abstract class Scan {
+public abstract class ScanHelper {
 
     public static final int CODE_SCAN_BARCODE = 1;
     public static final int CODE_SCAN_TEXT = 2;
@@ -37,7 +36,7 @@ public abstract class Scan {
 
     private Vibrator vibrator;
     private InputImage inputImage;
-    public Scan(InputImage inputImage, int code, Vibrator vibrator) {
+    public ScanHelper(InputImage inputImage, int code, Vibrator vibrator) {
         this.inputImage = inputImage;
         this.vibrator = vibrator;
         switch (code) {
@@ -62,13 +61,13 @@ public abstract class Scan {
                     @Override
                     public void onSuccess(Text text) {
 
-                        Scan.this.onSuccess(text.getText());
+                        ScanHelper.this.onSuccess(text.getText());
                     }
                 })
                 .addOnCompleteListener(new OnCompleteListener<Text>() {
                     @Override
                     public void onComplete(@NonNull Task<Text> task) {
-                        Scan.this.onComplete(task.getResult().getText());
+                        ScanHelper.this.onComplete(task.getResult().getText());
                     }
                 })
                 ;
@@ -169,7 +168,7 @@ public abstract class Scan {
                                         default:
                                             result = barcode.getRawValue();
                                     }
-                                    Scan.this.onSuccess(result);
+                                    ScanHelper.this.onSuccess(result);
 
                                 } catch (Exception e) {
 
@@ -181,7 +180,7 @@ public abstract class Scan {
                         .addOnCompleteListener(new OnCompleteListener<List<Barcode>>() {
                             @Override
                             public void onComplete(@NonNull Task<List<Barcode>> task) {
-                                Scan.this.onComplete("");
+                                ScanHelper.this.onComplete("");
                             }
                         })
                 ;
@@ -195,13 +194,13 @@ public abstract class Scan {
                     public void onSuccess(List<ImageLabel> labels) {
                         ImageLabel imageLabel = labels.get(0);
 
-                        Scan.this.onSuccess(imageLabel.getText());
+                        ScanHelper.this.onSuccess(imageLabel.getText());
                     }
                 })
                 .addOnCompleteListener(new OnCompleteListener<List<ImageLabel>>() {
                     @Override
                     public void onComplete(@NonNull Task<List<ImageLabel>> task) {
-                        Scan.this.onComplete("");
+                        ScanHelper.this.onComplete("");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

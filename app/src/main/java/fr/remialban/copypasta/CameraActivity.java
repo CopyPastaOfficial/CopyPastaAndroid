@@ -42,7 +42,7 @@ import com.google.mlkit.vision.common.InputImage;
 
 import java.util.concurrent.ExecutionException;
 
-import fr.remialban.copypasta.tools.Scan;
+import fr.remialban.copypasta.tools.ScanHelper;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -159,7 +159,7 @@ public class CameraActivity extends AppCompatActivity {
                 @SuppressLint("UnsafeExperimentalUsageError") Image mediaImage = imageProxy.getImage();
                 InputImage inputImage = InputImage.fromMediaImage(mediaImage, rotationDegrees);
 
-                Scan scan = new Scan(inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
+                ScanHelper scan = new ScanHelper(inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                     @Override
                     public void onSuccess(String text) {
                         textResult.setText(text);
