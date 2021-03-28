@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * This is the First Activity. It is a SplashScreen
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,15 +18,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(getApplicationContext(),SelectDeviceActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
+                    Thread.sleep(1500);
+
+                    Intent intent = new Intent(getApplicationContext(),SelectDeviceActivity.class);
+                    startActivity(intent);
+                    finish();
+
 
                 } catch (Exception e)
                 {
