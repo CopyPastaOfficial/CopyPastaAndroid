@@ -1,10 +1,8 @@
 package fr.remialban.copypasta.tools;
 
-import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -82,9 +80,7 @@ public abstract class ScanHelper {
                             public void onSuccess(List<Barcode> barcodes) {
                                 String result = "";
                                 try {
-                                    Log.i("DEBUG", "INTERIEUR TRY");
                                     Barcode barcode = barcodes.get(0);
-                                    Log.i("DEBUG", String.valueOf(barcode.getValueType()));
                                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
                                     {
                                         vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -97,7 +93,6 @@ public abstract class ScanHelper {
                                             result = barcode.getPhone().getNumber();
                                             break;
                                         case Barcode.TYPE_EMAIL:
-                                            Log.i("DEBUT", "type email");
                                             result = "Address : \n" + barcode.getEmail().getAddress() + "\n Subject :\n" + barcode.getEmail().getSubject() + "\n Content :\n" + barcode.getEmail().getBody();
                                             break;
                                         case Barcode.TYPE_WIFI:

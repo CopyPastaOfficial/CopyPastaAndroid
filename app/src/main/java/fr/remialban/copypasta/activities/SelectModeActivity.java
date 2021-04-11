@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -207,10 +206,8 @@ public class SelectModeActivity extends AppCompatActivity {
 
                 sendImage(bytes);
 
-                Log.d("MESSAGE","ALL BYTES ARE SENT");
 
             } catch (Exception e) {
-                Log.i("TEST", "DANS EXCEPTION");
                // e.printStackTrace();
 
             }
@@ -220,11 +217,9 @@ public class SelectModeActivity extends AppCompatActivity {
 
     private void sendMessage(String content)
     {
-        Log.i("test","A");
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.i("test","B");
 
                 try {
                     runOnUiThread(new Runnable() {
@@ -235,26 +230,17 @@ public class SelectModeActivity extends AppCompatActivity {
 
                         }
                     });
-                    //lis l'ip depuis un fichier, à remplacer par ta méthode pour l'IP, le port ne change pas
-                    Log.i("test","C");
 
                     Socket s = new Socket(ip, 8835);
-                    Log.i("test","D");
 
                     OutputStream out = s.getOutputStream();
-                    Log.i("test","E");
 
                     PrintWriter output = new PrintWriter(out);
-                    Log.i("test","F");
 
                     output.print(content);
-                    Log.i("test","G");
 
                     output.flush();
-                    Log.i("test","H");
 
-                    Log.d("MSG", "msg sent");
-                    Log.i("test","I");
 
 
                     /*if(st.contains("OK")){
@@ -273,7 +259,6 @@ public class SelectModeActivity extends AppCompatActivity {
                         }
                     });
                 } catch (IOException e) {
-                    Log.i("erreur", "test");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -284,8 +269,6 @@ public class SelectModeActivity extends AppCompatActivity {
                         }
                     });
                 } catch (Exception e) {
-                    //Toast.makeText(SelectModeActivity.this, "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
-                    Log.i("erreur", "erreur");
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -328,7 +311,6 @@ public class SelectModeActivity extends AppCompatActivity {
                     });
 
                 } catch (java.io.IOException e) {
-                    Log.i("erreur", "erreur");
                     runOnUiThread(new Runnable() {
                         public void run() {
                             progressBar.setVisibility(View.GONE);

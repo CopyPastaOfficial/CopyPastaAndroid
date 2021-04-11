@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,7 +24,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i("DATABASE", "onCreate1");
         String query = "CREATE TABLE devices (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "name TEXT NOT NULL," +
@@ -35,7 +33,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL(query);
         this.db = db;
 
-        Log.i("DATABASE", "onCreate");
     }
 
     @Override
