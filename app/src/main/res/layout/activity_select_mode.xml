@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout"
     android:orientation="vertical"
-    tools:context="fr.remialban.copypasta.SelectModeActivity">
+    tools:context="fr.remialban.copypasta.activities.SelectModeActivity">
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"

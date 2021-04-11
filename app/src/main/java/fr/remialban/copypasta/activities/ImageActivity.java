@@ -1,4 +1,4 @@
-package fr.remialban.copypasta;
+package fr.remialban.copypasta.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +23,7 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.IOException;
 import java.io.InputStream;
 
+import fr.remialban.copypasta.R;
 import fr.remialban.copypasta.tools.ScanHelper;
 
 public class ImageActivity extends AppCompatActivity {

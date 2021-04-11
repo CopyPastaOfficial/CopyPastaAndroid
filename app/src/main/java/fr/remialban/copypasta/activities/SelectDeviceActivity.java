@@ -1,4 +1,4 @@
-package fr.remialban.copypasta;
+package fr.remialban.copypasta.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import fr.remialban.copypasta.R;
 import fr.remialban.copypasta.adapters.DevicesAdapter;
 import fr.remialban.copypasta.models.Device;
 import fr.remialban.copypasta.tools.DatabaseManager;

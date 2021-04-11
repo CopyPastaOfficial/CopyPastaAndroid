@@ -1,9 +1,11 @@
-package fr.remialban.copypasta;
+package fr.remialban.copypasta.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import fr.remialban.copypasta.R;
 
 /**
  * This is the First Activity. It is a SplashScreen
