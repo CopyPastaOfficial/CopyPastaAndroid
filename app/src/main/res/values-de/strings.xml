@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CopyPasta</string>
+    <string name="add_device_title">Ein Gerät hinzufügen</string>
+    <string name="add_device_input_name">Bereichnungdes Geräts</string>
+    <string name="add_device_input_ip">IP-Adresse</string>
+    <string name="add_device_button">@string/add_device_title</string>
+    <string name="add_device_scan_manual_button">Geben Sie die Informationen manuell ein</string>
+    <string name="add_device_scan_text">Laden Sie die CopyPasta-Software auf Ihren Computer herunter (https://xxxxx.fr). Öffnen Sie die Software und scannen Sie den QR-Code, der auf dem Bildschirm erscheint.</string>
+    <string name="select_mode_text_button">Einen Text scannen</string>
+    <string name="add_device_scan_qr_code">Scannen Sieeinen QR-Code</string>
+    <string name="select_mode_object_button">Scannen ines Objekts</string>
+    <string name="camera_message">Scannen oder wählen Sie ein Bild aus der Galerie</string>
+    <string name="select_mode_barcode_button">QR-Code / Strichcode</string>
+    <string name="select_mode_error_clipboard_title">Leere Papierpresse</string>
+    <string name="select_mode_share_button">Teilen</string>
+    <string name="camera_ask_permission_settings">Einstellungen</string>
+    <string name="main_divider">Oder</string>
+    <string name="select_mode_copy_success">Der Text wurde in die Zwischenablage kopiert</string>
+    <string name="add_device_error_qr_code">Der QR-Code ist ungültig</string>
+    <string name="select_mode_error_server_title">Nicht mit Ihrem Coputer zu kommunizieren</string>
+    <string name="select_mode_image_button">Senden Sie ein Bild</string>
+    <string name="select_mode_clipboard_button">Senden die Zwischenablage</string>
+    <string name="select_mode_send_button">Senden an den Computer</string>
+    <string name="image_button">Senden</string>
+    <string name="select_mode_card_title">Letster gescannte Text</string>
+    <string name="select_mode_copy_button">Kopieren in die Zwischenablage kopieren</string>
+    <string name="main_select_device">Wählen Sie ein Gerät :</string>
+    <string name="image_message">Laden ...</string>
+    <string name="main_add_button_device">@string/add_device_title</string>
+    <string name="camera_ask_permission_camera">Sie müssen die Kamera-Berechtigung aktivieren</string>
+    <string name="select_mode_error_clipboard_content">Sie müssen Text kopieren, um diese Funktion nutzen zu können</string>
+    <string name="select_mode_error_server_content">Bitte verbinden Sie Ihr Gerät mit demselben WLAN wie Ihr Computer. Wenn dies bereits der Fall ist, kehren Sie zum Home-Bildschirm zurück, entfernen Sie den Computer und fügen Sie den.</string>
+    <string name="main_local_button">Diese Anwendung lokal verwenden</string>
+</resources>
