@@ -114,7 +114,7 @@ public abstract class ScanHelper {
                                                     encryption = "WPA/WPA2";
                                                     break;
                                             }
-                                            result = context.getString(R.string.scan_qr_code_wireless_ssid) + barcode.getWifi().getSsid() + "\n";
+                                            result = context.getString(R.string.scan_qr_code_wireless_ssid) + "\n" + barcode.getWifi().getSsid() + "\n";
                                             result += context.getString(R.string.scan_qr_code_wireless_encryption) + "\n" + encryption;
                                             if(barcode.getWifi().getEncryptionType() != Barcode.WiFi.TYPE_OPEN)
                                             {
