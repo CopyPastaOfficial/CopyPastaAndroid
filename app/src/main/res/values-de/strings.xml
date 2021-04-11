@@ -32,4 +32,19 @@
     <string name="select_mode_error_clipboard_content">Sie müssen Text kopieren, um diese Funktion nutzen zu können</string>
     <string name="select_mode_error_server_content">Bitte verbinden Sie Ihr Gerät mit demselben WLAN wie Ihr Computer. Wenn dies bereits der Fall ist, kehren Sie zum Home-Bildschirm zurück, entfernen Sie den Computer und fügen Sie den.</string>
     <string name="main_local_button">Diese Anwendung lokal verwenden</string>
+    <string name="scan_qr_code_email_address">Adresse :</string>
+    <string name="scan_qr_code_email_subject">Betreffzeile :</string>
+    <string name="scan_qr_code_email_body">Inhalt :</string>
+    <string name="scan_qr_code_wireless_password">Passwort :</string>
+    <string name="scan_qr_code_wireless_encryption">Sicherheit :</string>
+    <string name="scan_qr_code_sms_number">Fernruf :</string>
+    <string name="scan_qr_code_sms_content">Inhalt :</string>
+    <string name="scan_qr_code_wireless_encryption_open">Keine</string>
+    <string name="scan_qr_code_location_lat">Breite :</string>
+    <string name="scan_qr_code_location_long">Längengrad :</string>
+    <string name="scan_qr_code_event_summary">Zusammenfassung :</string>
+    <string name="scan_qr_code_event_description">Beschreibung :</string>
+    <string name="scan_qr_code_event_location">Lokalisierung :</string>
+    <string name="scan_qr_code_event_start">Anfang :</string>
+    <string name="scan_qr_code_event_end">Ende :</string>
 </resources>

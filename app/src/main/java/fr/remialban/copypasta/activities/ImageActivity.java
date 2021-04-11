@@ -79,7 +79,7 @@ public class ImageActivity extends AppCompatActivity {
         try {
             InputImage inputImage = InputImage.fromFilePath(getApplicationContext(), imageUri);
 
-            ScanHelper scan = new ScanHelper(inputImage, getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
+            ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                 @Override
                 public void onSuccess(String text) {
                     textResult.setText(text);

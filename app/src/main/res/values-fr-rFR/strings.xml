@@ -33,5 +33,20 @@
     <string name="select_mode_clipboard_button">Envoyer le presse-papier</string>
     <string name="select_mode_error_clipboard_content">Vous devez copier un texte pour utiliser cette fonctionalité</string>
     <string name="select_mode_error_clipboard_title">Presse-papier vide</string>
+    <string name="scan_qr_code_email_address">Adresse :</string>
+    <string name="scan_qr_code_email_subject">Objet :</string>
+    <string name="scan_qr_code_email_body">Contenu :</string>
+    <string name="scan_qr_code_wireless_password">Mot de passe :</string>
+    <string name="scan_qr_code_wireless_encryption">Sécurité :</string>
+    <string name="scan_qr_code_sms_number">Numéro de téléphone :</string>
+    <string name="scan_qr_code_sms_content">Contenu :</string>
+    <string name="scan_qr_code_wireless_encryption_open">Aucune</string>
+    <string name="scan_qr_code_location_lat">Latitude :</string>
+    <string name="scan_qr_code_location_long">Longitude :</string>
+    <string name="scan_qr_code_event_summary">Résumé :</string>
+    <string name="scan_qr_code_event_description">Description :</string>
+    <string name="scan_qr_code_event_location">Localisation :</string>
+    <string name="scan_qr_code_event_start">Début :</string>
+    <string name="scan_qr_code_event_end">Fin :</string>
 
 </resources>

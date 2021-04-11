@@ -29,9 +29,25 @@
     <string name="select_mode_copy_success">The text has been copied to the clipboard</string>
     <string name="select_mode_error_server_title">Cannot communicate with your computer</string>
     <string name="select_mode_error_server_content">Please connect your device to the same WiFi as your computer. If it is already the case, go back to the home screen, delete the computer and add it back.</string>
-    <string name="select_mode_send_button">Send at computer</string>
     <string name="select_mode_clipboard_button">Send clipboard</string>
     <string name="select_mode_error_clipboard_content">You must copy a text to use this functionality.</string>
     <string name="select_mode_error_clipboard_title">Clipboard empty</string>
+    <string name="scan_qr_code_email_address">Address :</string>
+    <string name="scan_qr_code_email_subject">Subject :</string>
+    <string name="scan_qr_code_email_body">Content :</string>
+    <string name="scan_qr_code_wireless_ssid" translatable="false">SSID :</string>
+    <string name="scan_qr_code_wireless_password">Password :</string>
+    <string name="scan_qr_code_wireless_encryption">Encryption :</string>
+    <string name="select_mode_send_button">Send at computer</string>
+    <string name="scan_qr_code_sms_number">Phone number :</string>
+    <string name="scan_qr_code_sms_content">Content :</string>
+    <string name="scan_qr_code_wireless_encryption_open">Open</string>
+    <string name="scan_qr_code_location_lat">Latitude :</string>
+    <string name="scan_qr_code_location_long">Longitude :</string>
+    <string name="scan_qr_code_event_summary">Summary :</string>
+    <string name="scan_qr_code_event_description">Description :</string>
+    <string name="scan_qr_code_event_location">Location :</string>
+    <string name="scan_qr_code_event_start">Start :</string>
+    <string name="scan_qr_code_event_end">End :</string>
 
 </resources>

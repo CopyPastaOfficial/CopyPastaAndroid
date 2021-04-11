@@ -1,5 +1,6 @@
 package fr.remialban.copypasta.tools;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
@@ -24,7 +25,8 @@ import com.google.mlkit.vision.text.TextRecognizer;
 
 import java.util.List;
 
-import javax.xml.transform.Result;
+import fr.remialban.copypasta.R;
+
 
 public abstract class ScanHelper {
 
@@ -34,9 +36,13 @@ public abstract class ScanHelper {
 
     private Vibrator vibrator;
     private InputImage inputImage;
-    public ScanHelper(InputImage inputImage, int code, Vibrator vibrator) {
+    private Context context;
+
+    public ScanHelper(Context context, InputImage inputImage, int code, Vibrator vibrator) {
         this.inputImage = inputImage;
         this.vibrator = vibrator;
+        this.context = context;
+
         switch (code) {
             case CODE_SCAN_TEXT:
                 this.scanText();
@@ -93,23 +99,27 @@ public abstract class ScanHelper {
                                             result = barcode.getPhone().getNumber();
                                             break;
                                         case Barcode.TYPE_EMAIL:
-                                            result = "Address : \n" + barcode.getEmail().getAddress() + "\n Subject :\n" + barcode.getEmail().getSubject() + "\n Content :\n" + barcode.getEmail().getBody();
+                                            result = context.getString(R.string.scan_qr_code_email_address) + "\n" + barcode.getEmail().getAddress() + "\n"+ context.getString(R.string.scan_qr_code_email_subject) + "\n" + barcode.getEmail().getSubject() + "\n" + context.getString(R.string.scan_qr_code_email_body) + "\n" + barcode.getEmail().getBody();
                                             break;
                                         case Barcode.TYPE_WIFI:
                                             String encryption = "";
                                             switch (barcode.getWifi().getEncryptionType()) {
                                                 case Barcode.WiFi.TYPE_OPEN:
-                                                    encryption = "Open";
+                                                    encryption = context.getString(R.string.scan_qr_code_wireless_encryption_open);
                                                     break;
                                                 case Barcode.WiFi.TYPE_WEP:
                                                     encryption = "WEP";
                                                     break;
                                                 case Barcode.WiFi.TYPE_WPA:
-                                                    encryption = "WPA/WPA2/WPA3";
+                                                    encryption = "WPA/WPA2";
                                                     break;
                                             }
-                                            result = "SSID : " + barcode.getWifi().getSsid();
-                                            result += "\n Encryption : " + encryption + "\n Password : " + barcode.getWifi().getPassword();
+                                            result = context.getString(R.string.scan_qr_code_wireless_ssid) + barcode.getWifi().getSsid() + "\n";
+                                            result += context.getString(R.string.scan_qr_code_wireless_encryption) + "\n" + encryption;
+                                            if(barcode.getWifi().getEncryptionType() != Barcode.WiFi.TYPE_OPEN)
+                                            {
+                                                result += "\n" + context.getString(R.string.scan_qr_code_wireless_password) + "\n" + barcode.getWifi().getPassword();
+                                            }
                                             break;
                                         case Barcode.TYPE_TEXT:
                                             result = barcode.getDisplayValue();
@@ -144,22 +154,22 @@ public abstract class ScanHelper {
                                             result = barcode.getUrl().getUrl();
                                             break;
                                         case Barcode.TYPE_SMS:
-                                            result = "Phone : \n";
+                                            result = context.getString(R.string.scan_qr_code_sms_number)+ "\n";
                                             result += barcode.getSms().getPhoneNumber();
-                                            result += "\nContent : \n";
+                                            result += "\n" + context.getString(R.string.scan_qr_code_sms_content)+"\n";
                                             result += barcode.getSms().getMessage();
                                             break;
                                         case Barcode.TYPE_GEO:
-                                            result = "Lat : " + barcode.getGeoPoint().getLat();
-                                            result += "\n Long :" + barcode.getGeoPoint().getLng();
+                                            result = context.getString(R.string.scan_qr_code_location_lat) + " " + barcode.getGeoPoint().getLat();
+                                            result += "\n" + context.getString(R.string.scan_qr_code_location_long) + " " + barcode.getGeoPoint().getLng();
                                             break;
                                         case Barcode.TYPE_CALENDAR_EVENT:
                                             Barcode.CalendarEvent event = barcode.getCalendarEvent();
-                                            result += "\n Summary : " + event.getSummary();
-                                            result += "\n Description : " + event.getDescription();
-                                            result += "\n Location : " + event.getLocation();
-                                            result += "\n Start : " + event.getStart().getYear() + "-" + event.getStart().getMonth() + "-" + event.getStart().getDay() + " to " + event.getStart().getHours() + ":"+event.getStart().getMonth();
-                                            result += "\n End : " + event.getEnd().getYear() + "-" + event.getEnd().getMonth() + "-" + event.getEnd().getDay() + " to " + event.getEnd().getHours() + ":"+event.getEnd().getMonth();
+                                            result += "\n" + context.getString(R.string.scan_qr_code_event_summary) + " " + event.getSummary();
+                                            result += "\n" + context.getString(R.string.scan_qr_code_event_description) + " " + event.getDescription();
+                                            result += "\n" + context.getString(R.string.scan_qr_code_event_location) + " " + event.getLocation();
+                                            result += "\n" + context.getString(R.string.scan_qr_code_event_start) + " " + event.getStart().getYear() + "-" + event.getStart().getMonth() + "-" + event.getStart().getDay() + " to " + event.getStart().getHours() + ":"+event.getStart().getMonth();
+                                            result += "\n" + context.getString(R.string.scan_qr_code_event_end) + " " + event.getEnd().getYear() + "-" + event.getEnd().getMonth() + "-" + event.getEnd().getDay() + " to " + event.getEnd().getHours() + ":"+event.getEnd().getMonth();
                                         default:
                                             result = barcode.getRawValue();
                                     }

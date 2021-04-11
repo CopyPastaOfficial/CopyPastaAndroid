@@ -157,7 +157,7 @@ public class CameraActivity extends AppCompatActivity {
                 @SuppressLint("UnsafeExperimentalUsageError") Image mediaImage = imageProxy.getImage();
                 InputImage inputImage = InputImage.fromMediaImage(mediaImage, rotationDegrees);
 
-                ScanHelper scan = new ScanHelper(inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
+                ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                     @Override
                     public void onSuccess(String text) {
                         textResult.setText(text);
