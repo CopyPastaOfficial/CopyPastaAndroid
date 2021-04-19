@@ -49,5 +49,8 @@
     <string name="scan_qr_code_event_location">Location :</string>
     <string name="scan_qr_code_event_start">Start :</string>
     <string name="scan_qr_code_event_end">End :</string>
+    <string name="select_mode_alert_remove_title">Are you sure you want to delete this device?</string>
+    <string name="select_mode_alert_remove_cancel">Cancel</string>
+    <string name="select_mode_alert_remove_validate">Delete</string>
 
 </resources>

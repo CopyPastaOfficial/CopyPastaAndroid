@@ -1,8 +1,10 @@
 package fr.remialban.copypasta.activities;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -77,8 +79,17 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                adapter.removeDevice(adapter.getItem(position));
-                return false;
+                AlertDialog.Builder alert = new AlertDialog.Builder(SelectDeviceActivity.this);
+                alert.setTitle(SelectDeviceActivity.this.getString(R.string.select_mode_alert_remove_title));
+                alert.setNegativeButton(SelectDeviceActivity.this.getString(R.string.select_mode_alert_remove_cancel), null);
+                alert.setPositiveButton(SelectDeviceActivity.this.getString(R.string.select_mode_alert_remove_validate), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        adapter.removeDevice(adapter.getItem(position));
+                    }
+                });
+                alert.show();
+                return true;
             }
         };
     }

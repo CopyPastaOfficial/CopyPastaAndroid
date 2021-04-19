@@ -47,4 +47,7 @@
     <string name="scan_qr_code_event_location">Lokalisierung :</string>
     <string name="scan_qr_code_event_start">Anfang :</string>
     <string name="scan_qr_code_event_end">Ende :</string>
+    <string name="select_mode_alert_remove_title">Möchten Sie dieses Gerät wirklich löschen?</string>
+    <string name="select_mode_alert_remove_cancel">Abbrechen</string>
+    <string name="select_mode_alert_remove_validate">Entfernen</string>
 </resources>
