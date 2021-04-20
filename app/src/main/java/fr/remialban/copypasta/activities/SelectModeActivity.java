@@ -46,14 +46,15 @@ public class SelectModeActivity extends AppCompatActivity {
     TextView content;
     MaterialButton shareButton;
     MaterialButton sendButton;
+    Boolean textAlreadyScanned;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode);
         initRessources();
         initEvents();
-        init();
-
+        init(savedInstanceState);
     }
 
     private void initRessources()
@@ -118,6 +119,7 @@ public class SelectModeActivity extends AppCompatActivity {
                     TextView content = findViewById(R.id.card_content);
                     cardView.setVisibility(View.VISIBLE);
                     content.setText(clipboard);
+                    textAlreadyScanned = true;
                     sendMessage(clipboard);
                 } catch (NullPointerException exception) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
@@ -152,8 +154,10 @@ public class SelectModeActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         }
     }
-    private void init()
+    private void init(Bundle savedInstanceState)
     {
+
+        textAlreadyScanned = false;
 
         if(!isLocally)
         {
@@ -162,6 +166,17 @@ public class SelectModeActivity extends AppCompatActivity {
             sendClipboard.setVisibility(View.VISIBLE);
         }
 
+        if(savedInstanceState != null)
+        {
+            if(savedInstanceState.getBoolean("textAlreadyScanned"))
+            {
+                CardView cardView = findViewById(R.id.card);
+                TextView content = findViewById(R.id.card_content);
+                cardView.setVisibility(View.VISIBLE);
+                textAlreadyScanned = true;
+                content.setText(savedInstanceState.getString("content"));
+            }
+        }
 
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,6 +200,7 @@ public class SelectModeActivity extends AppCompatActivity {
             TextView content = findViewById(R.id.card_content);
             cardView.setVisibility(View.VISIBLE);
             content.setText(data.getStringExtra("content"));
+            textAlreadyScanned = true;
             //Toast.makeText(getApplicationContext(),data.getStringExtra("content"), Toast.LENGTH_LONG).show();
             if(!getIntent().getBooleanExtra("isLocally", false))
             {
@@ -343,6 +359,11 @@ public class SelectModeActivity extends AppCompatActivity {
         alert.show();
     }
 
-
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString("content", content.getText().toString());
+        outState.putBoolean("textAlreadyScanned", textAlreadyScanned);
+        super.onSaveInstanceState(outState);
+    }
 
 }
