@@ -31,7 +31,7 @@
     <string name="ask_permission_camera">Sie müssen die Kamera-Berechtigung aktivieren.</string>
     <string name="select_mode_error_clipboard_content">Sie müssen Text kopieren, um diese Funktion nutzen zu können</string>
     <string name="select_mode_error_server_content">Bitte verbinden Sie Ihr Gerät mit demselben WLAN wie Ihr Computer. Wenn dies bereits der Fall ist, kehren Sie zum Home-Bildschirm zurück, entfernen Sie den Computer und fügen Sie den.</string>
-    <string name="main_local_button">Diese Anwendung lokal verwenden</string>
+    <string name="main_local_button">Verwenden Sie die App lokal</string>
     <string name="scan_qr_code_email_address">Adresse :</string>
     <string name="scan_qr_code_email_subject">Betreffzeile :</string>
     <string name="scan_qr_code_email_body">Inhalt :</string>

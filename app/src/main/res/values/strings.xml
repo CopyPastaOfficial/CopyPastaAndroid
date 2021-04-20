@@ -11,7 +11,7 @@
     <string name="add_device_scan_qr_code">Scan QR Code</string>
     <string name="main_select_device">Choose a device :</string>
     <string name="main_add_button_device">@string/add_device_title</string>
-    <string name="main_local_button">Use this app locally</string>
+    <string name="main_local_button">Use the app locally</string>
     <string name="select_mode_barcode_button">Qr code / Barcode</string>
     <string name="select_mode_text_button">Scan text</string>
     <string name="select_mode_image_button">Send image</string>
