@@ -1,10 +1,12 @@
 package fr.remialban.copypasta.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +26,7 @@ public class AddDeviceActivity extends AppCompatActivity {
     EditText ipInput;
     Button addButton;
     ExtendedFloatingActionButton scanButton;
+    Boolean cameraEnable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,7 @@ public class AddDeviceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_device);
 
         initResources();
-        init();
+        init(savedInstanceState);
         initEvents();
     }
     private void initResources() {
@@ -79,9 +82,20 @@ public class AddDeviceActivity extends AppCompatActivity {
             }
         });
     }
-    private void init() {
+    private void init(Bundle savedInstanceState) {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        startCamera();
+        cameraEnable = true;
+
+        if(savedInstanceState != null)
+        {
+            cameraEnable = savedInstanceState.getBoolean("cameraEnable");
+            nameInput.setText(savedInstanceState.getString("name"));
+            ipInput.setText(savedInstanceState.getString("ip"));
+        }
+        if(cameraEnable)
+        {
+            startCamera();
+        }
     }
 
     private void startCamera() {
@@ -95,6 +109,7 @@ public class AddDeviceActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1)
         {
+            cameraEnable = false;
             if(data.getBooleanExtra("response", false))
             {
                 return;
@@ -117,5 +132,13 @@ public class AddDeviceActivity extends AppCompatActivity {
         } if(resultCode != 2) {
             finish();
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        outState.putString("name", nameInput.getText().toString());
+        outState.putString("ip", ipInput.getText().toString());
+        outState.putBoolean("cameraEnable", cameraEnable);
     }
 }
