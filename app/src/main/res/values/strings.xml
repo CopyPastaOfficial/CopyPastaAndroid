@@ -54,5 +54,6 @@
     <string name="select_mode_alert_remove_validate">Delete</string>
     <string name="ask_permission_cancel" translatable="false">@string/select_mode_alert_remove_cancel</string>
     <string name="ask_permission_title">Permissions</string>
+    <string name="add_device_error">This field cannot be empty</string>
 
 </resources>

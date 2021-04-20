@@ -55,11 +55,27 @@ public class AddDeviceActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.putExtra("name", nameInput.getText().toString());
-                intent.putExtra("ip", ipInput.getText().toString());
-                setResult(1,intent);
-                finish();
+                Boolean fieldsAreCorrect = true;
+                if(ipInput.getText().toString().trim().equals(""))
+                {
+                    ipInput.setError(AddDeviceActivity.this.getString(R.string.add_device_error));
+                    fieldsAreCorrect = false;
+                    ipInput.requestFocus();
+                }
+                if(nameInput.getText().toString().trim().equals(""))
+                {
+                    nameInput.setError(AddDeviceActivity.this.getString(R.string.add_device_error));
+                    fieldsAreCorrect = false;
+                    nameInput.requestFocus();
+                }
+                if(fieldsAreCorrect)
+                {
+                    Intent intent = new Intent();
+                    intent.putExtra("name", nameInput.getText().toString());
+                    intent.putExtra("ip", ipInput.getText().toString());
+                    setResult(1,intent);
+                    finish();
+                }
             }
         });
     }
