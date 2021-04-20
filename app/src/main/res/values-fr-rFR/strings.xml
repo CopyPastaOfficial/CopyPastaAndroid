@@ -19,8 +19,8 @@
     <string name="add_device_error_qr_code">Le QR Code est invalide</string>
     <string name="add_device_scan_qr_code">Scannez un QR Code</string>
     <string name="main_local_button">Utilisez cette application localement</string>
-    <string name="camera_ask_permission_camera">Vous devez activer la permission de la caméra</string>
-    <string name="camera_ask_permission_settings">Paramètres</string>
+    <string name="ask_permission_camera">Vous devez activer la permission de la caméra</string>
+    <string name="ask_permission_settings">Paramètres</string>
     <string name="select_mode_object_button">Scannez un objet</string>
     <string name="select_mode_copy_button">Copier dans le presse papier</string>
     <string name="select_mode_share_button">Partager</string>
@@ -51,5 +51,6 @@
     <string name="select_mode_alert_remove_title">Êtes-vous sûr de vouloir supprimer cet appareil ?</string>
     <string name="select_mode_alert_remove_cancel">Annuler</string>
     <string name="select_mode_alert_remove_validate">Supprimer</string>
+    <string name="ask_permission_title">Permissions</string>
 
 </resources>

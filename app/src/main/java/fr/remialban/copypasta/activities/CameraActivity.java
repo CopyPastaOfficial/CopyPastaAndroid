@@ -3,6 +3,7 @@ package fr.remialban.copypasta.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
@@ -33,7 +35,6 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.common.InputImage;
 
@@ -221,17 +222,20 @@ public class CameraActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(CameraActivity.this, permissions, 2);
 
             } else {
-                Snackbar snackbar = Snackbar.make(layout, getString(R.string.camera_ask_permission_camera), Snackbar.LENGTH_LONG);
-                snackbar.setAction(getString(R.string.camera_ask_permission_settings), new View.OnClickListener() {
+                AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
+                alert.setTitle(CameraActivity.this.getString(R.string.ask_permission_title));
+                alert.setMessage(CameraActivity.this.getString(R.string.ask_permission_camera));
+                alert.setNeutralButton(CameraActivity.this.getString(R.string.ask_permission_cancel), null);
+                alert.setPositiveButton(CameraActivity.this.getString(R.string.ask_permission_settings), new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         Uri uri = Uri.fromParts("package", CameraActivity.this.getPackageName(), null);
                         intent.setData(uri);
                         startActivityForResult(intent, 2);
                     }
                 });
-                snackbar.show();
+                alert.show();
             }
         }
     }
@@ -242,10 +246,6 @@ public class CameraActivity extends AppCompatActivity {
         if(requestCode == 2)
         {
             initCamera();
-        }
-        if(requestCode == 3)
-        {
-
         }
     }
 }
