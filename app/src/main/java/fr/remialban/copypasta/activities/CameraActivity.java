@@ -85,14 +85,18 @@ public class CameraActivity extends AppCompatActivity {
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CameraActivity.this, ImageActivity.class);
-                intent.putExtra("request", getIntent().getIntExtra("request", -1));
-                startActivityForResult(intent, 1);
+                if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CameraActivity.this.getString(R.string.ask_permission_storage), 1))
+                {
+                    openStorage();
+                }
             }
         });
     }
     private void init() {
-        checkPermission();
+        if(checkPermission(Manifest.permission.CAMERA,getString(R.string.ask_permission_camera),2))
+        {
+            initCamera();
+        }
         Button button = findViewById(R.id.manual_button);
 
         if(getIntent().getBooleanExtra("addDevice", false))
@@ -107,16 +111,21 @@ public class CameraActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = getIntent();
-                intent.putExtra("response", true);
-                intent.putExtra("content", textResult.getText());
-                setResult(2, intent);
-                finish();
+                    Intent intent = getIntent();
+                    intent.putExtra("response", true);
+                    intent.putExtra("content", textResult.getText());
+                    setResult(2, intent);
+                    finish();
             }
         });
     }
 
+    private void openStorage()
+    {
+        Intent intent = new Intent(CameraActivity.this, ImageActivity.class);
+        intent.putExtra("request", getIntent().getIntExtra("request", -1));
+        startActivityForResult(intent, 1);
+    }
     private void initCamera()
     {
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
@@ -207,24 +216,28 @@ public class CameraActivity extends AppCompatActivity {
         }
         if(requestCode == 2)
         {
-            checkPermission();
+            if(checkPermission(Manifest.permission.CAMERA, getString(R.string.ask_permission_camera),2))
+            {
+                initCamera();
+            }
         }
     }
 
-    private void checkPermission() {
-        if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)
+    public Boolean checkPermission(String permission, String contentMessage, int requestCode)
+    {
+        Boolean isEnable = false;
+        if(ActivityCompat.checkSelfPermission(getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED)
         {
-            initCamera();
+            isEnable = true;
         } else {
-            if(!ActivityCompat.shouldShowRequestPermissionRationale(CameraActivity.this, Manifest.permission.CAMERA))
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(CameraActivity.this, permission))
             {
-                String[] permissions = {Manifest.permission.CAMERA};
-                ActivityCompat.requestPermissions(CameraActivity.this, permissions, 2);
-
+                String[] permissions = {permission};
+                ActivityCompat.requestPermissions(CameraActivity.this, permissions, requestCode);
             } else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(CameraActivity.this);
                 alert.setTitle(CameraActivity.this.getString(R.string.ask_permission_title));
-                alert.setMessage(CameraActivity.this.getString(R.string.ask_permission_camera));
+                alert.setMessage(contentMessage);
                 alert.setNeutralButton(CameraActivity.this.getString(R.string.ask_permission_cancel), null);
                 alert.setPositiveButton(CameraActivity.this.getString(R.string.ask_permission_settings), new DialogInterface.OnClickListener() {
                     @Override
@@ -232,12 +245,13 @@ public class CameraActivity extends AppCompatActivity {
                         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         Uri uri = Uri.fromParts("package", CameraActivity.this.getPackageName(), null);
                         intent.setData(uri);
-                        startActivityForResult(intent, 2);
+                        startActivityForResult(intent, requestCode);
                     }
                 });
                 alert.show();
             }
         }
+        return isEnable;
     }
 
     @Override
@@ -246,6 +260,19 @@ public class CameraActivity extends AppCompatActivity {
         if(requestCode == 2)
         {
             initCamera();
+        }
+        if(requestCode == 1)
+        {
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                int grantResult = grantResults[i];
+
+                if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        openStorage();
+                    }
+                }
+            }
         }
     }
 }

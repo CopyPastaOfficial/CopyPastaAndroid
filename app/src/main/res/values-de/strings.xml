@@ -52,4 +52,5 @@
     <string name="select_mode_alert_remove_validate">Entfernen</string>
     <string name="ask_permission_title">Berechtigungen</string>
     <string name="add_device_error">" Dieses Feld kann nicht leer sein"</string>
+    <string name="ask_permission_storage">Sie müssen die Speicherberechtigung aktivieren.</string>
 </resources>

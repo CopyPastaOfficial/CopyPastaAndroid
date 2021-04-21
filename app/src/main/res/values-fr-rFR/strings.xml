@@ -53,5 +53,6 @@
     <string name="select_mode_alert_remove_validate">Supprimer</string>
     <string name="ask_permission_title">Permissions</string>
     <string name="add_device_error">Ce champs ne peut pas être vide</string>
+    <string name="ask_permission_storage">Vous devez activer la permission du stockage.</string>
 
 </resources>

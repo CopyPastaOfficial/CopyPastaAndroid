@@ -52,4 +52,5 @@
     <string name="select_mode_alert_remove_validate">Eliminar</string>
     <string name="ask_permission_title">Permisos</string>
     <string name="add_device_error">" Este campo no puede estar vacío"</string>
+    <string name="ask_permission_storage">Debe habilitar el permiso de almacenamiento.</string>
 </resources>

@@ -1,18 +1,24 @@
 package fr.remialban.copypasta.activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -78,9 +84,10 @@ public class SelectModeActivity extends AppCompatActivity {
         uploadImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Start the Intent
-                startActivityForResult(galleryIntent, 4);
+                if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
+                {
+                    uploadImage();
+                }
             }
         });
 
@@ -153,6 +160,13 @@ public class SelectModeActivity extends AppCompatActivity {
             intent.putExtra("request", request);
             startActivityForResult(intent, 1);
         }
+    }
+
+    private void uploadImage()
+    {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        // Start the Intent
+        startActivityForResult(galleryIntent, 4);
     }
     private void init(Bundle savedInstanceState)
     {
@@ -366,4 +380,52 @@ public class SelectModeActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    public Boolean checkPermission(String permission, String contentMessage, int requestCode)
+    {
+        Boolean isEnable = false;
+        if(ActivityCompat.checkSelfPermission(getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED)
+        {
+            isEnable = true;
+        } else {
+            if(!ActivityCompat.shouldShowRequestPermissionRationale(SelectModeActivity.this, permission))
+            {
+                String[] permissions = {permission};
+                ActivityCompat.requestPermissions(SelectModeActivity.this, permissions, requestCode);
+            } else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
+                alert.setTitle(SelectModeActivity.this.getString(R.string.ask_permission_title));
+                alert.setMessage(contentMessage);
+                alert.setNeutralButton(SelectModeActivity.this.getString(R.string.ask_permission_cancel), null);
+                alert.setPositiveButton(SelectModeActivity.this.getString(R.string.ask_permission_settings), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", SelectModeActivity.this.getPackageName(), null);
+                        intent.setData(uri);
+                        startActivityForResult(intent, requestCode);
+                    }
+                });
+                alert.show();
+            }
+        }
+        return isEnable;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 1)
+        {
+            for (int i = 0; i < permissions.length; i++) {
+                String permission = permissions[i];
+                int grantResult = grantResults[i];
+
+                if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        uploadImage();
+                    }
+                }
+            }
+        }
+    }
 }
