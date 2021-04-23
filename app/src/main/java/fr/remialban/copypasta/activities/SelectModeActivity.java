@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 
@@ -54,6 +55,8 @@ public class SelectModeActivity extends AppCompatActivity {
     MaterialButton sendButton;
     Boolean textAlreadyScanned;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +80,7 @@ public class SelectModeActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.card_send_button);
         progressBar = findViewById(R.id.progress_bar);
         sendClipboard = findViewById(R.id.send_clipboard_button);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void initEvents()
@@ -170,6 +174,7 @@ public class SelectModeActivity extends AppCompatActivity {
     }
     private void init(Bundle savedInstanceState)
     {
+        setSupportActionBar(toolbar);
 
         textAlreadyScanned = false;
 

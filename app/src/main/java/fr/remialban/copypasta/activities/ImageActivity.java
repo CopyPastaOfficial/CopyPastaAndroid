@@ -2,6 +2,7 @@ package fr.remialban.copypasta.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
@@ -31,20 +32,39 @@ public class ImageActivity extends AppCompatActivity {
     TextView textResult;
     Button saveButton;
     ImageView imageView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
+        initResources();
         init();
     }
 
-    private void init() {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+    private void initResources()
+    {
         textResult = findViewById(R.id.text_result);
         saveButton = findViewById(R.id.save_btn);
         imageView = findViewById(R.id.image_view);
+        toolbar = findViewById(R.id.toolbar);
+    }
+
+    private void init() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        switch (getIntent().getIntExtra("request", -1))
+        {
+            case ScanHelper.CODE_SCAN_BARCODE:
+                toolbar.setTitle(getString(R.string.select_mode_barcode_button));
+                break;
+            case ScanHelper.CODE_SCAN_IMAGE:
+                toolbar.setTitle(getString(R.string.select_mode_object_button));
+                break;
+            case ScanHelper.CODE_SCAN_TEXT:
+                toolbar.setTitle(getString(R.string.select_mode_text_button));
+                break;
+        }
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

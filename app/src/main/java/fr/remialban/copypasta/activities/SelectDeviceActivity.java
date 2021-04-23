@@ -3,6 +3,7 @@ package fr.remialban.copypasta.activities;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
     ListView devices_list;
     Button addDeviceButton;
     Button localButton;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
     }
 
     private void init() {
+        setSupportActionBar(toolbar);
         this.databaseManager = new DatabaseManager(getApplicationContext());
         this.adapter = new DevicesAdapter(getApplicationContext(), this.databaseManager);
         this.adapter.notifyDataSetChanged();
@@ -59,6 +62,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         this.devices_list = findViewById(R.id.devices_list);
         this.addDeviceButton = findViewById(R.id.add_device_button);
         this.localButton = findViewById(R.id.local_button);
+        this.toolbar = findViewById(R.id.toolbar);
     }
     private AdapterView.OnItemClickListener listOnItemClickListener() {
         return new AdapterView.OnItemClickListener() {

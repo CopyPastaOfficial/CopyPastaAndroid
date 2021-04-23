@@ -22,6 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -29,7 +30,6 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
@@ -45,18 +45,17 @@ import fr.remialban.copypasta.tools.ScanHelper;
 
 public class CameraActivity extends AppCompatActivity {
 
-    CoordinatorLayout layout;
     ImageButton imageButton;
     PreviewView previewView;
     TextView textResult;
     ExtendedFloatingActionButton submitButton;
     ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initResources();
         init();
@@ -68,7 +67,7 @@ public class CameraActivity extends AppCompatActivity {
         previewView = findViewById(R.id.previewView);
         textResult = findViewById(R.id.text_result);
         submitButton = findViewById(R.id.submit_button);
-        layout = findViewById(R.id.layout);
+        toolbar = findViewById(R.id.toolbar);
     }
     private void initEvents() {
 
@@ -93,6 +92,21 @@ public class CameraActivity extends AppCompatActivity {
         });
     }
     private void init() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        switch (CameraActivity.this.getIntent().getIntExtra("request", -1))
+        {
+            case ScanHelper.CODE_SCAN_BARCODE:
+                toolbar.setTitle(getString(R.string.select_mode_barcode_button));
+                break;
+            case ScanHelper.CODE_SCAN_IMAGE:
+                toolbar.setTitle(getString(R.string.select_mode_object_button));
+                break;
+            case ScanHelper.CODE_SCAN_TEXT:
+                toolbar.setTitle(getString(R.string.select_mode_text_button));
+                break;
+        }
         if(checkPermission(Manifest.permission.CAMERA,getString(R.string.ask_permission_camera),2))
         {
             initCamera();

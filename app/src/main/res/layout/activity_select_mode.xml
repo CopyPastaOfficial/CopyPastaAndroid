@@ -7,185 +7,193 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     tools:context="fr.remialban.copypasta.activities.SelectModeActivity">
-    <com.google.android.material.progressindicator.LinearProgressIndicator
-        android:id="@+id/progress_bar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:indeterminate="true" />
-    
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:scrollbars="none"
-        >
-        <LinearLayout
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include
+            layout="@layout/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:indeterminate="true" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <Button
-                android:id="@+id/scan_qr_code_button"
+            android:paddingTop="5dp"
+            android:scrollbars="none"
+            >
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="start"
-                android:layout_marginVertical="10dp"
-                android:backgroundTint="?colorSecondary"
-                android:drawableLeft="@drawable/ic_qr_code"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/select_mode_barcode_button"
-                android:textAlignment="textStart"
-                android:textSize="22sp"
-                android:layout_marginHorizontal="20dp"
-                app:backgroundTint="#23FFFFFF" />
-
-            <Button
-                android:layout_marginHorizontal="20dp"
-
-                android:id="@+id/scan_text_button"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="start"
-                android:layout_marginVertical="10dp"
-                android:backgroundTint="?colorSecondary"
-                android:drawableLeft="@drawable/ic_text"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/select_mode_text_button"
-                android:textAlignment="textStart"
-                android:textSize="22sp"
-                app:backgroundTint="#23FFFFFF" />
-
-            <Button
-                android:layout_marginHorizontal="20dp"
-                android:id="@+id/scan_object_button"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="start"
-                android:layout_marginVertical="10dp"
-                android:backgroundTint="?colorSecondary"
-                android:drawableLeft="@drawable/ic_object"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/select_mode_object_button"
-                android:textAlignment="textStart"
-                android:textSize="22sp"
-
-                app:backgroundTint="#23FFFFFF" />
-
-            <Button
-                android:layout_marginHorizontal="20dp"
-                android:id="@+id/upload_image_button"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="start"
-                android:layout_marginVertical="10dp"
-                android:backgroundTint="?colorSecondary"
-                android:drawableLeft="@drawable/ic_image"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/select_mode_image_button"
-                android:visibility="gone"
-                android:textAlignment="textStart"
-                android:textSize="22sp"
-
-                app:backgroundTint="#23FFFFFF" />
-            <Button
-                android:layout_marginHorizontal="20dp"
-                android:id="@+id/send_clipboard_button"
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_gravity="start"
-                android:layout_marginVertical="10dp"
-                android:backgroundTint="?colorSecondary"
-                android:drawableLeft="@drawable/ic_send_clipboard"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/select_mode_clipboard_button"
-                android:visibility="gone"
-                android:textAlignment="textStart"
-                android:textSize="22sp"
-
-                app:backgroundTint="#23FFFFFF" />
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card"
-                android:visibility="gone"
-                android:layout_width="match_parent"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/scan_qr_code_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="130dp"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="?colorSecondary"
+                    android:drawableLeft="@drawable/ic_qr_code"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/select_mode_barcode_button"
+                    android:textAlignment="textStart"
+                    android:textSize="22sp"
+                    android:layout_marginHorizontal="20dp"
+                    app:backgroundTint="#23FFFFFF" />
 
+                <Button
+                    android:layout_marginHorizontal="20dp"
 
+                    android:id="@+id/scan_text_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="?colorSecondary"
+                    android:drawableLeft="@drawable/ic_text"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/select_mode_text_button"
+                    android:textAlignment="textStart"
+                    android:textSize="22sp"
+                    app:backgroundTint="#23FFFFFF" />
+
+                <Button
+                    android:layout_marginHorizontal="20dp"
+                    android:id="@+id/scan_object_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="?colorSecondary"
+                    android:drawableLeft="@drawable/ic_object"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/select_mode_object_button"
+                    android:textAlignment="textStart"
+                    android:textSize="22sp"
+
+                    app:backgroundTint="#23FFFFFF" />
+
+                <Button
+                    android:layout_marginHorizontal="20dp"
+                    android:id="@+id/upload_image_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="?colorSecondary"
+                    android:drawableLeft="@drawable/ic_image"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/select_mode_image_button"
+                    android:visibility="gone"
+                    android:textAlignment="textStart"
+                    android:textSize="22sp"
+
+                    app:backgroundTint="#23FFFFFF" />
+                <Button
+                    android:layout_marginHorizontal="20dp"
+                    android:id="@+id/send_clipboard_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_gravity="start"
+                    android:layout_marginVertical="10dp"
+                    android:backgroundTint="?colorSecondary"
+                    android:drawableLeft="@drawable/ic_send_clipboard"
+                    android:fontFamily="sans-serif-black"
+                    android:text="@string/select_mode_clipboard_button"
+                    android:visibility="gone"
+                    android:textAlignment="textStart"
+                    android:textSize="22sp"
+
+                    app:backgroundTint="#23FFFFFF" />
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/card"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
-
-                        <!-- Title, secondary and supporting text -->
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/select_mode_card_title"
-                            android:textAppearance="?attr/textAppearanceHeadline6"
-                            />
-
-                        <TextView
-                            android:id="@+id/card_content"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:textAppearance="?attr/textAppearanceBody2"
-                            android:textColor="?android:attr/textColorSecondary"
-                            />
-
-                    </LinearLayout>
-
-                    <!-- Buttons -->
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="8dp"
                         android:orientation="vertical">
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/card_copy_button"
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <!-- Title, secondary and supporting text -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/select_mode_card_title"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                />
+
+                            <TextView
+                                android:id="@+id/card_content"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="16dp"
+                                android:textAppearance="?attr/textAppearanceBody2"
+                                android:textColor="?android:attr/textColorSecondary"
+                                />
+
+                        </LinearLayout>
+
+                        <!-- Buttons -->
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            app:icon="@drawable/ic_clipboard"
-                            android:text="@string/select_mode_copy_button"
-                            style="?attr/borderlessButtonStyle"
-                            android:textAlignment="textStart"
-                            />
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/card_share_button"
-                            app:icon="@drawable/ic_share"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/select_mode_share_button"
-                            style="?attr/borderlessButtonStyle"
-                            android:textAlignment="textStart"
-                            />
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/card_send_button"
-                            app:icon="@drawable/ic_send"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/select_mode_send_button"
-                            android:visibility="gone"
-                            style="?attr/borderlessButtonStyle"
-                            android:textAlignment="textStart"
-                            />
+                            android:layout_margin="8dp"
+                            android:orientation="vertical">
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/card_copy_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                app:icon="@drawable/ic_clipboard"
+                                android:text="@string/select_mode_copy_button"
+                                style="?attr/borderlessButtonStyle"
+                                android:textAlignment="textStart"
+                                />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/card_share_button"
+                                app:icon="@drawable/ic_share"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/select_mode_share_button"
+                                style="?attr/borderlessButtonStyle"
+                                android:textAlignment="textStart"
+                                />
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/card_send_button"
+                                app:icon="@drawable/ic_send"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/select_mode_send_button"
+                                android:visibility="gone"
+                                style="?attr/borderlessButtonStyle"
+                                android:textAlignment="textStart"
+                                />
+                        </LinearLayout>
+
                     </LinearLayout>
 
-                </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-
-    </ScrollView>
-
+        </ScrollView>
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

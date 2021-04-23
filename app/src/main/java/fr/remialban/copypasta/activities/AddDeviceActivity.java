@@ -3,6 +3,7 @@ package fr.remialban.copypasta.activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ public class AddDeviceActivity extends AppCompatActivity {
     EditText ipInput;
     Button addButton;
     ExtendedFloatingActionButton scanButton;
+    Toolbar toolbar;
     Boolean cameraEnable;
 
     @Override
@@ -42,6 +44,7 @@ public class AddDeviceActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.input_name);
         addButton = findViewById(R.id.add_button);
         scanButton = findViewById(R.id.scan_button);
+        toolbar = findViewById(R.id.toolbar);
     }
 
     private void initEvents() {
@@ -83,7 +86,10 @@ public class AddDeviceActivity extends AppCompatActivity {
         });
     }
     private void init(Bundle savedInstanceState) {
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(getString(R.string.add_device_title));
+        
         cameraEnable = true;
 
         if(savedInstanceState != null)
