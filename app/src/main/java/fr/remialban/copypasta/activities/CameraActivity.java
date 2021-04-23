@@ -107,10 +107,9 @@ public class CameraActivity extends AppCompatActivity {
                 toolbar.setTitle(getString(R.string.select_mode_text_button));
                 break;
         }
-        if(checkPermission(Manifest.permission.CAMERA,getString(R.string.ask_permission_camera),2))
-        {
+        if(checkPermission(Manifest.permission.CAMERA,getString(R.string.ask_permission_camera),2)) {
             initCamera();
-        
+        }
     }
 
     private void openStorage()
