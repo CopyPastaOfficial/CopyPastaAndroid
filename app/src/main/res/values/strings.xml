@@ -56,5 +56,7 @@
     <string name="ask_permission_title">Permissions</string>
     <string name="add_device_error">This field cannot be empty</string>
     <string name="ask_permission_storage">You must enable the storage permission.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

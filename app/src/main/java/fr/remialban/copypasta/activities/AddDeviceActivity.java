@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.os.PersistableBundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -19,16 +21,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import fr.remialban.copypasta.R;
+import fr.remialban.copypasta.fragments.AddDeviceFragment;
+import fr.remialban.copypasta.fragments.AddDeviceQrCodeFragment;
+import fr.remialban.copypasta.tools.FragmentInterface;
 import fr.remialban.copypasta.tools.ScanHelper;
 
-public class AddDeviceActivity extends AppCompatActivity {
+public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFragment.OnButtonClickedListener, AddDeviceQrCodeFragment.AddDeviceQrCodeFragmentCallback {
 
-    EditText nameInput;
-    EditText ipInput;
-    Button addButton;
-    ExtendedFloatingActionButton scanButton;
     Toolbar toolbar;
+    FrameLayout frameLayout;
     Boolean cameraEnable;
+    AddDeviceFragment addDeviceFragment;
+    AddDeviceQrCodeFragment addDeviceQrCodeFragment;
+    FragmentInterface parentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,60 +42,27 @@ public class AddDeviceActivity extends AppCompatActivity {
 
         initResources();
         init(savedInstanceState);
-        initEvents();
     }
-    private void initResources() {
-        ipInput = findViewById(R.id.input_ip);
-        nameInput = findViewById(R.id.input_name);
-        addButton = findViewById(R.id.add_button);
-        scanButton = findViewById(R.id.scan_button);
+
+    private void initResources()
+    {
         toolbar = findViewById(R.id.toolbar);
+        frameLayout = findViewById(R.id.frame_layout);
     }
 
-    private void initEvents() {
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               /** Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                intent.putExtra("request", Scan.CODE_SCAN_BARCODE);
-                startActivityForResult(intent, 1);*/
-               startCamera();
-            }
-        });
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Boolean fieldsAreCorrect = true;
-                if(ipInput.getText().toString().trim().equals(""))
-                {
-                    ipInput.setError(AddDeviceActivity.this.getString(R.string.add_device_error));
-                    fieldsAreCorrect = false;
-                    ipInput.requestFocus();
-                }
-                if(nameInput.getText().toString().trim().equals(""))
-                {
-                    nameInput.setError(AddDeviceActivity.this.getString(R.string.add_device_error));
-                    fieldsAreCorrect = false;
-                    nameInput.requestFocus();
-                }
-                if(fieldsAreCorrect)
-                {
-                    Intent intent = new Intent();
-                    intent.putExtra("name", nameInput.getText().toString());
-                    intent.putExtra("ip", ipInput.getText().toString());
-                    setResult(1,intent);
-                    finish();
-                }
-            }
-        });
-    }
     private void init(Bundle savedInstanceState) {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle(getString(R.string.add_device_title));
-        
-        cameraEnable = true;
+        addDeviceFragment = new AddDeviceFragment();
+        addDeviceQrCodeFragment = new AddDeviceQrCodeFragment();
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+        changeFragment(addDeviceFragment);
+        /*cameraEnable = true;
 
         if(savedInstanceState != null)
         {
@@ -101,7 +73,7 @@ public class AddDeviceActivity extends AppCompatActivity {
         if(cameraEnable)
         {
             startCamera();
-        }
+        }*/
     }
 
     private void startCamera() {
@@ -110,7 +82,53 @@ public class AddDeviceActivity extends AppCompatActivity {
         intent.putExtra("addDevice", true);
         startActivityForResult(intent, 1);
     }
+
+    private void changeFragment(FragmentInterface fragment)
+    {
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, (Fragment) fragment).commit();
+        toolbar.setTitle(getString(fragment.getTitleId()));
+        if(fragment.getName() == "AddDevice")
+        {
+            parentFragment = null;
+        } else
+        {
+            parentFragment = addDeviceFragment;
+        }
+    }
     @Override
+    public void onAddButtonClic(String name, String ip) {
+        Intent intent = new Intent();
+        intent.putExtra("name", name);
+        intent.putExtra("ip", ip);
+        setResult(1,intent);
+        finish();
+    }
+
+    @Override
+    public void onScanButtonClic() {
+        changeFragment(addDeviceQrCodeFragment);
+    }
+
+    @Override
+    public void onQrCodeScanned(String name, String ip) {
+        addDeviceFragment.setName(name);
+        addDeviceFragment.setIp(ip);
+        changeFragment(addDeviceFragment);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(parentFragment == null)
+        {
+            super.onBackPressed();
+        } else
+        {
+            changeFragment(parentFragment);
+        }
+    }
+
+    /* @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1)
@@ -146,5 +164,5 @@ public class AddDeviceActivity extends AppCompatActivity {
         outState.putString("name", nameInput.getText().toString());
         outState.putString("ip", ipInput.getText().toString());
         outState.putBoolean("cameraEnable", cameraEnable);
-    }
+    }*/
 }

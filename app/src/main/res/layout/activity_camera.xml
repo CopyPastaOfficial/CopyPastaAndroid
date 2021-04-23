@@ -45,13 +45,6 @@
                             android:textColor="@android:color/black"
                             android:textSize="20sp"
                             android:textStyle="bold" />
-                        <Button
-                            android:id="@+id/manual_button"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            android:drawableLeft="@drawable/ic_edit"
-                            android:text="@string/add_device_scan_manual_button"/>
                     </LinearLayout>
 
 

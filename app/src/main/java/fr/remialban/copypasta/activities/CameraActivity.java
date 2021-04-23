@@ -110,28 +110,7 @@ public class CameraActivity extends AppCompatActivity {
         if(checkPermission(Manifest.permission.CAMERA,getString(R.string.ask_permission_camera),2))
         {
             initCamera();
-        }
-        Button button = findViewById(R.id.manual_button);
-
-        if(getIntent().getBooleanExtra("addDevice", false))
-        {
-            submitButton.setVisibility(View.INVISIBLE);
-            button.setVisibility(View.VISIBLE);
-            textResult.setText(getString(R.string.add_device_scan_text));
-            textResult.setTypeface(Typeface.DEFAULT);
-        } else {
-            button.setHeight(0);
-        }
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    Intent intent = getIntent();
-                    intent.putExtra("response", true);
-                    intent.putExtra("content", textResult.getText());
-                    setResult(2, intent);
-                    finish();
-            }
-        });
+        
     }
 
     private void openStorage()
