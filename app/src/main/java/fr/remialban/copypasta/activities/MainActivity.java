@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 
 import fr.remialban.copypasta.R;
 
@@ -16,24 +17,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Thread thread = new Thread(new Runnable() {
+
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(1500);
-
-                    Intent intent = new Intent(getApplicationContext(),SelectDeviceActivity.class);
-                    startActivity(intent);
-                    finish();
-
-
-                } catch (Exception e)
-                {
-
-                }
-
+                Intent i = new Intent(MainActivity.this, SelectDeviceActivity.class);
+                startActivity(i);
+                finish();
             }
-        });
-        thread.start();
+
+        }, 1500);
     }
 }
