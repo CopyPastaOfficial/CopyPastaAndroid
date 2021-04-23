@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,7 +95,6 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
         if(name != null)
         {
             nameInput.setText(name);
-            Log.i("test truc", name);
             name = null;
         }
         if(ip != null)

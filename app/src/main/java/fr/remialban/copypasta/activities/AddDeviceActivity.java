@@ -30,7 +30,6 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
 
     Toolbar toolbar;
     FrameLayout frameLayout;
-    Boolean cameraEnable;
     AddDeviceFragment addDeviceFragment;
     AddDeviceQrCodeFragment addDeviceQrCodeFragment;
     FragmentInterface parentFragment;
@@ -62,18 +61,6 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
             }
         });
         changeFragment(addDeviceFragment);
-        /*cameraEnable = true;
-
-        if(savedInstanceState != null)
-        {
-            cameraEnable = savedInstanceState.getBoolean("cameraEnable");
-            nameInput.setText(savedInstanceState.getString("name"));
-            ipInput.setText(savedInstanceState.getString("ip"));
-        }
-        if(cameraEnable)
-        {
-            startCamera();
-        }*/
     }
 
     private void startCamera() {
@@ -127,42 +114,4 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
             changeFragment(parentFragment);
         }
     }
-
-    /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1)
-        {
-            cameraEnable = false;
-            if(data.getBooleanExtra("response", false))
-            {
-                return;
-            }
-            try {
-                String jsonText = data.getStringExtra("content");
-                JSONObject json = new JSONObject(jsonText);
-
-                String name = json.getString("name");
-                String ip = json.getString("ip");
-                nameInput.setText(json.getString("name"));
-                ipInput.setText(ip);
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(this, getText(R.string.add_device_error_qr_code), Toast.LENGTH_LONG).show();
-                startCamera();
-            }
-            return;
-        } if(resultCode != 2) {
-            finish();
-        }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
-        super.onSaveInstanceState(outState, outPersistentState);
-        outState.putString("name", nameInput.getText().toString());
-        outState.putString("ip", ipInput.getText().toString());
-        outState.putBoolean("cameraEnable", cameraEnable);
-    }*/
 }
