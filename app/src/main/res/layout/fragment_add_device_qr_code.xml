@@ -27,6 +27,8 @@
                 android:id="@+id/text_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:autoLink="web"
+                android:linksClickable="true"
                 android:gravity="center"
                 android:text="@string/add_device_scan_text"
                 android:textColor="@android:color/black"

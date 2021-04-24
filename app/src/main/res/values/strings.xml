@@ -6,7 +6,7 @@
     <string name="add_device_input_ip">IP address</string>
     <string name="add_device_button">@string/add_device_title</string>
     <string name="add_device_scan_manual_button">Enter the information manually</string>
-    <string name="add_device_scan_text">Download CopyPasta software on your Computer (https://xxxxxxx.com). Open the CopyPasta software and scan the QR Code that appears on the screen.</string>
+    <string name="add_device_scan_text">Download CopyPasta software on your Computer (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Open the CopyPasta software and scan the QR Code that appears on the screen.</string>
     <string name="add_device_error_qr_code">The QR Code is invalid</string>
     <string name="add_device_scan_qr_code">Scan QR Code</string>
     <string name="main_select_device">Choose a device :</string>
@@ -57,6 +57,5 @@
     <string name="add_device_error">This field cannot be empty</string>
     <string name="ask_permission_storage">You must enable the storage permission.</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

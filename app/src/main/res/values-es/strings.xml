@@ -6,7 +6,7 @@
     <string name="add_device_input_ip">Dirección IP</string>
     <string name="add_device_button">@string/add_device_title</string>
     <string name="add_device_scan_manual_button">Ingrese la información manualmente</string>
-    <string name="add_device_scan_text">Descargue el software CopyPasta en su computadora (https://xxxxxxx.com). Abra el software y escanee el código QR que aparece en la pantalla.</string>
+    <string name="add_device_scan_text">Descargue el software CopyPasta en su computadora (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Abra el software y escanee el código QR que aparece en la pantalla.</string>
     <string name="add_device_error_qr_code">El código QR no es válido</string>
     <string name="add_device_scan_qr_code">Escanear un código QR</string>
     <string name="main_select_device">Elija un dispositivo:</string>
