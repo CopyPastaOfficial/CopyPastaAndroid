@@ -41,6 +41,7 @@ import com.google.mlkit.vision.common.InputImage;
 import java.util.concurrent.ExecutionException;
 
 import fr.remialban.copypasta.R;
+import fr.remialban.copypasta.tools.Advert;
 import fr.remialban.copypasta.tools.ScanHelper;
 
 public class CameraActivity extends AppCompatActivity {
@@ -86,7 +87,12 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CameraActivity.this.getString(R.string.ask_permission_storage), 1))
                 {
-                    openStorage();
+                    new Advert(CameraActivity.this) {
+                        @Override
+                        public void onAdvertLoaded() {
+                            openStorage();
+                        }
+                    };
                 }
             }
         });
