@@ -57,6 +57,7 @@ dependencies {
     // If you want to additionally use the CameraX Extensions library
     implementation "androidx.camera:camera-extensions:1.0.0-alpha21"
 
+    implementation 'com.google.android.gms:play-services-ads:20.0.0'
 
 
 }

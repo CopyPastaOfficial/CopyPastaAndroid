@@ -36,6 +36,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 import fr.remialban.copypasta.R;
+import fr.remialban.copypasta.tools.Advert;
 import fr.remialban.copypasta.tools.ScanHelper;
 
 public class SelectModeActivity extends AppCompatActivity {
@@ -90,7 +91,12 @@ public class SelectModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
                 {
-                    uploadImage();
+                    Advert advert = new Advert(SelectModeActivity.this) {
+                        @Override
+                        public void onAdvertLoaded() {
+                            uploadImage();
+                        }
+                    };
                 }
             }
         });
@@ -160,9 +166,14 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-            intent.putExtra("request", request);
-            startActivityForResult(intent, 1);
+            Advert advert = new Advert(SelectModeActivity.this) {
+                @Override
+                public void onAdvertLoaded() {
+                    Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                    intent.putExtra("request", request);
+                    startActivityForResult(intent, 1);
+                }
+            };
         }
     }
 

@@ -16,6 +16,7 @@ import android.widget.ListView;
 import fr.remialban.copypasta.R;
 import fr.remialban.copypasta.adapters.DevicesAdapter;
 import fr.remialban.copypasta.models.Device;
+import fr.remialban.copypasta.tools.Advert;
 import fr.remialban.copypasta.tools.DatabaseManager;
 
 public class SelectDeviceActivity extends AppCompatActivity {
@@ -52,9 +53,14 @@ public class SelectDeviceActivity extends AppCompatActivity {
         localButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
-                intent.putExtra("isLocally", true);
-                startActivityForResult(intent, 1);
+                Advert advert = new Advert(SelectDeviceActivity.this) {
+                    @Override
+                    public void onAdvertLoaded() {
+                        Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
+                        intent.putExtra("isLocally", true);
+                        startActivityForResult(intent, 1);
+                    }
+                };
             }
         });
     }
@@ -68,13 +74,18 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Device device = adapter.getItem(position);
-                device.lastUse();
-                databaseManager.updateDevice(device);
-                Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
-                intent.putExtra("name", device.getName());
-                intent.putExtra("ip", device.getIp());
-                startActivityForResult(intent, 1);
+                Advert advert = new Advert(SelectDeviceActivity.this) {
+                    @Override
+                    public void onAdvertLoaded() {
+                        Device device = adapter.getItem(position);
+                        device.lastUse();
+                        databaseManager.updateDevice(device);
+                        Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
+                        intent.putExtra("name", device.getName());
+                        intent.putExtra("ip", device.getIp());
+                        startActivityForResult(intent, 1);
+                    }
+                };
             }
         };
     }
@@ -102,8 +113,14 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent add_device = new Intent(SelectDeviceActivity.this, AddDeviceActivity.class);
-                startActivityForResult(add_device, 1);
+                Advert advert = new Advert(SelectDeviceActivity.this) {
+                    @Override
+                    public void onAdvertLoaded() {
+                        Intent add_device = new Intent(SelectDeviceActivity.this, AddDeviceActivity.class);
+                        startActivityForResult(add_device, 1);
+                    }
+                };
+
             }
         };
     }
