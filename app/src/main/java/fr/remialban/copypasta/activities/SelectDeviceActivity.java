@@ -40,7 +40,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
     }
 
     private void init() {
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         this.databaseManager = new DatabaseManager(getApplicationContext());
         this.adapter = new DevicesAdapter(getApplicationContext(), this.databaseManager);
         this.adapter.notifyDataSetChanged();

@@ -42,7 +42,7 @@
             android:value="ocr,barcode,ica" />
         <meta-data
             android:name="version"
-            android:value="lite" />
+            android:value="pro" />
         <meta-data
             android:name="advert_proportion"
             android:value="25" />
