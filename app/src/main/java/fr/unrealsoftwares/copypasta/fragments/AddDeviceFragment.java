@@ -1,10 +1,8 @@
-package fr.remialban.copypasta.fragments;
+package fr.unrealsoftwares.copypasta.fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -15,11 +13,8 @@ import android.widget.EditText;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 
-import java.util.function.LongFunction;
-
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.activities.AddDeviceActivity;
-import fr.remialban.copypasta.tools.FragmentInterface;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.tools.FragmentInterface;
 
 public class AddDeviceFragment extends Fragment implements FragmentInterface {
 

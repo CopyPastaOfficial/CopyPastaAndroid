@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.activities;
+package fr.unrealsoftwares.copypasta.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -13,11 +13,11 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.adapters.DevicesAdapter;
-import fr.remialban.copypasta.models.Device;
-import fr.remialban.copypasta.tools.Advert;
-import fr.remialban.copypasta.tools.DatabaseManager;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.adapters.DevicesAdapter;
+import fr.unrealsoftwares.copypasta.models.Device;
+import fr.unrealsoftwares.copypasta.tools.Advert;
+import fr.unrealsoftwares.copypasta.tools.DatabaseManager;
 
 public class SelectDeviceActivity extends AppCompatActivity {
 
@@ -53,7 +53,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         localButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Advert advert = new Advert(SelectDeviceActivity.this) {
+                Advert advert = new Advert(SelectDeviceActivity.this, getString(R.string.ad_local_button)) {
                     @Override
                     public void onAdvertLoaded() {
                         Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
@@ -74,7 +74,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Advert advert = new Advert(SelectDeviceActivity.this) {
+                Advert advert = new Advert(SelectDeviceActivity.this, getString(R.string.ad_select_device)) {
                     @Override
                     public void onAdvertLoaded() {
                         Device device = adapter.getItem(position);
@@ -113,7 +113,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Advert advert = new Advert(SelectDeviceActivity.this) {
+                Advert advert = new Advert(SelectDeviceActivity.this, getString(R.string.ad_add_device)) {
                     @Override
                     public void onAdvertLoaded() {
                         Intent add_device = new Intent(SelectDeviceActivity.this, AddDeviceActivity.class);

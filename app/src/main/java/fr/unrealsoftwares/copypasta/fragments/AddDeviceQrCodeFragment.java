@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.fragments;
+package fr.unrealsoftwares.copypasta.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -6,14 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Typeface;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
@@ -32,11 +30,8 @@ import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.common.InputImage;
 
@@ -45,11 +40,9 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.activities.CameraActivity;
-import fr.remialban.copypasta.activities.SelectModeActivity;
-import fr.remialban.copypasta.tools.FragmentInterface;
-import fr.remialban.copypasta.tools.ScanHelper;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.tools.FragmentInterface;
+import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterface {
 

@@ -1,32 +1,19 @@
-package fr.remialban.copypasta.activities;
+package fr.unrealsoftwares.copypasta.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.fragments.AddDeviceFragment;
-import fr.remialban.copypasta.fragments.AddDeviceQrCodeFragment;
-import fr.remialban.copypasta.tools.FragmentInterface;
-import fr.remialban.copypasta.tools.ScanHelper;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.fragments.AddDeviceFragment;
+import fr.unrealsoftwares.copypasta.fragments.AddDeviceQrCodeFragment;
+import fr.unrealsoftwares.copypasta.tools.FragmentInterface;
+import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFragment.OnButtonClickedListener, AddDeviceQrCodeFragment.AddDeviceQrCodeFragmentCallback {
 

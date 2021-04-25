@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.activities;
+package fr.unrealsoftwares.copypasta.activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -14,7 +14,6 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Size;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -40,9 +39,9 @@ import com.google.mlkit.vision.common.InputImage;
 
 import java.util.concurrent.ExecutionException;
 
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.tools.Advert;
-import fr.remialban.copypasta.tools.ScanHelper;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.tools.Advert;
+import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -87,7 +86,7 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CameraActivity.this.getString(R.string.ask_permission_storage), 1))
                 {
-                    new Advert(CameraActivity.this) {
+                    new Advert(CameraActivity.this,getString(R.string.ad_image_button)) {
                         @Override
                         public void onAdvertLoaded() {
                             openStorage();

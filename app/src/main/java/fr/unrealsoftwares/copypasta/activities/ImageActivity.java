@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.activities;
+package fr.unrealsoftwares.copypasta.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,13 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.MediaStore;
-import android.renderscript.ScriptGroup;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,10 +19,9 @@ import android.widget.Toast;
 import com.google.mlkit.vision.common.InputImage;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.tools.ScanHelper;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class ImageActivity extends AppCompatActivity {
 

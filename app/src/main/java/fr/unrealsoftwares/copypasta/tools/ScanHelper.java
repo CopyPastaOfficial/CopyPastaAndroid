@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.tools;
+package fr.unrealsoftwares.copypasta.tools;
 
 import android.content.Context;
 import android.os.Build;
@@ -25,7 +25,7 @@ import com.google.mlkit.vision.text.TextRecognizer;
 
 import java.util.List;
 
-import fr.remialban.copypasta.R;
+import fr.unrealsoftwares.copypasta.R;
 
 
 public abstract class ScanHelper {

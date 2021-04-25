@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_local_button" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_camera_button" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_image_button" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_select_device" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_add_device" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="ad_upload_image_button" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+</resources>

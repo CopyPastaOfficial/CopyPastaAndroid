@@ -1,8 +1,6 @@
-package fr.remialban.copypasta.tools;
+package fr.unrealsoftwares.copypasta.tools;
 
 import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -23,7 +21,7 @@ public abstract class Advert {
     InterstitialAd ad;
     Activity activity;
 
-    public Advert(Activity context)
+    public Advert(Activity context, String key)
     {
         activity = context;
         ad = null;
@@ -38,7 +36,7 @@ public abstract class Advert {
             });
             AdRequest adRequest = new AdRequest.Builder().build();
 
-            InterstitialAd.load(context,"ca-app-pub-3940256099942544/1033173712", adRequest, new InterstitialAdLoadCallback() {
+            InterstitialAd.load(context,key, adRequest, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                     ad = interstitialAd;

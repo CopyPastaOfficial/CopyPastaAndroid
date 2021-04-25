@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.activities;
+package fr.unrealsoftwares.copypasta.activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,9 +35,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.tools.Advert;
-import fr.remialban.copypasta.tools.ScanHelper;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.tools.Advert;
+import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class SelectModeActivity extends AppCompatActivity {
 
@@ -91,7 +91,7 @@ public class SelectModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
                 {
-                    Advert advert = new Advert(SelectModeActivity.this) {
+                    Advert advert = new Advert(SelectModeActivity.this, getString(R.string.ad_upload_image_button)) {
                         @Override
                         public void onAdvertLoaded() {
                             uploadImage();
@@ -166,7 +166,7 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View v) {
-            Advert advert = new Advert(SelectModeActivity.this) {
+            Advert advert = new Advert(SelectModeActivity.this, getString(R.string.ad_camera_button)) {
                 @Override
                 public void onAdvertLoaded() {
                     Intent intent = new Intent(getApplicationContext(), CameraActivity.class);

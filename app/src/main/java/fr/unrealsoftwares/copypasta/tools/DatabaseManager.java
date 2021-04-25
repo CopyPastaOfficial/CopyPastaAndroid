@@ -1,17 +1,16 @@
-package fr.remialban.copypasta.tools;
+package fr.unrealsoftwares.copypasta.tools;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.remialban.copypasta.models.Device;
+import fr.unrealsoftwares.copypasta.models.Device;
 
 public class DatabaseManager extends SQLiteOpenHelper {
     Context context;

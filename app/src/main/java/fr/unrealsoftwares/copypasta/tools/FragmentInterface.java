@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.tools;
+package fr.unrealsoftwares.copypasta.tools;
 
 public interface FragmentInterface {
 

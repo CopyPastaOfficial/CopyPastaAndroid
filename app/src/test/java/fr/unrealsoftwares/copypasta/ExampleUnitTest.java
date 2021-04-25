@@ -1,4 +1,4 @@
-package fr.remialban.copypasta;
+package fr.unrealsoftwares.copypasta;
 
 import org.junit.Test;
 

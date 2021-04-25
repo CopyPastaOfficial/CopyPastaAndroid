@@ -1,8 +1,7 @@
-package fr.remialban.copypasta.tools;
+package fr.unrealsoftwares.copypasta.tools;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 public class Meta {
 

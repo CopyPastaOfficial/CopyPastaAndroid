@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.models;
+package fr.unrealsoftwares.copypasta.models;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

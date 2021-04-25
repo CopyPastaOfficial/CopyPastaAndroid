@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout"
     android:orientation="vertical"
-    tools:context="fr.remialban.copypasta.activities.SelectModeActivity">
+    tools:context="fr.unrealsoftwares.copypasta.activities.SelectModeActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

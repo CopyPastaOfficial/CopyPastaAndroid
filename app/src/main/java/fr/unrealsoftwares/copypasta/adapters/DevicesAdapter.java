@@ -1,4 +1,4 @@
-package fr.remialban.copypasta.adapters;
+package fr.unrealsoftwares.copypasta.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,9 +10,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.remialban.copypasta.R;
-import fr.remialban.copypasta.models.Device;
-import fr.remialban.copypasta.tools.DatabaseManager;
+import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.models.Device;
+import fr.unrealsoftwares.copypasta.tools.DatabaseManager;
 
 public class DevicesAdapter extends BaseAdapter {
 
