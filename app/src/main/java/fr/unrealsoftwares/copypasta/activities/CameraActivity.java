@@ -51,6 +51,7 @@ public class CameraActivity extends AppCompatActivity {
     ExtendedFloatingActionButton submitButton;
     ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     Toolbar toolbar;
+    Advert advert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,12 +87,12 @@ public class CameraActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CameraActivity.this.getString(R.string.ask_permission_storage), 1))
                 {
-                    new Advert(CameraActivity.this,getString(R.string.ad_image_button)) {
+                    advert.show(new Advert.Callback() {
                         @Override
                         public void onAdvertLoaded() {
                             openStorage();
                         }
-                    };
+                    });
                 }
             }
         });
@@ -99,7 +100,7 @@ public class CameraActivity extends AppCompatActivity {
     private void init() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        advert = new Advert(this, getString(R.string.ad_image_button));
         switch (CameraActivity.this.getIntent().getIntExtra("request", -1))
         {
             case ScanHelper.CODE_SCAN_BARCODE:

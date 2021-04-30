@@ -58,6 +58,8 @@ public class SelectModeActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
+    Advert advert;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,12 +93,12 @@ public class SelectModeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
                 {
-                    Advert advert = new Advert(SelectModeActivity.this, getString(R.string.ad_upload_image_button)) {
+                    advert.show(new Advert.Callback() {
                         @Override
                         public void onAdvertLoaded() {
                             uploadImage();
                         }
-                    };
+                    });
                 }
             }
         });
@@ -166,14 +168,14 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         @Override
         public void onClick(View v) {
-            Advert advert = new Advert(SelectModeActivity.this, getString(R.string.ad_camera_button)) {
+            advert.show(new Advert.Callback() {
                 @Override
                 public void onAdvertLoaded() {
                     Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
                     intent.putExtra("request", request);
                     startActivityForResult(intent, 1);
                 }
-            };
+            });
         }
     }
 
@@ -186,6 +188,8 @@ public class SelectModeActivity extends AppCompatActivity {
     private void init(Bundle savedInstanceState)
     {
         setSupportActionBar(toolbar);
+
+        advert = new Advert(this, getString(R.string.ad_upload_image_button));
 
         textAlreadyScanned = false;
 

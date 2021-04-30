@@ -29,6 +29,8 @@ public class SelectDeviceActivity extends AppCompatActivity {
     Button localButton;
     Toolbar toolbar;
 
+    Advert advert;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
 
     private void init() {
         setSupportActionBar(toolbar);
+        advert = new Advert(this , getString(R.string.ad_local_button));
         this.databaseManager = new DatabaseManager(getApplicationContext());
         this.adapter = new DevicesAdapter(getApplicationContext(), this.databaseManager);
         this.adapter.notifyDataSetChanged();
@@ -53,14 +56,14 @@ public class SelectDeviceActivity extends AppCompatActivity {
         localButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Advert advert = new Advert(SelectDeviceActivity.this, getString(R.string.ad_local_button)) {
+                advert.show(new Advert.Callback() {
                     @Override
                     public void onAdvertLoaded() {
                         Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
                         intent.putExtra("isLocally", true);
                         startActivityForResult(intent, 1);
                     }
-                };
+                });
             }
         });
     }
@@ -74,7 +77,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Advert advert = new Advert(SelectDeviceActivity.this, getString(R.string.ad_select_device)) {
+                advert.show(new Advert.Callback() {
                     @Override
                     public void onAdvertLoaded() {
                         Device device = adapter.getItem(position);
@@ -85,7 +88,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
                         intent.putExtra("ip", device.getIp());
                         startActivityForResult(intent, 1);
                     }
-                };
+                });
             }
         };
     }
@@ -113,14 +116,13 @@ public class SelectDeviceActivity extends AppCompatActivity {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Advert advert = new Advert(SelectDeviceActivity.this, getString(R.string.ad_add_device)) {
+                advert.show(new Advert.Callback() {
                     @Override
                     public void onAdvertLoaded() {
                         Intent add_device = new Intent(SelectDeviceActivity.this, AddDeviceActivity.class);
                         startActivityForResult(add_device, 1);
                     }
-                };
-
+                });
             }
         };
     }
