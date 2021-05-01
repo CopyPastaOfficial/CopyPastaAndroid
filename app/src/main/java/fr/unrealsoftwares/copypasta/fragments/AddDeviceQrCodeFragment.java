@@ -46,10 +46,17 @@ import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterface {
 
-    View view;
-    PreviewView previewView;
-    TextView textView;
-    ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+    /**
+     * View of the fragment
+     */
+    private View view;
+
+    /**
+     * PreviewView in the layout contains the camera
+     */
+    private PreviewView previewView;
+
+    private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     private AddDeviceQrCodeFragmentCallback mCallback;
 
@@ -63,12 +70,17 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
         return view;
     }
 
+    /**
+     * Init the elements from the layout
+     */
     private void initResources()
     {
         previewView = view.findViewById(R.id.previewView);
-        textView = view.findViewById(R.id.text_result);
     }
 
+    /**
+     * Initialization
+     */
     private void init()
     {
 
@@ -79,6 +91,9 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
 
     }
 
+    /**
+     * Init the camera
+     */
     private void initCamera()
     {
         cameraProviderFuture = ProcessCameraProvider.getInstance(getActivity());

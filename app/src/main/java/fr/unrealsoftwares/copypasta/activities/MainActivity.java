@@ -9,7 +9,7 @@ import android.os.Handler;
 import fr.unrealsoftwares.copypasta.R;
 
 /**
- * This is the First Activity. It is a SplashScreen
+ * This is the First Activity. It is a SplashScreen.
  */
 public class MainActivity extends AppCompatActivity {
 

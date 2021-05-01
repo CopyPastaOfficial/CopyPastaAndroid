@@ -100,7 +100,6 @@ public class CameraActivity extends AppCompatActivity {
     private void init() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        advert = new Advert(this, getString(R.string.ad_image_button));
         switch (CameraActivity.this.getIntent().getIntExtra("request", -1))
         {
             case ScanHelper.CODE_SCAN_BARCODE:
@@ -272,5 +271,11 @@ public class CameraActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        advert = new Advert(this, getString(R.string.ad_image_button));
     }
 }

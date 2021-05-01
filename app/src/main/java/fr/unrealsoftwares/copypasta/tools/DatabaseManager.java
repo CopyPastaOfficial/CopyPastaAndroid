@@ -12,15 +12,34 @@ import java.util.List;
 
 import fr.unrealsoftwares.copypasta.models.Device;
 
+/**
+ * Manage the database
+ */
 public class DatabaseManager extends SQLiteOpenHelper {
-    Context context;
-    SQLiteDatabase db;
+
+    /**
+     * Activity context
+     */
+    private Context context;
+
+    /**
+     * Database
+     */
+    private SQLiteDatabase db;
+
+    /**
+     * Constructor
+     * @param context Activity context
+     */
     public DatabaseManager(@Nullable Context context) {
         super(context, "CopyPasta.database", null, 1);
         this.context = context;
         getReadableDatabase();
     }
 
+    /**
+     * Called when creating of the database
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         String query = "CREATE TABLE devices (" +
@@ -34,12 +53,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Called when updating of the database
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         this.onCreate(db);
     }
 
-    public List<Device> getElements() {
+    /**
+     * @return List of devices
+     */
+    public List<Device> getDevices() {
         List<Device> devices = new ArrayList<>();
 
         Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM devices ORDER BY lastUse DESC;", null);
@@ -52,10 +77,20 @@ public class DatabaseManager extends SQLiteOpenHelper {
         cursor.close();
         return devices;
     }
+
+    /**
+     * Remove a device
+     * @param device Device to remove
+     */
     public void removeDevice(Device device) {
         String query = "DELETE FROM devices WHERE id = " + device.getId() + ";";
         getWritableDatabase().execSQL(query);
     }
+
+    /**
+     * Add a device
+     * @param device Device to add
+     */
     public void addDevice(Device device){
         String query = "INSERT INTO devices (name, ip, lastUse) VALUES ('" +
                 device.getName() +
@@ -68,6 +103,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Update a device
+     * @param device Device to update
+     */
     public void updateDevice(Device device){
         String query = "UPDATE devices SET name='" + device.getName() + "', ip='" + device.getIp() + "', lastUse='" + device.getLastUse() + "' WHERE id=" + device.getId() + ";";
         getReadableDatabase().execSQL(query);

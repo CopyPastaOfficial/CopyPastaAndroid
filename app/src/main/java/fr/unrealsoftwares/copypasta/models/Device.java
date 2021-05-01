@@ -6,10 +6,25 @@ import java.util.Date;
 
 public class Device {
 
-    int id;
-    String name;
-    String ip;
-    String lastUse;
+    /**
+     * IP of the device
+     */
+    private int id;
+
+    /**
+     * Device name
+     */
+    private String name;
+
+    /**
+     * Device IP
+     */
+    private String ip;
+
+    /**
+     * Date of last use (last use when the user click on the device in the ListView
+     */
+    private String lastUse;
 
     public Device(String name, String ip) {
         this.name = name;

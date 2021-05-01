@@ -1,6 +1,7 @@
 package fr.unrealsoftwares.copypasta.tools;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -9,8 +10,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
@@ -25,6 +24,7 @@ public class Advert {
      * Content the advert when it is loaded
      */
     private InterstitialAd ad;
+
     /**
      * Activity where is the advert
      */
@@ -44,6 +44,8 @@ public class Advert {
      */
     private Boolean isWantLoad;
 
+    private Boolean advertLoad;
+
     /**
      *
      * @param activity Activity where is the advert
@@ -56,15 +58,16 @@ public class Advert {
         callback = null;
         isLoaded = false;
         isWantLoad = false;
+        advertLoad = false;
         Random random=new Random();
+        Log.i("DEBUG", "IN ADVERT");
         int number = random.nextInt(100);
         int proportion = Meta.getAdvertProportion(activity);
         if(Meta.getVersion(activity).trim().equals("lite") && number <= proportion)
         {
-            MobileAds.initialize(activity, new OnInitializationCompleteListener() {
-                @Override
-                public void onInitializationComplete(InitializationStatus initializationStatus) {}
-            });
+            advertLoad = true;
+            Log.i("DEBUG", "IN LITE");
+            MobileAds.initialize(activity, initializationStatus -> {});
             AdRequest adRequest = new AdRequest.Builder().build();
 
             InterstitialAd.load(activity,key, adRequest, new InterstitialAdLoadCallback() {
@@ -104,22 +107,25 @@ public class Advert {
 
     /**
      * Show the advert
-     * @param callback
      * @see Callback
      */
     public void show(Callback callback)
     {
+        Log.i("DEBUG", "IN SHOW");
         this.callback = callback;
-        if(Meta.getVersion(activity).trim().equals("pro"))
+        if(Meta.getVersion(activity).trim().equals("pro") || !advertLoad)
         {
+            Log.i("DEBUG", "IN SHOW PRO");
             callback.onAdvertLoaded();
             return;
         }
         if(isLoaded)
         {
+            Log.i("DEBUG", "IN SHOW LOAD");
             showAdvert();
         } else
         {
+            Log.i("DEBUG", "IN TRUC");
             isWantLoad = true;
         }
     }
@@ -136,12 +142,12 @@ public class Advert {
             }
 
             @Override
-            public void onAdFailedToShowFullScreenContent(AdError adError) {
+            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                 callback.onAdvertLoaded();
             }
 
         });
-        isWantLoad = false;
         ad.show(activity);
+        isWantLoad = false;
     }
 }

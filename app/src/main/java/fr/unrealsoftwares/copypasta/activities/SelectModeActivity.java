@@ -12,7 +12,6 @@ import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -41,35 +40,105 @@ import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class SelectModeActivity extends AppCompatActivity {
 
-    String ip;
-    Boolean isLocally;
-    ProgressBar progressBar;
-    Button scanQrCodeButton;
-    Button uploadImageButton;
-    Button scanTextButton;
-    Button scanObjectButton;
-    Button sendClipboard;
+    /**
+     * IP of the last scan
+     */
+    private String ip;
 
-    MaterialButton copyButton;
-    TextView content;
-    MaterialButton shareButton;
-    MaterialButton sendButton;
-    Boolean textAlreadyScanned;
+    /**
+     * Is true if the app is run locally, if false if this is the opposite
+     */
+    private Boolean isLocally;
 
-    Toolbar toolbar;
+    /**
+     * Progress bar in the layout to show during sending the content to the computer
+     */
+    private ProgressBar progressBar;
 
-    Advert advert;
+    /**
+     * Button to scan QR Code in the layout
+     */
+    private Button scanQrCodeButton;
+
+    /**
+     * Button to upload image in the layout
+     */
+    private Button uploadImageButton;
+
+    /**
+     * Button to recognize text in the layout
+     */
+    private Button scanTextButton;
+
+    /**
+     * Button to recognize object in the layout
+     */
+    private Button scanObjectButton;
+
+    /**
+     * Button to send clipboard in the layout
+     */
+    private Button sendClipboard;
+
+    /**
+     * Button in the CardView to copy button
+     */
+    private MaterialButton copyButton;
+
+    /**
+     * TextView in the CardView contains the last scanned text
+     */
+    private TextView content;
+
+    /**
+     * Button in the CardView to share the last scanned text
+     */
+    private MaterialButton shareButton;
+
+    /**
+     * Button in the CardView to resend the last scanned text
+     */
+    private MaterialButton sendButton;
+
+    /**
+     * Is true if a text is already scanned. Is false if this is the opposite
+     */
+    private Boolean textAlreadyScanned;
+
+    /**
+     * Activity toolbar
+     */
+    private Toolbar toolbar;
+
+    /**
+     * Advert
+     */
+    private Advert advert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_mode);
-        initRessources();
+
+        initToolbar();
+        initResources();
         initEvents();
         init(savedInstanceState);
     }
 
-    private void initRessources()
+    /**
+     * Init toolbar
+     */
+    private void initToolbar()
+    {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    /**
+     * Init the elements from the layout
+     */
+    private void initResources()
     {
         scanQrCodeButton = findViewById(R.id.scan_qr_code_button);
         uploadImageButton = findViewById(R.id.upload_image_button);
@@ -78,28 +147,20 @@ public class SelectModeActivity extends AppCompatActivity {
         copyButton = findViewById(R.id.card_copy_button);
         content = findViewById(R.id.card_content);
         shareButton = findViewById(R.id.card_share_button);
-        ip = getIntent().getStringExtra("ip");
-        isLocally = getIntent().getBooleanExtra("isLocally", false);
         sendButton = findViewById(R.id.card_send_button);
         progressBar = findViewById(R.id.progress_bar);
         sendClipboard = findViewById(R.id.send_clipboard_button);
-        toolbar = findViewById(R.id.toolbar);
     }
 
+    /**
+     * Init events
+     */
     private void initEvents()
     {
-        uploadImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
-                {
-                    advert.show(new Advert.Callback() {
-                        @Override
-                        public void onAdvertLoaded() {
-                            uploadImage();
-                        }
-                    });
-                }
+        uploadImageButton.setOnClickListener(v -> {
+            if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
+            {
+                advert.show(this::uploadImage);
             }
         });
 
@@ -108,88 +169,51 @@ public class SelectModeActivity extends AppCompatActivity {
         scanTextButton.setOnClickListener(new OpenCamera( ScanHelper.CODE_SCAN_TEXT));
         scanObjectButton.setOnClickListener(new OpenCamera( ScanHelper.CODE_SCAN_IMAGE));
 
-        copyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newPlainText("Scan of Copy Pasta app", content.getText());
-                clipboard.setPrimaryClip(clip);
-                Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_copy_success), Toast.LENGTH_LONG).show();
-            }
+        copyButton.setOnClickListener(v -> {
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("Scan of Copy Pasta app", content.getText());
+            clipboard.setPrimaryClip(clip);
+            Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_copy_success), Toast.LENGTH_LONG).show();
         });
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendMessage(
-                        content.getText().toString());
+        sendButton.setOnClickListener(v -> sendMessage(
+                content.getText().toString()));
+
+        sendClipboard.setOnClickListener(v -> {
+            try {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+
+                String clipboard = clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()).toString();
+                CardView cardView = findViewById(R.id.card);
+                TextView content = findViewById(R.id.card_content);
+                cardView.setVisibility(View.VISIBLE);
+                content.setText(clipboard);
+                textAlreadyScanned = true;
+                sendMessage(clipboard);
+            } catch (NullPointerException exception) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
+                alert.setTitle(getString(R.string.select_mode_error_clipboard_title));
+                alert.setMessage(getString(R.string.select_mode_error_clipboard_content));
+                alert.setPositiveButton("OK", null);
+                alert.show();
             }
+
         });
 
-        sendClipboard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
+        shareButton.setOnClickListener(v -> {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, content.getText());
+            sendIntent.setType("text/plain");
 
-
-                    ClipboardManager clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-
-                    String clipboard = (String) clipboardManager.getPrimaryClip().getItemAt(0).coerceToText(getApplicationContext()).toString();
-                    CardView cardView = findViewById(R.id.card);
-                    TextView content = findViewById(R.id.card_content);
-                    cardView.setVisibility(View.VISIBLE);
-                    content.setText(clipboard);
-                    textAlreadyScanned = true;
-                    sendMessage(clipboard);
-                } catch (NullPointerException exception) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
-                    alert.setTitle(getString(R.string.select_mode_error_clipboard_title));
-                    alert.setMessage(getString(R.string.select_mode_error_clipboard_content));
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    alert.show();
-                }
-
-            }
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            startActivity(shareIntent);
         });
     }
 
-
-
-    class OpenCamera implements View.OnClickListener
-    {
-        private int request;
-        public OpenCamera(int request)
-        {
-            this.request = request;
-        }
-        @Override
-        public void onClick(View v) {
-            advert.show(new Advert.Callback() {
-                @Override
-                public void onAdvertLoaded() {
-                    Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-                    intent.putExtra("request", request);
-                    startActivityForResult(intent, 1);
-                }
-            });
-        }
-    }
-
-    private void uploadImage()
-    {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        // Start the Intent
-        startActivityForResult(galleryIntent, 4);
-    }
     private void init(Bundle savedInstanceState)
     {
-        setSupportActionBar(toolbar);
-
-        advert = new Advert(this, getString(R.string.ad_upload_image_button));
+        ip = getIntent().getStringExtra("ip");
+        isLocally = getIntent().getBooleanExtra("isLocally", false);
 
         textAlreadyScanned = false;
 
@@ -211,20 +235,37 @@ public class SelectModeActivity extends AppCompatActivity {
                 content.setText(savedInstanceState.getString("content"));
             }
         }
-
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, content.getText());
-                sendIntent.setType("text/plain");
-
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                startActivity(shareIntent);
-            }
-        });
     }
+
+    /**
+     * Class to open camera
+     */
+    class OpenCamera implements View.OnClickListener
+    {
+        private final int request;
+        public OpenCamera(int request)
+        {
+            this.request = request;
+        }
+        @Override
+        public void onClick(View v) {
+            advert.show(() -> {
+                Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                intent.putExtra("request", request);
+                startActivityForResult(intent, 1);
+            });
+        }
+    }
+
+    /**
+     * Open the gallery to upload image
+     */
+    private void uploadImage()
+    {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(galleryIntent, 4);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -233,9 +274,9 @@ public class SelectModeActivity extends AppCompatActivity {
             CardView cardView = findViewById(R.id.card);
             TextView content = findViewById(R.id.card_content);
             cardView.setVisibility(View.VISIBLE);
+            assert data != null;
             content.setText(data.getStringExtra("content"));
             textAlreadyScanned = true;
-            //Toast.makeText(getApplicationContext(),data.getStringExtra("content"), Toast.LENGTH_LONG).show();
             if(!getIntent().getBooleanExtra("isLocally", false))
             {
                 sendMessage(data.getStringExtra("content"));
@@ -246,8 +287,9 @@ public class SelectModeActivity extends AppCompatActivity {
         }
         if (requestCode == 4 && resultCode == RESULT_OK){
 
-            Bitmap bitmap = null;
+            Bitmap bitmap;
             try {
+                assert data != null;
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
@@ -255,141 +297,107 @@ public class SelectModeActivity extends AppCompatActivity {
                 byte[] bytes = stream.toByteArray();
 
                 sendImage(bytes);
-
-
             } catch (Exception e) {
-               // e.printStackTrace();
-
+                e.printStackTrace();
             }
 
         }
     }
 
+    /**
+     * Send message
+     * @param content Text to send
+     */
     private void sendMessage(String content)
     {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        Thread thread = new Thread(() -> {
 
-                try {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.VISIBLE);
-                            sendButton.setEnabled(false);
+            try {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.VISIBLE);
+                    sendButton.setEnabled(false);
 
-                        }
-                    });
+                });
 
-                    Socket s = new Socket(ip, 8835);
+                Socket s = new Socket(ip, 8835);
 
-                    OutputStream out = s.getOutputStream();
+                OutputStream out = s.getOutputStream();
 
-                    PrintWriter output = new PrintWriter(out);
+                PrintWriter output = new PrintWriter(out);
+                output.print(content);
+                output.flush();
 
-                    output.print(content);
+                output.close();
+                out.close();
+                s.close();
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    sendButton.setEnabled(true);
 
-                    output.flush();
+                });
+            } catch (IOException e) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    sendButton.setEnabled(true);
 
-
-
-                    /*if(st.contains("OK")){
-                    }*/
-                    Toast.makeText(getApplicationContext(), "Scan sent !", Toast.LENGTH_SHORT).show();
-
-                    output.close();
-                    out.close();
-                    s.close();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            sendButton.setEnabled(true);
-
-                        }
-                    });
-                } catch (IOException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            sendButton.setEnabled(true);
-
-                            alertErrorConnection();
-                        }
-                    });
-                } catch (Exception e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            sendButton.setEnabled(true);
-
-                        }
-                    });
-                }
+                    alertErrorConnection();
+                });
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    sendButton.setEnabled(true);
+                });
             }
         });
         thread.start();
     }
+
+    /**
+     * Send image
+     * @param msgbytes Image to send
+     */
     private void sendImage(final byte[] msgbytes) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.VISIBLE);
-                            sendButton.setEnabled(false);
-                        }
-                    });
-                    //lis l'ip depuis un fichier, à remplacer par ta méthode pour l'IP, le port ne change pas
-                    Socket socket = new Socket(ip, 8836);
+        Thread thread = new Thread(() -> {
+            try {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.VISIBLE);
+                    sendButton.setEnabled(false);
+                });
+                Socket socket = new Socket(ip, 8836);
 
-                    DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-                    dOut.write(msgbytes);
-                    dOut.close();
-                    socket.close();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            sendButton.setEnabled(true);
+                DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
+                dOut.write(msgbytes);
+                dOut.close();
+                socket.close();
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    sendButton.setEnabled(true);
 
-                        }
-                    });
+                });
 
-                } catch (java.io.IOException e) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            progressBar.setVisibility(View.GONE);
-                            sendButton.setEnabled(true);
-                            alertErrorConnection();
-                        }
-                    });
-
-                    //Toast.makeText(getApplicationContext(), "Erreur le message n'a pas été envoyé", Toast.LENGTH_SHORT).show();
-                } catch(Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (IOException e) {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    sendButton.setEnabled(true);
+                    alertErrorConnection();
+                });
+            } catch(Exception e) {
+                e.printStackTrace();
             }
         });
         thread.start();
 
     }
 
+    /**
+     * Called when there is a connection error
+     */
     private void alertErrorConnection()
     {
         AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
         alert.setTitle(getString(R.string.select_mode_error_server_title));
         alert.setMessage(getString(R.string.select_mode_error_server_content));
-        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                
-            }
-        });
+        alert.setPositiveButton("OK", null);
         alert.show();
     }
 
@@ -402,7 +410,7 @@ public class SelectModeActivity extends AppCompatActivity {
 
     public Boolean checkPermission(String permission, String contentMessage, int requestCode)
     {
-        Boolean isEnable = false;
+        boolean isEnable = false;
         if(ActivityCompat.checkSelfPermission(getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED)
         {
             isEnable = true;
@@ -416,14 +424,11 @@ public class SelectModeActivity extends AppCompatActivity {
                 alert.setTitle(SelectModeActivity.this.getString(R.string.ask_permission_title));
                 alert.setMessage(contentMessage);
                 alert.setNeutralButton(SelectModeActivity.this.getString(R.string.ask_permission_cancel), null);
-                alert.setPositiveButton(SelectModeActivity.this.getString(R.string.ask_permission_settings), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", SelectModeActivity.this.getPackageName(), null);
-                        intent.setData(uri);
-                        startActivityForResult(intent, requestCode);
-                    }
+                alert.setPositiveButton(SelectModeActivity.this.getString(R.string.ask_permission_settings), (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", SelectModeActivity.this.getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, requestCode);
                 });
                 alert.show();
             }
@@ -447,5 +452,11 @@ public class SelectModeActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        advert = new Advert(this, getString(R.string.ad_upload_image_button));
     }
 }

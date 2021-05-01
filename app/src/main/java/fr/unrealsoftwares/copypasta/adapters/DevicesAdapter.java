@@ -16,10 +16,10 @@ import fr.unrealsoftwares.copypasta.tools.DatabaseManager;
 
 public class DevicesAdapter extends BaseAdapter {
 
-    Context context;
-    List<Device> devices;
-    LayoutInflater inflater;
-    DatabaseManager db;
+    private final Context context;
+    private List<Device> devices;
+    private LayoutInflater inflater;
+    private final DatabaseManager db;
     public DevicesAdapter(Context context, DatabaseManager db) {
         this.db = db;
         this.context = context;
@@ -29,7 +29,7 @@ public class DevicesAdapter extends BaseAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-        this.devices = this.db.getElements();
+        this.devices = this.db.getDevices();
         super.notifyDataSetChanged();
     }
 
@@ -43,8 +43,6 @@ public class DevicesAdapter extends BaseAdapter {
         this.db.removeDevice(device);
         this.notifyDataSetChanged();
     }
-
-
 
     public void updateDevice(int position, Device device) {
         this.devices.set(position, device);

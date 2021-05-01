@@ -6,21 +6,29 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.fragments.AddDeviceFragment;
 import fr.unrealsoftwares.copypasta.fragments.AddDeviceQrCodeFragment;
 import fr.unrealsoftwares.copypasta.tools.FragmentInterface;
-import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
-public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFragment.OnButtonClickedListener, AddDeviceQrCodeFragment.AddDeviceQrCodeFragmentCallback {
+public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFragment.Callback, AddDeviceQrCodeFragment.AddDeviceQrCodeFragmentCallback {
 
-    Toolbar toolbar;
-    FrameLayout frameLayout;
-    AddDeviceFragment addDeviceFragment;
-    AddDeviceQrCodeFragment addDeviceQrCodeFragment;
+    /**
+     * Activity toolbar
+     */
+    private Toolbar toolbar;
+
+    /**
+     * Frame layout contains fragments
+     */
+    private FrameLayout frameLayout;
+
+    private AddDeviceFragment addDeviceFragment;
+    private AddDeviceQrCodeFragment addDeviceQrCodeFragment;
+
+
     FragmentInterface parentFragment;
 
     @Override
@@ -29,42 +37,47 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
         setContentView(R.layout.activity_add_device);
 
         initResources();
-        init(savedInstanceState);
-
+        initToolbar();
+        init();
     }
 
+    /**
+     * Init the elements from the layout
+     */
     private void initResources()
     {
         toolbar = findViewById(R.id.toolbar);
         frameLayout = findViewById(R.id.frame_layout);
     }
 
-    private void init(Bundle savedInstanceState) {
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    /**
+     * Initialization
+     */
+    private void init() {
         addDeviceFragment = new AddDeviceFragment();
         addDeviceQrCodeFragment = new AddDeviceQrCodeFragment();
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
         changeFragment(addDeviceFragment);
     }
 
-    private void startCamera() {
-        Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
-        intent.putExtra("request", ScanHelper.CODE_SCAN_BARCODE);
-        intent.putExtra("addDevice", true);
-        startActivityForResult(intent, 1);
+    /**
+     * Init toolbar
+     */
+    private void initToolbar()
+    {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
+    /**
+     * Change fragment of the FrameLayout
+     * @param fragment Fragment to show
+     */
     private void changeFragment(FragmentInterface fragment)
     {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, (Fragment) fragment).commit();
         toolbar.setTitle(getString(fragment.getTitleId()));
-        if(fragment.getName() == "AddDevice")
+        if(fragment.getName().equals("AddDevice"))
         {
             parentFragment = null;
         } else
@@ -72,6 +85,13 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
             parentFragment = addDeviceFragment;
         }
     }
+
+    /**
+     * Called by a fragment when the user add a button
+     * @param name Device name
+     * @param ip Device IP
+     * @see AddDeviceFragment
+     */
     @Override
     public void onAddButtonClic(String name, String ip) {
         Intent intent = new Intent();
@@ -81,24 +101,34 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
         finish();
     }
 
+    /**
+     * Function called when clic on scan button to scan QR Code on computer
+     */
     @Override
     public void onScanButtonClic() {
         changeFragment(addDeviceQrCodeFragment);
     }
 
+    /**
+     * Called after scanning the QR Code
+     * @param name Device name
+     * @param ip Device IP
+     */
     @Override
     public void onQrCodeScanned(String name, String ip) {
         addDeviceFragment.setName(name);
         addDeviceFragment.setIp(ip);
         changeFragment(addDeviceFragment);
-
     }
 
+    /**
+     * Called when back button is called
+     */
     @Override
     public void onBackPressed() {
         if(parentFragment == null)
         {
-            super.onBackPressed();
+            finish();
         } else
         {
             changeFragment(parentFragment);
