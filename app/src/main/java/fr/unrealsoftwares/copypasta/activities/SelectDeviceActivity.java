@@ -47,11 +47,12 @@ public class SelectDeviceActivity extends AppCompatActivity {
      * Toolbar in the layout
      */
     private Toolbar toolbar;
+    
+    private Advert advertLocalButton;
 
-    /**
-     * Advert
-     */
-    private Advert advert;
+    private Advert advertAddButton;
+
+    private  Advert advertOnClickDeviceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,9 @@ public class SelectDeviceActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        advert = new Advert(this , getString(R.string.ad_local_button));
+        advertLocalButton = new Advert(this , getString(R.string.ad_local_button));
+        advertAddButton = new Advert(this, getString(R.string.ad_add_device));
+        advertOnClickDeviceButton = new Advert(this, getString(R.string.ad_select_device));
     }
 
     private void initToolbar()
@@ -102,7 +105,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
         devices_list.setOnItemLongClickListener(this.listOnItemLongClickListener());
         devices_list.setOnItemClickListener(this.listOnItemClickListener());
         addDeviceButton.setOnClickListener(this.addDeviceClick());
-        localButton.setOnClickListener(v -> advert.show(() -> {
+        localButton.setOnClickListener(v -> advertLocalButton.show(() -> {
             Intent intent = new Intent(getApplicationContext(), SelectModeActivity.class);
             intent.putExtra("isLocally", true);
             startActivityForResult(intent, 1);
@@ -113,7 +116,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
      * When clicking on a item of ListView
      */
     private AdapterView.OnItemClickListener listOnItemClickListener() {
-        return (parent, view, position, id) -> advert.show(() -> {
+        return (parent, view, position, id) -> advertOnClickDeviceButton.show(() -> {
             Device device = adapter.getItem(position);
             device.lastUse();
             databaseManager.updateDevice(device);
@@ -142,7 +145,7 @@ public class SelectDeviceActivity extends AppCompatActivity {
      * When clicking of the add device button
      */
     private View.OnClickListener addDeviceClick() {
-        return v -> advert.show(() -> {
+        return v -> advertAddButton.show(() -> {
             Intent add_device = new Intent(SelectDeviceActivity.this, AddDeviceActivity.class);
             startActivityForResult(add_device, 1);
         });
