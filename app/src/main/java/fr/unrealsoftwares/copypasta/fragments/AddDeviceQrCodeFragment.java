@@ -65,9 +65,14 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
         view = inflater.inflate(R.layout.fragment_add_device_qr_code, container, false);
 
         initResources();
-        init();
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     /**
@@ -101,7 +106,12 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
-                bindPreview(cameraProvider);
+                try {
+                    bindPreview(cameraProvider);
+                } catch (IllegalArgumentException e)
+                {
+                    e.printStackTrace();
+                }
             } catch (ExecutionException | InterruptedException e) {
                 // No errors need to be handled for this Future.
                 // This should never be reached.
@@ -225,4 +235,8 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
         }
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
 }

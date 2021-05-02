@@ -1,5 +1,6 @@
 package fr.unrealsoftwares.copypasta.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -28,6 +29,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
     private AddDeviceFragment addDeviceFragment;
     private AddDeviceQrCodeFragment addDeviceQrCodeFragment;
 
+    private String currentFragment;
 
     FragmentInterface parentFragment;
 
@@ -38,7 +40,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
 
         initResources();
         initToolbar();
-        init();
+        init(savedInstanceState);
     }
 
     /**
@@ -53,10 +55,15 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
     /**
      * Initialization
      */
-    private void init() {
+    private void init(Bundle savedInstanceState) {
         addDeviceFragment = new AddDeviceFragment();
         addDeviceQrCodeFragment = new AddDeviceQrCodeFragment();
-        changeFragment(addDeviceFragment);
+
+        if(savedInstanceState != null)
+        {
+            currentFragment = savedInstanceState.getString("currentFragment");
+        }
+        changeFragment(null);
     }
 
     /**
@@ -75,8 +82,24 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
      */
     private void changeFragment(FragmentInterface fragment)
     {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, (Fragment) fragment).commit();
+        if(fragment == null)
+        {
+            if(currentFragment == null)
+            {
+                fragment = addDeviceQrCodeFragment;
+            }
+            if(addDeviceFragment.getName().equals(currentFragment))
+            {
+                fragment = addDeviceFragment;
+            }
+            if(addDeviceQrCodeFragment.getName().equals(currentFragment))
+            {
+                fragment = addDeviceQrCodeFragment;
+            }
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, (Fragment) fragment, fragment.getName()).commit();
         toolbar.setTitle(getString(fragment.getTitleId()));
+        currentFragment = fragment.getName();
         if(fragment.getName().equals("AddDevice"))
         {
             parentFragment = null;
@@ -93,7 +116,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
      * @see AddDeviceFragment
      */
     @Override
-    public void onAddButtonClic(String name, String ip) {
+    public void onAddButtonClick(String name, String ip) {
         Intent intent = new Intent();
         intent.putExtra("name", name);
         intent.putExtra("ip", ip);
@@ -105,7 +128,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
      * Function called when clic on scan button to scan QR Code on computer
      */
     @Override
-    public void onScanButtonClic() {
+    public void onScanButtonClick() {
         changeFragment(addDeviceQrCodeFragment);
     }
 
@@ -133,5 +156,11 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
         {
             changeFragment(parentFragment);
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("currentFragment", currentFragment);
     }
 }

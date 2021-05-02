@@ -4,8 +4,10 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,14 +68,31 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null)
+        {
+            setName(savedInstanceState.getString("deviceName"));
+            setIp(savedInstanceState.getString("deviceIp"));
+        }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_device, container, false);
 
         initResources();
         initEvents();
-
         return view;
     }
+
 
     /**
      * Init the elements from the layout
@@ -89,7 +108,7 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
      * Init events
      */
     private void initEvents() {
-        scanButton.setOnClickListener(v -> mCallback.onScanButtonClic());
+        scanButton.setOnClickListener(v -> mCallback.onScanButtonClick());
 
         addButton.setOnClickListener(v -> {
             boolean fieldsAreCorrect = true;
@@ -107,7 +126,7 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
             }
             if(fieldsAreCorrect)
             {
-                mCallback.onAddButtonClic(nameInput.getText().toString(), ipInput.getText().toString());
+                mCallback.onAddButtonClick(nameInput.getText().toString(), ipInput.getText().toString());
             }
         });
     }
@@ -138,8 +157,8 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
     }
 
     public interface Callback {
-        void onAddButtonClic(String name, String ip);
-        void onScanButtonClic();
+        void onAddButtonClick(String name, String ip);
+        void onScanButtonClick();
     }
 
     @Override
@@ -174,5 +193,31 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
      */
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public String getDeviceName()
+    {
+        if(nameInput == null)
+        {
+            return "";
+        }
+        return nameInput.getText().toString();
+    }
+
+    public String getDeviceIp()
+    {
+        if(ipInput == null)
+        {
+            return "";
+        }
+        return ipInput.getText().toString();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+
+        super.onSaveInstanceState(outState);
+        outState.putString("deviceName", nameInput.getText().toString());
+        outState.putString("deviceIp", ipInput.getText().toString());
     }
 }
