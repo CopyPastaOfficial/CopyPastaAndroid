@@ -195,24 +195,6 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
         this.ip = ip;
     }
 
-    public String getDeviceName()
-    {
-        if(nameInput == null)
-        {
-            return "";
-        }
-        return nameInput.getText().toString();
-    }
-
-    public String getDeviceIp()
-    {
-        if(ipInput == null)
-        {
-            return "";
-        }
-        return ipInput.getText().toString();
-    }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
 
