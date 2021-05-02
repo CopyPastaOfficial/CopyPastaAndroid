@@ -6,7 +6,7 @@
     <string name="add_device_input_ip">Dirección IP</string>
     <string name="add_device_button">@string/add_device_title</string>
     <string name="add_device_scan_manual_button">Ingrese la información manualmente</string>
-    <string name="add_device_scan_text">Descargue el software CopyPasta en su computadora (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Abra el software y escanee el código QR que aparece en la pantalla.</string>
+    <string name="add_device_scan_text">Descargue el software CopyPasta en su computadora (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Abra el software y escanee el código QR que aparece en la pantalla. Asegúrese de que su teléfono esté conectado a la misma red WiFi que su computadora.</string>
     <string name="add_device_error_qr_code">El código QR no es válido</string>
     <string name="add_device_scan_qr_code">Escanear un código QR</string>
     <string name="main_select_device">Elija un dispositivo:</string>
@@ -36,7 +36,7 @@
     <string name="scan_qr_code_email_body">Contenido:</string>
     <string name="scan_qr_code_wireless_password">Contraseña :</string>
     <string name="scan_qr_code_wireless_encryption">Seguridad:</string>
-    <string name="select_mode_send_button">Enviar a la computadora</string>
+    <string name="select_mode_seind_button">Enviar a la computadora</string>
     <string name="scan_qr_code_sms_number">Número de teléfono :</string>
     <string name="scan_qr_code_sms_content">Contenido:</string>
     <string name="scan_qr_code_wireless_encryption_open">Alguna</string>

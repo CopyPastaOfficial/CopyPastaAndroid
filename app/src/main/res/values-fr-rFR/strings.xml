@@ -15,7 +15,7 @@
     <string name="image_button">Envoyer</string>
     <string name="main_divider">Ou</string>
     <string name="add_device_scan_manual_button">Entrer les informations manuellement</string>
-    <string name="add_device_scan_text">Téléchargez le logiciel CopyPasta sur votre ordinateur (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Ouvrez le logiciel et scanner le QR Code qui apparaît à l\'écran.</string>
+    <string name="add_device_scan_text">Téléchargez le logiciel CopyPasta sur votre ordinateur (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Ouvrez le logiciel et scannez le QR Code qui apparaît à l\'écran. Vérifiez bien que votre téléphone est connecté sur le même réseau WiFi que votre ordinateur.</string>
     <string name="add_device_error_qr_code">Le QR Code est invalide</string>
     <string name="add_device_scan_qr_code">Scanner un QR Code</string>
     <string name="main_local_button">Utiliser l\'application localement</string>

@@ -6,7 +6,7 @@
     <string name="add_device_input_ip">IP-Adresse</string>
     <string name="add_device_button">@string/add_device_title</string>
     <string name="add_device_scan_manual_button">Geben Sie die Informationen manuell ein</string>
-    <string name="add_device_scan_text">Laden Sie die CopyPasta-Software auf Ihren Computer herunter (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Öffnen Sie die Software und scannen Sie den QR-Code, der auf dem Bildschirm erscheint.</string>
+    <string name="add_device_scan_text">Laden Sie die CopyPasta-Software auf Ihren Computer herunter (<a href="https://copypastaofficial.github.io">https://copypastaofficial.github.io</a>). Öffnen Sie die Software und scannen Sie den QR-Code, der auf dem Bildschirm erscheint. Stellen Sie sicher, dass Ihr Telefon mit demselben WLAN-Netzwerk wie Ihr Computer verbunden ist.</string>
     <string name="select_mode_text_button">Einen Text scannen</string>
     <string name="add_device_scan_qr_code">Scannen Sieeinen QR-Code</string>
     <string name="select_mode_object_button">Scannen ines Objekts</string>
