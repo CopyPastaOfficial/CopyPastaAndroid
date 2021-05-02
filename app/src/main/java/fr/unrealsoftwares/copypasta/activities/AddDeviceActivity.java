@@ -33,6 +33,8 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
 
     FragmentInterface parentFragment;
 
+    private Integer count;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +65,9 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
         {
             currentFragment = savedInstanceState.getString("currentFragment");
         }
+        count = 0;
         changeFragment(null);
+
     }
 
     /**
@@ -82,6 +86,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
      */
     private void changeFragment(FragmentInterface fragment)
     {
+        count++;
         if(fragment == null)
         {
             if(currentFragment == null)
@@ -149,7 +154,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
      */
     @Override
     public void onBackPressed() {
-        if(parentFragment == null)
+        if(parentFragment == null || count <=1)
         {
             finish();
         } else

@@ -49,6 +49,7 @@ public class ImageActivity extends AppCompatActivity {
     private void init() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener((e) -> {onBackPressed();});
         switch (getIntent().getIntExtra("request", -1))
         {
             case ScanHelper.CODE_SCAN_BARCODE:
@@ -73,6 +74,11 @@ public class ImageActivity extends AppCompatActivity {
         });
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     @Override

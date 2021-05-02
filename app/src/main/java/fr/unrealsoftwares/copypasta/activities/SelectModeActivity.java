@@ -133,6 +133,12 @@ public class SelectModeActivity extends AppCompatActivity {
     {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener((e) -> {onBackPressed();});
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 
     /**
