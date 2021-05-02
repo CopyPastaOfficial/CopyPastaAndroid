@@ -105,7 +105,7 @@ public class SelectModeActivity extends AppCompatActivity {
      */
     private Boolean textAlreadyScanned;
 
-    /**
+    /**it
      * Activity toolbar
      */
     private Toolbar toolbar;
@@ -293,7 +293,6 @@ public class SelectModeActivity extends AppCompatActivity {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                StringBuilder b = new StringBuilder();
                 byte[] bytes = stream.toByteArray();
 
                 sendImage(bytes);
