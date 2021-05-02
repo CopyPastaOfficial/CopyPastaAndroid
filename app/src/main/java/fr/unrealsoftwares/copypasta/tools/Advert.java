@@ -135,19 +135,24 @@ public class Advert {
      */
     public void showAdvert()
     {
-        ad.setFullScreenContentCallback(new FullScreenContentCallback(){
-            @Override
-            public void onAdDismissedFullScreenContent() {
-                callback.onAdvertLoaded();
-            }
+        if(ad != null)
+        {
+            ad.setFullScreenContentCallback(new FullScreenContentCallback(){
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    callback.onAdvertLoaded();
+                }
 
-            @Override
-            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                callback.onAdvertLoaded();
-            }
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    callback.onAdvertLoaded();
+                }
 
-        });
-        ad.show(activity);
-        isWantLoad = false;
+            });
+            ad.show(activity);
+            isWantLoad = false;
+        } else {
+            callback.onAdvertLoaded();
+        }
     }
 }
