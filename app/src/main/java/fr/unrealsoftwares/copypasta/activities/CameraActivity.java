@@ -3,7 +3,6 @@ package fr.unrealsoftwares.copypasta.activities;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Size;
-import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -25,7 +23,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
@@ -41,16 +38,41 @@ import java.util.concurrent.ExecutionException;
 
 import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.tools.Advert;
+import fr.unrealsoftwares.copypasta.models.Scan;
 import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class CameraActivity extends AppCompatActivity {
 
+    /**
+     * Button to recognize image from gallery
+     */
     ImageButton imageButton;
+
+    /**
+     * Preview contains the display of camera
+     */
     PreviewView previewView;
+
+    /**
+     * Result of text recognition
+     */
     TextView textResult;
+
+    /**
+     * Button to valid the recognition text result
+     */
     ExtendedFloatingActionButton submitButton;
+
     ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
+
+    /**
+     * Toolbar of the activity
+     */
     Toolbar toolbar;
+
+    /**
+     * Advert
+     */
     Advert advert;
 
     @Override
@@ -72,37 +94,24 @@ public class CameraActivity extends AppCompatActivity {
     }
     private void initEvents() {
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                intent.putExtra("response", true);
-                intent.putExtra("content", textResult.getText());
-                setResult(1, intent);
-                finish();
-            }
+        submitButton.setOnClickListener(v -> {
+            Intent intent = getIntent();
+            intent.putExtra("response", true);
+            intent.putExtra("content", textResult.getText());
+            setResult(1, intent);
+            finish();
         });
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CameraActivity.this.getString(R.string.ask_permission_storage), 1))
-                {
-                    advert.show(new Advert.Callback() {
-                        @Override
-                        public void onAdvertLoaded() {
-                            openStorage();
-                        }
-                    });
-                }
+        imageButton.setOnClickListener(v -> {
+            if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, CameraActivity.this.getString(R.string.ask_permission_storage), 1))
+            {
+                advert.show(this::openStorage);
             }
         });
     }
     private void init() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener((e) -> {
-            onBackPressed();
-        });
+        toolbar.setNavigationOnClickListener((e) -> onBackPressed());
         switch (CameraActivity.this.getIntent().getIntExtra("request", -1))
         {
             case ScanHelper.CODE_SCAN_BARCODE:
@@ -160,41 +169,39 @@ public class CameraActivity extends AppCompatActivity {
                         .setTargetResolution(new Size(1280, 720))
                         .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                         .build();
-        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), new ImageAnalysis.Analyzer() {
-            @Override
-            public void analyze(@NonNull ImageProxy imageProxy) {
-                int rotationDegrees = imageProxy.getImageInfo().getRotationDegrees();
-                @SuppressLint("UnsafeExperimentalUsageError") Image mediaImage = imageProxy.getImage();
-                InputImage inputImage = InputImage.fromMediaImage(mediaImage, rotationDegrees);
+        imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
+            int rotationDegrees = imageProxy.getImageInfo().getRotationDegrees();
+            @SuppressLint("UnsafeExperimentalUsageError") Image mediaImage = imageProxy.getImage();
+            InputImage inputImage = InputImage.fromMediaImage(mediaImage, rotationDegrees);
 
-                ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
-                    @Override
-                    public void onSuccess(String text) {
-                        textResult.setText(text);
-                        submitButton.setEnabled(true);
-                        textResult.setTypeface(Typeface.DEFAULT);
-                        if(text== null || text.trim().equals(""))
-                        {
-                            textResult.setText(getString(R.string.camera_message));
-                            textResult.setTypeface(Typeface.DEFAULT_BOLD);
-                            submitButton.setEnabled(false);
-                        }
-                        if(getIntent().getIntExtra("request", -1) == CODE_SCAN_BARCODE)
-                        {
-                            Intent intent = getIntent();
-                            intent.putExtra("content", textResult.getText());
-                            setResult(1, intent);
-                            finish();
-                        }
+            ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
+                @Override
+                public void onSuccess(Scan scan) {
+                    String text = scan.get_raw();
+                    textResult.setText(text);
+                    submitButton.setEnabled(true);
+                    textResult.setTypeface(Typeface.DEFAULT);
+                    if(text== null || text.trim().equals(""))
+                    {
+                        textResult.setText(getString(R.string.camera_message));
+                        textResult.setTypeface(Typeface.DEFAULT_BOLD);
+                        submitButton.setEnabled(false);
                     }
-
-                    @Override
-                    public void onComplete(String text) {
-                        imageProxy.close();
+                    if(getIntent().getIntExtra("request", -1) == CODE_SCAN_BARCODE)
+                    {
+                        Intent intent = getIntent();
+                        intent.putExtra("content", textResult.getText());
+                        setResult(1, intent);
+                        finish();
                     }
-                };
+                }
 
-            }
+                @Override
+                public void onComplete(String text) {
+                    imageProxy.close();
+                }
+            };
+
         });
 
 
@@ -225,7 +232,7 @@ public class CameraActivity extends AppCompatActivity {
 
     public Boolean checkPermission(String permission, String contentMessage, int requestCode)
     {
-        Boolean isEnable = false;
+        boolean isEnable = false;
         if(ActivityCompat.checkSelfPermission(getApplicationContext(), permission) == PackageManager.PERMISSION_GRANTED)
         {
             isEnable = true;
@@ -239,14 +246,11 @@ public class CameraActivity extends AppCompatActivity {
                 alert.setTitle(CameraActivity.this.getString(R.string.ask_permission_title));
                 alert.setMessage(contentMessage);
                 alert.setNeutralButton(CameraActivity.this.getString(R.string.ask_permission_cancel), null);
-                alert.setPositiveButton(CameraActivity.this.getString(R.string.ask_permission_settings), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", CameraActivity.this.getPackageName(), null);
-                        intent.setData(uri);
-                        startActivityForResult(intent, requestCode);
-                    }
+                alert.setPositiveButton(CameraActivity.this.getString(R.string.ask_permission_settings), (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", CameraActivity.this.getPackageName(), null);
+                    intent.setData(uri);
+                    startActivityForResult(intent, requestCode);
                 });
                 alert.show();
             }

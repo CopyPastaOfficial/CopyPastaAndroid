@@ -32,7 +32,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
      * @param context Activity context
      */
     public DatabaseManager(@Nullable Context context) {
-        super(context, "CopyPasta.database", null, 1);
+        super(context, "CopyPasta.database", null, 2);
         this.context = context;
         getReadableDatabase();
     }
@@ -42,15 +42,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE devices (" +
+        String devices = "CREATE TABLE devices (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "name TEXT NOT NULL," +
                 "ip TEXT NOT NULL," +
                 "lastUse TEXT NOT NULL" +
                 ");";
-        db.execSQL(query);
+        db.execSQL(devices);
+        String scans = "CREATE TABLE scans (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                "type TEXT NOT NULL," +
+                "content TEXT NOT NULL," +
+                "scannedAt TEXT NOT NULL" +
+                ");";
+        db.execSQL(scans);
         this.db = db;
-
     }
 
     /**
@@ -92,7 +98,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
      * @param device Device to add
      */
     public void addDevice(Device device){
-        String query = "INSERT INTO devices (name, ip, lastUse) VALUES ('" +
+        String query = "INSERT INTO insertINTO (name, ip, lastUse) VALUES ('" +
                 device.getName() +
                 "','" +
                 device.getIp() +
@@ -111,4 +117,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String query = "UPDATE devices SET name='" + device.getName() + "', ip='" + device.getIp() + "', lastUse='" + device.getLastUse() + "' WHERE id=" + device.getId() + ";";
         getReadableDatabase().execSQL(query);
     }
+
+    public void add(String query)
+    {
+        getWritableDatabase().execSQL(query);
+    }
+
+    public void remove(String query) {
+        getWritableDatabase().execSQL(query);
+    }
+
 }

@@ -28,7 +28,7 @@ public class Meta {
 
     /**
      * @param context Activity context
-     * @return Return the advert proportion
+     * @return Returns the advert proportion
      */
     public static int getAdvertProportion(Context context)
     {

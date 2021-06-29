@@ -30,7 +30,6 @@ import android.util.Size;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.common.InputImage;
@@ -42,6 +41,7 @@ import java.util.concurrent.ExecutionException;
 
 import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.tools.FragmentInterface;
+import fr.unrealsoftwares.copypasta.models.Scan;
 import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterface {
@@ -147,9 +147,9 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
 
                 ScanHelper scan = new ScanHelper(getActivity(), inputImage, ScanHelper.CODE_SCAN_BARCODE, (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE)) {
                     @Override
-                    public void onSuccess(String text) {
+                    public void onSuccess(Scan scan) {
                         try {
-                            JSONObject json = new JSONObject(text);
+                            JSONObject json = new JSONObject(scan.get_raw());
                             mCallback.onQrCodeScanned(json.getString("name"), json.getString("ip"));
                         } catch (JSONException e) {
                             e.printStackTrace();

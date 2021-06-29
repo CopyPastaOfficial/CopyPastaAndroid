@@ -21,6 +21,7 @@ import com.google.mlkit.vision.common.InputImage;
 import java.io.IOException;
 
 import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.models.Scan;
 import fr.unrealsoftwares.copypasta.tools.ScanHelper;
 
 public class ImageActivity extends AppCompatActivity {
@@ -103,8 +104,8 @@ public class ImageActivity extends AppCompatActivity {
 
             ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                 @Override
-                public void onSuccess(String text) {
-                    textResult.setText(text);
+                public void onSuccess(Scan scan) {
+                    textResult.setText(scan.get_raw());
                     if (getIntent().getIntExtra("request", -1) == ScanHelper.CODE_SCAN_BARCODE)
                     {
                         Intent intent = getIntent().putExtra("content", textResult.getText());
