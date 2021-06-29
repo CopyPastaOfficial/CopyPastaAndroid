@@ -75,6 +75,12 @@ public class CameraActivity extends AppCompatActivity {
      */
     Advert advert;
 
+    /**
+     * Raw contains of the scan to transmit in SelectModeActivity
+     * @see Scan
+     */
+    String rawContent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +104,7 @@ public class CameraActivity extends AppCompatActivity {
             Intent intent = getIntent();
             intent.putExtra("response", true);
             intent.putExtra("content", textResult.getText());
+            intent.putExtra("rawContent", rawContent);
             setResult(1, intent);
             finish();
         });
@@ -177,7 +184,8 @@ public class CameraActivity extends AppCompatActivity {
             ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                 @Override
                 public void onSuccess(Scan scan) {
-                    String text = scan.get_raw();
+                    String text = scan.getPlainText();
+                    rawContent = scan.get_raw();
                     textResult.setText(text);
                     submitButton.setEnabled(true);
                     textResult.setTypeface(Typeface.DEFAULT);
@@ -191,6 +199,7 @@ public class CameraActivity extends AppCompatActivity {
                     {
                         Intent intent = getIntent();
                         intent.putExtra("content", textResult.getText());
+                        intent.putExtra("rawContent", rawContent);
                         setResult(1, intent);
                         finish();
                     }
@@ -218,6 +227,7 @@ public class CameraActivity extends AppCompatActivity {
         {
             Intent intent = getIntent();
             intent.putExtra("content", data.getStringExtra("content"));
+            intent.putExtra("rawContent", data.getStringExtra("rawContent"));
             setResult(1, intent);
             finish();
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 
 /**
@@ -49,5 +50,10 @@ public class EmailScan extends Scan {
         }
 
         return jsonObject.toString();
+    }
+
+    @Override
+    public String getPlainText() {
+        return super.context.getString(R.string.scan_qr_code_email_address) + " :\n" + this.email + "\n" + super.context.getString(R.string.scan_qr_code_email_subject) + " :\n" + this.subject + "\n" + super.context.getString(R.string.scan_qr_code_email_body) + " :\n" + this.content;
     }
 }

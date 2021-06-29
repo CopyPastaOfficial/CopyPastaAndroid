@@ -20,6 +20,11 @@ public class IsbnScan extends Scan {
         return this.isbn;
     }
 
+    @Override
+    public String getPlainText() {
+        return this.isbn;
+    }
+
     public String getIsbn() {
         return isbn;
     }

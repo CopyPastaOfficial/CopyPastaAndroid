@@ -26,6 +26,11 @@ public class TextScan extends Scan {
         return this.content;
     }
 
+    @Override
+    public String getPlainText() {
+        return this.content;
+    }
+
     public String getContent()
     {
         return this.content;

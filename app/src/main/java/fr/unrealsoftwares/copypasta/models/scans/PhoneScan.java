@@ -23,4 +23,9 @@ public class PhoneScan extends Scan {
     public String get_raw() {
         return this.phone;
     }
+
+    @Override
+    public String getPlainText() {
+        return this.phone;
+    }
 }

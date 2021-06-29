@@ -1,6 +1,7 @@
 package fr.unrealsoftwares.copypasta.models.scans;
 
 import android.content.Context;
+import android.icu.util.Calendar;
 
 import com.google.mlkit.vision.barcode.Barcode;
 
@@ -11,6 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 
 public class EventScan extends Scan {
@@ -64,6 +66,20 @@ public class EventScan extends Scan {
         }
 
         return jsonObject.toString();
+    }
+
+    @Override
+    public String getPlainText() {
+        String date = this.simpleDateFormat.format(this.startAt);
+        String result = "";
+
+        result += "\n" + context.getString(R.string.scan_qr_code_event_summary) + " " + this.summary;
+        result += "\n" + context.getString(R.string.scan_qr_code_event_description) + " " + this.description;
+        result += "\n" + context.getString(R.string.scan_qr_code_event_location) + " " + this.location;
+        result += "\n" + context.getString(R.string.scan_qr_code_event_start) + " " + date.substring(0, 4) + "-" + date.substring(5, 7) + "-" + date.substring(8, 10) + " to " + date.substring(11, 16) ;
+        date = this.simpleDateFormat.format(this.endAt);
+        result += "\n" + context.getString(R.string.scan_qr_code_event_end) + " " + date.substring(0, 4) + "-" + date.substring(5, 7) + "-" + date.substring(8, 10) + " to " + date.substring(11, 16) ;
+        return result;
     }
 
     public String getSummary() {

@@ -20,17 +20,22 @@ public abstract class Scan {
      */
     private int id;
 
-    Context context;
+    protected Context context;
 
     /**
      * @see DatabaseManager
      */
-    DatabaseManager databaseManager;
+    private DatabaseManager databaseManager;
 
     /**
      * @return Returns the raw data of the scan which will be stored in the database
      */
     public abstract String get_raw();
+
+    /**
+     * @return Returns the value to show in the application
+     */
+    public abstract String getPlainText();
 
     /**
      * @param context Context of activity or directly the activity

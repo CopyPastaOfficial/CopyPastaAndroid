@@ -105,10 +105,11 @@ public class ImageActivity extends AppCompatActivity {
             ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                 @Override
                 public void onSuccess(Scan scan) {
-                    textResult.setText(scan.get_raw());
+                    textResult.setText(scan.getPlainText());
                     if (getIntent().getIntExtra("request", -1) == ScanHelper.CODE_SCAN_BARCODE)
                     {
                         Intent intent = getIntent().putExtra("content", textResult.getText());
+                        intent.putExtra("rawContent", scan.get_raw());
                         setResult(1, intent);
 
                         //setIntent(intent);

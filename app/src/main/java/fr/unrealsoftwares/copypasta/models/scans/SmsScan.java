@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 
 public class SmsScan extends Scan {
@@ -31,6 +32,11 @@ public class SmsScan extends Scan {
         }
 
         return jsonObject.toString();
+    }
+
+    @Override
+    public String getPlainText() {
+        return  context.getString(R.string.scan_qr_code_sms_number)+ "\n" + this.number + "\n" + context.getString(R.string.scan_qr_code_sms_content) + "\n" + this.content;
     }
 
     public String getNumber() {

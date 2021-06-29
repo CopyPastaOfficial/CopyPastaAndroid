@@ -20,6 +20,11 @@ public class UrlScan extends Scan {
         return this.url;
     }
 
+    @Override
+    public String getPlainText() {
+        return this.url;
+    }
+
     public String getUrl() {
         return url;
     }

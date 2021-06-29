@@ -45,6 +45,11 @@ public class ContactScan extends Scan {
         return jsonObject.toString();
     }
 
+    @Override
+    public String getPlainText() {
+        return this.firstName + " " + this.lastName + "\n" + this.title + "\n" + this.organization;
+    }
+
     public String getOrganization() {
         return organization;
     }

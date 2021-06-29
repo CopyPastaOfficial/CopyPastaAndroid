@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 
 /**
@@ -48,6 +49,11 @@ public class WifiScan extends Scan {
         }
 
         return jsonObject.toString();
+    }
+
+    @Override
+    public String getPlainText() {
+        return context.getString(R.string.scan_qr_code_wireless_ssid) + "\n" + this.ssid + "\n" + context.getString(R.string.scan_qr_code_wireless_encryption) + "\n" + encryption;
     }
 
     public String getSsid() {

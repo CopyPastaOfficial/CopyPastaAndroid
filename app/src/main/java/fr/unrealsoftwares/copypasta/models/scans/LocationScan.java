@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 
 public class LocationScan extends Scan {
@@ -32,6 +33,11 @@ public class LocationScan extends Scan {
         }
 
         return jsonObject.toString();
+    }
+
+    @Override
+    public String getPlainText() {
+        return context.getString(R.string.scan_qr_code_location_lat) + " " + this.latitude + "\n" + context.getString(R.string.scan_qr_code_location_long) + " " + longitude;
     }
 
     public double getLatitude() {
