@@ -38,7 +38,7 @@ public class WifiScan extends Scan {
     }
 
     @Override
-    public String get_raw() {
+    public String getRaw() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("ssid", this.ssid);

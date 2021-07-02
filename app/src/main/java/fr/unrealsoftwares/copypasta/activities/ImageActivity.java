@@ -31,6 +31,12 @@ public class ImageActivity extends AppCompatActivity {
     ImageView imageView;
     Toolbar toolbar;
 
+    /**
+     * Contains the json to the scan to send at computer
+     * @see Scan
+     */
+    String json;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +73,7 @@ public class ImageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = getIntent().putExtra("content", textResult.getText());
+                intent.putExtra("json", json);
                 setResult(1, intent);
 
                 //setIntent(intent);
@@ -108,8 +115,9 @@ public class ImageActivity extends AppCompatActivity {
                     textResult.setText(scan.getPlainText());
                     if (getIntent().getIntExtra("request", -1) == ScanHelper.CODE_SCAN_BARCODE)
                     {
+                        json = scan.getJson();
                         Intent intent = getIntent().putExtra("content", textResult.getText());
-                        intent.putExtra("rawContent", scan.get_raw());
+                        intent.putExtra("json", scan.getJson());
                         setResult(1, intent);
 
                         //setIntent(intent);

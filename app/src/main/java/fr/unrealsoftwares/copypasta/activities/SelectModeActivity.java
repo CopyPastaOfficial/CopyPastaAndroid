@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.loader.content.CursorLoader;
 
 import android.Manifest;
 import android.content.ClipData;
@@ -14,11 +15,15 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -27,16 +32,27 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.models.scans.TextScan;
 import fr.unrealsoftwares.copypasta.tools.Advert;
+import fr.unrealsoftwares.copypasta.tools.FileUtil;
 import fr.unrealsoftwares.copypasta.tools.ScanHelper;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class SelectModeActivity extends AppCompatActivity {
 
@@ -61,9 +77,10 @@ public class SelectModeActivity extends AppCompatActivity {
     private Button scanQrCodeButton;
 
     /**
-     * Button to upload image in the layout
+     * Button to upload file in the layout
      */
-    private Button uploadImageButton;
+    private Button uploadFileButton;
+
 
     /**
      * Button to recognize text in the layout
@@ -115,6 +132,12 @@ public class SelectModeActivity extends AppCompatActivity {
      */
     private Advert advert;
 
+    /**
+     * Contains the json of the last scan to send at computer
+     * @see fr.unrealsoftwares.copypasta.models.Scan
+     */
+    private String jsonLastScan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,7 +170,7 @@ public class SelectModeActivity extends AppCompatActivity {
     private void initResources()
     {
         scanQrCodeButton = findViewById(R.id.scan_qr_code_button);
-        uploadImageButton = findViewById(R.id.upload_image_button);
+        uploadFileButton = findViewById(R.id.upload_files_button);
         scanTextButton = findViewById(R.id.scan_text_button);
         scanObjectButton = findViewById(R.id.scan_object_button);
         copyButton = findViewById(R.id.card_copy_button);
@@ -163,10 +186,10 @@ public class SelectModeActivity extends AppCompatActivity {
      */
     private void initEvents()
     {
-        uploadImageButton.setOnClickListener(v -> {
+        uploadFileButton.setOnClickListener(v -> {
             if(checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, SelectModeActivity.this.getString(R.string.ask_permission_storage), 1))
             {
-                advert.show(this::uploadImage);
+                advert.show(this::uploadFile);
             }
         });
 
@@ -181,8 +204,7 @@ public class SelectModeActivity extends AppCompatActivity {
             clipboard.setPrimaryClip(clip);
             Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_copy_success), Toast.LENGTH_LONG).show();
         });
-        sendButton.setOnClickListener(v -> sendMessage(
-                content.getText().toString()));
+        sendButton.setOnClickListener(v -> sendMessage(jsonLastScan));
 
         sendClipboard.setOnClickListener(v -> {
             try {
@@ -194,7 +216,9 @@ public class SelectModeActivity extends AppCompatActivity {
                 cardView.setVisibility(View.VISIBLE);
                 content.setText(clipboard);
                 textAlreadyScanned = true;
-                sendMessage(clipboard);
+                TextScan textScan = new TextScan(getApplicationContext(), clipboard);
+                jsonLastScan = textScan.getJson();
+                sendMessage(jsonLastScan);
             } catch (NullPointerException exception) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
                 alert.setTitle(getString(R.string.select_mode_error_clipboard_title));
@@ -225,7 +249,7 @@ public class SelectModeActivity extends AppCompatActivity {
 
         if(!isLocally)
         {
-            uploadImageButton.setVisibility(View.VISIBLE);
+            uploadFileButton.setVisibility(View.VISIBLE);
             sendButton.setVisibility(View.VISIBLE);
             sendClipboard.setVisibility(View.VISIBLE);
         }
@@ -264,12 +288,17 @@ public class SelectModeActivity extends AppCompatActivity {
     }
 
     /**
-     * Open the gallery to upload image
+     * Open the gallery to upload file
      */
-    private void uploadImage()
+    private void uploadFile()
     {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(galleryIntent, 4);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("*/*");
+        String[] mimes = {"image/*", "application/*", "audio/*", "text/*", "video/*", "font/*", "message/*", "multipart/*", "model/*"};
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimes);
+        startActivityForResult(intent, 4);
     }
 
     @Override
@@ -283,11 +312,10 @@ public class SelectModeActivity extends AppCompatActivity {
             assert data != null;
             content.setText(data.getStringExtra("content"));
             textAlreadyScanned = true;
+            jsonLastScan = data.getStringExtra("json");
             if(!getIntent().getBooleanExtra("isLocally", false))
             {
-                sendMessage(data.getStringExtra("content"));
-
-
+                sendMessage(data.getStringExtra("json"));
             }
 
         }
@@ -296,12 +324,23 @@ public class SelectModeActivity extends AppCompatActivity {
             Bitmap bitmap;
             try {
                 assert data != null;
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] bytes = stream.toByteArray();
+                List<Uri> files = new ArrayList<Uri>();
+                ClipData clipData = data.getClipData();
+                if (data.getClipData() != null)
+                {
+                    for(int i = 0; i < clipData.getItemCount(); i++)
+                    {
+                        ClipData.Item path = clipData.getItemAt(i);
+                        files.add(path.getUri());
 
-                sendImage(bytes);
+
+                    }
+                } else
+                {
+                    files.add(data.getData());
+                }
+
+                sendFile(files);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -311,87 +350,108 @@ public class SelectModeActivity extends AppCompatActivity {
 
     /**
      * Send message
-     * @param content Text to send
+     * @param json Text to send
      */
-    private void sendMessage(String content)
+    private void sendMessage(String json)
     {
-        Thread thread = new Thread(() -> {
+        progressBar.setVisibility(View.VISIBLE);
+        sendButton.setEnabled(false);
+        MediaType JSON = MediaType.get("application/json; charset=UTF-8");
 
-            try {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.VISIBLE);
-                    sendButton.setEnabled(false);
+        OkHttpClient client = new OkHttpClient();
 
-                });
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("title", "Test");
+            jsonObject.put("body", "Contenu");
+            jsonObject.put("userId", 1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-                Socket s = new Socket(ip, 8835);
+        RequestBody body = RequestBody.create(JSON, json);
+        Request request = new Request.Builder()
+                .url("http://" + ip + ":21987/upload")
+                //.url("https://jsonplaceholder.typicode.com/posts")
+                .post(body)
+                .build();
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        sendButton.setEnabled(true);
 
-                OutputStream out = s.getOutputStream();
+                        alertErrorConnection();
+                    });
+                }
 
-                PrintWriter output = new PrintWriter(out);
-                output.print(content);
-                output.flush();
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        sendButton.setEnabled(true);
 
-                output.close();
-                out.close();
-                s.close();
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    sendButton.setEnabled(true);
-
-                });
-            } catch (IOException e) {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    sendButton.setEnabled(true);
-
-                    alertErrorConnection();
-                });
-            } catch (Exception e) {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    sendButton.setEnabled(true);
-                });
-            }
-        });
-        thread.start();
+                        if (!response.isSuccessful())
+                        {
+                            alertErrorConnection();
+                        }
+                    });
+                }
+            });
     }
 
     /**
-     * Send image
-     * @param msgbytes Image to send
+     * Send file at computer
+     * @param files
      */
-    private void sendImage(final byte[] msgbytes) {
-        Thread thread = new Thread(() -> {
-            try {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.VISIBLE);
-                    sendButton.setEnabled(false);
-                });
-                Socket socket = new Socket(ip, 8836);
+    private void sendFile(final List<Uri> files) throws IOException {
+        progressBar.setVisibility(View.VISIBLE);
+        sendButton.setEnabled(false);
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("title", "Square Logo");
 
-                DataOutputStream dOut = new DataOutputStream(socket.getOutputStream());
-                dOut.write(msgbytes);
-                dOut.close();
-                socket.close();
+        for (Uri uri:files) {
+            String path;
+
+            File file = FileUtil.from(getApplicationContext(), uri);
+
+            builder.addFormDataPart("files", file.getName(),
+                    RequestBody.create(MediaType.parse(getContentResolver().getType(uri)), file));
+        }
+        RequestBody requestBody = builder.build();
+        Request request = new Request.Builder()
+                .url("http://" + ip + ":21987/upload")
+                .post(requestBody)
+                .build();
+
+        OkHttpClient client = new OkHttpClient();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
                     sendButton.setEnabled(true);
 
-                });
-
-            } catch (IOException e) {
-                runOnUiThread(() -> {
-                    progressBar.setVisibility(View.GONE);
-                    sendButton.setEnabled(true);
                     alertErrorConnection();
                 });
-            } catch(Exception e) {
                 e.printStackTrace();
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                runOnUiThread(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    sendButton.setEnabled(true);
+                });
+                Log.i("DEBUG", String.valueOf(response.code()));
+                Log.i("DEBUG", String.valueOf(response.isSuccessful()));
             }
         });
-        thread.start();
-
     }
 
     /**
@@ -452,7 +512,7 @@ public class SelectModeActivity extends AppCompatActivity {
 
                 if (permission.equals(Manifest.permission.READ_EXTERNAL_STORAGE)) {
                     if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                        uploadImage();
+                        uploadFile();
                     }
                 }
             }
@@ -463,5 +523,58 @@ public class SelectModeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         advert = new Advert(this, getString(R.string.ad_upload_image_button));
+    }
+    private String uriToFilename(Uri uri) {
+        String path = null;
+
+        if ((Build.VERSION.SDK_INT < 19) && (Build.VERSION.SDK_INT > 11)) {
+            path = getRealPathFromURI_API11to18(this, uri);
+        } else {
+            path = getFilePath(this, uri);
+        }
+
+        return path;
+    }
+
+    public static String getRealPathFromURI_API11to18(Context context, Uri contentUri) {
+        String[] proj = {MediaStore.Images.Media.DATA};
+        String result = null;
+        CursorLoader cursorLoader = new CursorLoader(
+                context,
+                contentUri, proj, null, null, null);
+        Cursor cursor = cursorLoader.loadInBackground();
+        if (cursor != null) {
+            int column_index =
+                    cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            result = cursor.getString(column_index);
+        }
+        return result;
+    }
+
+    public String getFilePath(Context context, Uri uri) {
+        String filePath = "";
+        if (DocumentsContract.isDocumentUri(context, uri)) {
+            String wholeID = DocumentsContract.getDocumentId(uri);
+            // Split at colon, use second item in the array
+            String[] splits = wholeID.split(":");
+            if (splits.length == 2) {
+                String id = splits[1];
+
+                String[] column = {MediaStore.Images.Media.DATA};
+                // where id is equal to
+                String sel = MediaStore.Images.Media._ID + "=?";
+                Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                        column, sel, new String[]{id}, null);
+                int columnIndex = cursor.getColumnIndex(column[0]);
+                if (cursor.moveToFirst()) {
+                    filePath = cursor.getString(columnIndex);
+                }
+                cursor.close();
+            }
+        } else {
+            filePath = uri.getPath();
+        }
+        return filePath;
     }
 }

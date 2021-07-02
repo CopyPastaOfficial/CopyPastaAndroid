@@ -1,7 +1,6 @@
 package fr.unrealsoftwares.copypasta.tools;
 
 import android.app.Activity;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -60,13 +59,11 @@ public class Advert {
         isWantLoad = false;
         advertLoad = false;
         Random random=new Random();
-        Log.i("DEBUG", "IN ADVERT");
         int number = random.nextInt(100);
         int proportion = Meta.getAdvertProportion(activity);
         if(Meta.getVersion(activity).trim().equals("lite") && number <= proportion)
         {
             advertLoad = true;
-            Log.i("DEBUG", "IN LITE");
             MobileAds.initialize(activity, initializationStatus -> {});
             AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -111,21 +108,17 @@ public class Advert {
      */
     public void show(Callback callback)
     {
-        Log.i("DEBUG", "IN SHOW");
         this.callback = callback;
         if(Meta.getVersion(activity).trim().equals("pro") || !advertLoad)
         {
-            Log.i("DEBUG", "IN SHOW PRO");
             callback.onAdvertLoaded();
             return;
         }
         if(isLoaded)
         {
-            Log.i("DEBUG", "IN SHOW LOAD");
             showAdvert();
         } else
         {
-            Log.i("DEBUG", "IN TRUC");
             isWantLoad = true;
         }
     }

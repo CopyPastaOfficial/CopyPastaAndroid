@@ -2,6 +2,9 @@ package fr.unrealsoftwares.copypasta.models;
 
 import android.content.Context;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,7 +33,7 @@ public abstract class Scan {
     /**
      * @return Returns the raw data of the scan which will be stored in the database
      */
-    public abstract String get_raw();
+    public abstract String getRaw();
 
     /**
      * @return Returns the value to show in the application
@@ -64,9 +67,28 @@ public abstract class Scan {
         databaseManager.add("INSERT INTO scans (type, content, scannedAt) VALUES('" +
                 this.NAME +
                 "','" +
-                this.get_raw() +
+                this.getRaw() +
                 "','" +
                 format.format(date) +
                 "');");
+    }
+
+    public String getJson()
+    {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("type", this.NAME);
+            try {
+                JSONObject jsonContent = new JSONObject(this.getRaw());
+                jsonObject.put("content", jsonContent);
+            } catch (JSONException err)
+            {
+                jsonObject.put("content", this.getRaw());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject.toString();
     }
 }

@@ -79,7 +79,7 @@ public class CameraActivity extends AppCompatActivity {
      * Raw contains of the scan to transmit in SelectModeActivity
      * @see Scan
      */
-    String rawContent;
+    String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +104,7 @@ public class CameraActivity extends AppCompatActivity {
             Intent intent = getIntent();
             intent.putExtra("response", true);
             intent.putExtra("content", textResult.getText());
-            intent.putExtra("rawContent", rawContent);
+            intent.putExtra("json", json);
             setResult(1, intent);
             finish();
         });
@@ -185,7 +185,7 @@ public class CameraActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Scan scan) {
                     String text = scan.getPlainText();
-                    rawContent = scan.get_raw();
+                    json = scan.getJson();
                     textResult.setText(text);
                     submitButton.setEnabled(true);
                     textResult.setTypeface(Typeface.DEFAULT);
@@ -199,7 +199,7 @@ public class CameraActivity extends AppCompatActivity {
                     {
                         Intent intent = getIntent();
                         intent.putExtra("content", textResult.getText());
-                        intent.putExtra("rawContent", rawContent);
+                        intent.putExtra("json", json);
                         setResult(1, intent);
                         finish();
                     }
@@ -227,7 +227,7 @@ public class CameraActivity extends AppCompatActivity {
         {
             Intent intent = getIntent();
             intent.putExtra("content", data.getStringExtra("content"));
-            intent.putExtra("rawContent", data.getStringExtra("rawContent"));
+            intent.putExtra("json", data.getStringExtra("json"));
             setResult(1, intent);
             finish();
         }

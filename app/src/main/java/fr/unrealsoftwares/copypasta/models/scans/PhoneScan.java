@@ -20,7 +20,7 @@ public class PhoneScan extends Scan {
     }
 
     @Override
-    public String get_raw() {
+    public String getRaw() {
         return this.phone;
     }
 

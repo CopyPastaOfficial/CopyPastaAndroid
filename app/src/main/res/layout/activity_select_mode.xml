@@ -82,7 +82,7 @@
 
                 <Button
                     android:layout_marginHorizontal="20dp"
-                    android:id="@+id/upload_image_button"
+                    android:id="@+id/upload_files_button"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
                     android:layout_gravity="start"
@@ -90,7 +90,7 @@
                     android:backgroundTint="?colorSecondary"
                     android:drawableLeft="@drawable/ic_image"
                     android:fontFamily="sans-serif-black"
-                    android:text="@string/select_mode_image_button"
+                    android:text="@string/select_mode_files_button"
                     android:visibility="gone"
                     android:textAlignment="textStart"
                     android:textSize="22sp"

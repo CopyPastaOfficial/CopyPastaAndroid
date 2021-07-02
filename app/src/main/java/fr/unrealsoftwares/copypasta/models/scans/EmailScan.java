@@ -39,10 +39,10 @@ public class EmailScan extends Scan {
     }
 
     @Override
-    public String get_raw() {
+    public String getRaw() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("email", this.email);
+            jsonObject.put("address", this.email);
             jsonObject.put("subject", this.subject);
             jsonObject.put("content", this.content);
         } catch (JSONException e) {

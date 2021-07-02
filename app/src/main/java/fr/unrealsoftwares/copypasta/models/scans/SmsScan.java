@@ -22,7 +22,7 @@ public class SmsScan extends Scan {
     }
 
     @Override
-    public String get_raw() {
+    public String getRaw() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("number", this.number);

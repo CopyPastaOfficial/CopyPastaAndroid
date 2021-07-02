@@ -14,7 +14,7 @@
     <string name="main_local_button">Use the app locally</string>
     <string name="select_mode_barcode_button">Qr code / Barcode</string>
     <string name="select_mode_text_button">Scan text</string>
-    <string name="select_mode_image_button">Send image</string>
+    <string name="select_mode_files_button">Send files</string>
 
     <string name="camera_message">Scan or choose a picture from gallery</string>
     <string name="ask_permission_camera">You must enable camera permission.</string>

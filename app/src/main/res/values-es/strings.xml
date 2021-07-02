@@ -14,7 +14,7 @@
     <string name="main_local_button">Use esta aplicación localmente</string>
     <string name="select_mode_barcode_button">Código QR / Código de barras</string>
     <string name="select_mode_text_button">Escanear un texto</string>
-    <string name="select_mode_image_button">Enviar una imagen</string>
+    <string name="select_mode_files_button">Enviar archivos</string>
     <string name="camera_message">Escanea o elige una imagen de la galería</string>
     <string name="ask_permission_camera">Necesitas habilitar el permiso de la cámara.</string>
     <string name="ask_permission_settings">Ajustes</string>

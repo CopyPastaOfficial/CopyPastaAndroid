@@ -149,7 +149,7 @@ public class AddDeviceQrCodeFragment extends Fragment implements FragmentInterfa
                     @Override
                     public void onSuccess(Scan scan) {
                         try {
-                            JSONObject json = new JSONObject(scan.get_raw());
+                            JSONObject json = new JSONObject(scan.getRaw());
                             mCallback.onQrCodeScanned(json.getString("name"), json.getString("ip"));
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -98,7 +98,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
      * @param device Device to add
      */
     public void addDevice(Device device){
-        String query = "INSERT INTO insertINTO (name, ip, lastUse) VALUES ('" +
+        String query = "INSERT INTO devices (name, ip, lastUse) VALUES ('" +
                 device.getName() +
                 "','" +
                 device.getIp() +

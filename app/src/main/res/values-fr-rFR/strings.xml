@@ -9,7 +9,7 @@
     <string name="main_add_button_device">@string/add_device_title</string>
     <string name="select_mode_barcode_button">Qr code / Code barre</string>
     <string name="select_mode_text_button">Scannez un texte</string>
-    <string name="select_mode_image_button">Envoyer une image</string>
+    <string name="select_mode_files_button">Envoyer des fichiers</string>
     <string name="camera_message">Scannez ou choisissez une image depuis la gallerie</string>
     <string name="image_message">Chargement...</string>
     <string name="image_button">Envoyer</string>

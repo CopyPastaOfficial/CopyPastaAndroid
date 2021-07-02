@@ -22,7 +22,7 @@ public class TextScan extends Scan {
     }
 
     @Override
-    public String get_raw() {
+    public String getRaw() {
         return this.content;
     }
 
