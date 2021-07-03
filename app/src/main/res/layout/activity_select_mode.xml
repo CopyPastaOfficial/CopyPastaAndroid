@@ -88,7 +88,7 @@
                     android:layout_gravity="start"
                     android:layout_marginVertical="10dp"
                     android:backgroundTint="?colorSecondary"
-                    android:drawableLeft="@drawable/ic_image"
+                    android:drawableLeft="@drawable/ic_upload_files"
                     android:fontFamily="sans-serif-black"
                     android:text="@string/select_mode_files_button"
                     android:visibility="gone"
