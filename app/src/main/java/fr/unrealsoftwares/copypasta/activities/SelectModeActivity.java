@@ -7,9 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.loader.content.CursorLoader;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -41,6 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.activities.CameraActivity;
 import fr.unrealsoftwares.copypasta.models.scans.TextScan;
 import fr.unrealsoftwares.copypasta.tools.Advert;
 import fr.unrealsoftwares.copypasta.tools.FileUtil;
@@ -397,9 +401,11 @@ public class SelectModeActivity extends AppCompatActivity {
                         {
                             alertErrorConnection();
                         }
+
                     });
                 }
             });
+
     }
 
     /**
@@ -407,11 +413,28 @@ public class SelectModeActivity extends AppCompatActivity {
      * @param files
      */
     private void sendFile(final List<Uri> files) throws IOException {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "uploadFiles")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(getString(R.string.select_mode_upload_files_notification_title))
+                .setProgress(0, 0, true)
+                .setOngoing(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        NotificationManager  notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String name = getString(R.string.select_mode_upload_files_notification_channel_title);
+            String description = getString(R.string.select_mode_upload_files_notification_channel_description);
+            NotificationChannel channel = new NotificationChannel("uploadFiles", name, NotificationManager.IMPORTANCE_MIN);
+            channel.setDescription(description);
+            notificationManager.createNotificationChannel(channel);
+        }
+        notificationManager.notify(1, notificationBuilder.build());
+
         progressBar.setVisibility(View.VISIBLE);
         sendButton.setEnabled(false);
         MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("title", "Square Logo");
+                .setType(MultipartBody.FORM);
+                //.addFormDataPart("title", "Square Logo");
 
         for (Uri uri:files) {
             String path;
@@ -435,8 +458,9 @@ public class SelectModeActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
                     sendButton.setEnabled(true);
-
+                    notificationManager.cancelAll();
                     alertErrorConnection();
+
                 });
                 e.printStackTrace();
 
@@ -447,6 +471,7 @@ public class SelectModeActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     progressBar.setVisibility(View.GONE);
                     sendButton.setEnabled(true);
+                    notificationManager.cancelAll();
                 });
                 Log.i("DEBUG", String.valueOf(response.code()));
                 Log.i("DEBUG", String.valueOf(response.isSuccessful()));

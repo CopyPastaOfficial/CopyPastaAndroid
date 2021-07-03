@@ -54,5 +54,8 @@
     <string name="ask_permission_title">Permissions</string>
     <string name="add_device_error">Ce champs ne peut pas être vide</string>
     <string name="ask_permission_storage">Vous devez activer la permission du stockage.</string>
+    <string name="select_mode_upload_files_notification_title">Envoie des fichiers en cours</string>
+    <string name="select_mode_upload_files_notification_channel_title">Progression des téchargements de fichiers</string>
+    <string name="select_mode_upload_files_notification_channel_description">Notification affichée lorsque des fichiers sont en cours de téléversement vers l\'ordinateur</string>
 
 </resources>

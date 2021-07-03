@@ -56,6 +56,9 @@
     <string name="ask_permission_title">Permissions</string>
     <string name="add_device_error">This field cannot be empty</string>
     <string name="ask_permission_storage">You must enable the storage permission.</string>
+    <string name="select_mode_upload_files_notification_title">Send files in progress</string>
+    <string name="select_mode_upload_files_notification_channel_title">Progress of file uploads</string>
+    <string name="select_mode_upload_files_notification_channel_description">Notification displayed when files are being uploaded to computer</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
