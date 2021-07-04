@@ -56,4 +56,7 @@
     <string name="select_mode_upload_files_notification_title">Enviar archivos en curso</string>
     <string name="select_mode_upload_files_notification_channel_title">Progreso de la carga de archivos</string>
     <string name="select_mode_upload_files_notification_channel_description">Se muestra una notificación cuando se cargan archivos en la computadora</string>
+    <string name="scan_qr_code_contact_name">Apellido :</string>
+    <string name="scan_qr_code_contact_title">Profesión :</string>
+    <string name="scan_qr_code_contact_organization">Sociedad :</string>
 </resources>

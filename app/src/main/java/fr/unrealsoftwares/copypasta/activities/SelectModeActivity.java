@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.loader.content.CursorLoader;
 
 import android.Manifest;
@@ -26,6 +27,7 @@ import android.os.Bundle;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,7 +46,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.unrealsoftwares.copypasta.R;
-import fr.unrealsoftwares.copypasta.activities.CameraActivity;
 import fr.unrealsoftwares.copypasta.models.scans.TextScan;
 import fr.unrealsoftwares.copypasta.tools.Advert;
 import fr.unrealsoftwares.copypasta.tools.FileUtil;
@@ -266,7 +267,7 @@ public class SelectModeActivity extends AppCompatActivity {
                 TextView content = findViewById(R.id.card_content);
                 cardView.setVisibility(View.VISIBLE);
                 textAlreadyScanned = true;
-                content.setText(savedInstanceState.getString("content"));
+                content.setText(HtmlCompat.fromHtml(savedInstanceState.getString("content"), HtmlCompat.FROM_HTML_MODE_COMPACT));
             }
         }
     }
@@ -314,7 +315,7 @@ public class SelectModeActivity extends AppCompatActivity {
             TextView content = findViewById(R.id.card_content);
             cardView.setVisibility(View.VISIBLE);
             assert data != null;
-            content.setText(data.getStringExtra("content"));
+            content.setText(HtmlCompat.fromHtml(data.getStringExtra("content"), HtmlCompat.FROM_HTML_MODE_COMPACT));
             textAlreadyScanned = true;
             jsonLastScan = data.getStringExtra("json");
             if(!getIntent().getBooleanExtra("isLocally", false))

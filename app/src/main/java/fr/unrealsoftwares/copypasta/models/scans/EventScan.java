@@ -1,7 +1,6 @@
 package fr.unrealsoftwares.copypasta.models.scans;
 
 import android.content.Context;
-import android.icu.util.Calendar;
 
 import com.google.mlkit.vision.barcode.Barcode;
 

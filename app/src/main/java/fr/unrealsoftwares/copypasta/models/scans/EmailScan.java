@@ -54,6 +54,6 @@ public class EmailScan extends Scan {
 
     @Override
     public String getPlainText() {
-        return super.context.getString(R.string.scan_qr_code_email_address) + " :\n" + this.email + "\n" + super.context.getString(R.string.scan_qr_code_email_subject) + " :\n" + this.subject + "\n" + super.context.getString(R.string.scan_qr_code_email_body) + " :\n" + this.content;
+        return "<b>" + super.context.getString(R.string.scan_qr_code_email_address) + " </b><br/>" + this.email + "<br/><b>" + super.context.getString(R.string.scan_qr_code_email_subject) + "</b><br/>" + this.subject + "<br/><b>" + super.context.getString(R.string.scan_qr_code_email_body) + "</b><br/>" + this.content;
     }
 }

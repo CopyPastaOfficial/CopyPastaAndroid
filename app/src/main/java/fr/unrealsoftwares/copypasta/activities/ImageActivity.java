@@ -76,7 +76,7 @@ public class ImageActivity extends AppCompatActivity {
                 intent.putExtra("json", json);
                 setResult(1, intent);
 
-                //setIntent(intent);
+                setIntent(intent);
                 finish();
             }
         });
@@ -113,14 +113,14 @@ public class ImageActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Scan scan) {
                     textResult.setText(scan.getPlainText());
+                    json = scan.getJson();
                     if (getIntent().getIntExtra("request", -1) == ScanHelper.CODE_SCAN_BARCODE)
                     {
-                        json = scan.getJson();
                         Intent intent = getIntent().putExtra("content", textResult.getText());
                         intent.putExtra("json", scan.getJson());
                         setResult(1, intent);
 
-                        //setIntent(intent);
+                        setIntent(intent);
                         finish();
                     }
                 }

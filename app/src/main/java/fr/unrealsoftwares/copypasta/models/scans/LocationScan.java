@@ -37,7 +37,7 @@ public class LocationScan extends Scan {
 
     @Override
     public String getPlainText() {
-        return context.getString(R.string.scan_qr_code_location_lat) + " " + this.latitude + "\n" + context.getString(R.string.scan_qr_code_location_long) + " " + longitude;
+        return "<b>" + context.getString(R.string.scan_qr_code_location_lat) + "</b><br/>" + this.latitude + "<br/><b>" + context.getString(R.string.scan_qr_code_location_long) + "</b><br/>" + longitude;
     }
 
     public double getLatitude() {

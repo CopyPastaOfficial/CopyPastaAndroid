@@ -5,6 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 
 public class ContactScan extends Scan {
@@ -47,7 +48,7 @@ public class ContactScan extends Scan {
 
     @Override
     public String getPlainText() {
-        return this.firstName + " " + this.lastName + "\n" + this.title + "\n" + this.organization;
+        return "<b>" + context.getString(R.string.scan_qr_code_contact_name) + "</b><br/>" + this.firstName + " " + this.lastName + "<br/><b>" + context.getString(R.string.scan_qr_code_contact_title) + "</b><br/>" + this.title + "<br/><b>" + context.getString(R.string.scan_qr_code_contact_organization) + "</b><br/>" + this.organization;
     }
 
     public String getOrganization() {

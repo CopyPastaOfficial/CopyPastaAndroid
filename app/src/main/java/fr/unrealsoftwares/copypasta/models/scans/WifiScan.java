@@ -2,6 +2,8 @@ package fr.unrealsoftwares.copypasta.models.scans;
 
 import android.content.Context;
 
+import androidx.core.text.HtmlCompat;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,7 +55,7 @@ public class WifiScan extends Scan {
 
     @Override
     public String getPlainText() {
-        return context.getString(R.string.scan_qr_code_wireless_ssid) + "\n" + this.ssid + "\n" + context.getString(R.string.scan_qr_code_wireless_encryption) + "\n" + encryption;
+        return "<b>" + context.getString(R.string.scan_qr_code_wireless_ssid) + "</b><br/>" + this.ssid + "<br/><b>" + context.getString(R.string.scan_qr_code_wireless_encryption) + "</b><br/>" + encryption + "<br/><b>" + context.getString(R.string.scan_qr_code_wireless_password) + "</b><br/>" + key;
     }
 
     public String getSsid() {

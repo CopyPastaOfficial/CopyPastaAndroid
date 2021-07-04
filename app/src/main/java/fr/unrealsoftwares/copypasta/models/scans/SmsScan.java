@@ -36,7 +36,7 @@ public class SmsScan extends Scan {
 
     @Override
     public String getPlainText() {
-        return  context.getString(R.string.scan_qr_code_sms_number)+ "\n" + this.number + "\n" + context.getString(R.string.scan_qr_code_sms_content) + "\n" + this.content;
+        return "<b>" + context.getString(R.string.scan_qr_code_sms_number)+ "</b><br/>" + this.number + "<br/><b>" + context.getString(R.string.scan_qr_code_sms_content) + "</b><br/>" + this.content;
     }
 
     public String getNumber() {

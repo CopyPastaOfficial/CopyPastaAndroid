@@ -59,6 +59,9 @@
     <string name="select_mode_upload_files_notification_title">Send files in progress</string>
     <string name="select_mode_upload_files_notification_channel_title">Progress of file uploads</string>
     <string name="select_mode_upload_files_notification_channel_description">Notification displayed when files are being uploaded to computer</string>
+    <string name="scan_qr_code_contact_name">Name :</string>
+    <string name="scan_qr_code_contact_title">Profession :</string>
+    <string name="scan_qr_code_contact_organization">Society :</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

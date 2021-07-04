@@ -56,4 +56,7 @@
     <string name="select_mode_upload_files_notification_title">Dateien in Bearbeitung</string>
     <string name="select_mode_upload_files_notification_channel_title">Fortschritt der Datei-Uploads</string>
     <string name="select_mode_upload_files_notification_channel_description">Benachrichtigung, die angezeigt wird, wenn Dateien auf den Computer hochgeladen werden</string>
+    <string name="scan_qr_code_contact_name">Name :</string>
+    <string name="scan_qr_code_contact_title">Beruf :</string>
+    <string name="scan_qr_code_contact_organization">"Gesellschaft : "</string>
 </resources>
