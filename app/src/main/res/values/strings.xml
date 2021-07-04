@@ -62,6 +62,8 @@
     <string name="scan_qr_code_contact_name">Name :</string>
     <string name="scan_qr_code_contact_title">Profession :</string>
     <string name="scan_qr_code_contact_organization">Society :</string>
+    <string name="select_mode_upload_scan_successful">The scan has been sent!</string>
+    <string name="select_mode_upload_files_successful">The files have been sent!</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

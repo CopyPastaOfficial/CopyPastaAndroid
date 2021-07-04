@@ -398,11 +398,12 @@ public class SelectModeActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         sendButton.setEnabled(true);
 
-                        if (!response.isSuccessful())
-                        {
+                        if (!response.isSuccessful()) {
                             alertErrorConnection();
+                        } else
+                        {
+                            Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_upload_scan_successful), Toast.LENGTH_SHORT).show();
                         }
-
                     });
                 }
             });
@@ -473,6 +474,14 @@ public class SelectModeActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     sendButton.setEnabled(true);
                     notificationManager.cancelAll();
+
+                    if (response.isSuccessful())
+                    {
+                        Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_upload_files_successful), Toast.LENGTH_SHORT).show();
+                    } else
+                    {
+                        alertErrorConnection();
+                    }
                 });
                 Log.i("DEBUG", String.valueOf(response.code()));
                 Log.i("DEBUG", String.valueOf(response.isSuccessful()));

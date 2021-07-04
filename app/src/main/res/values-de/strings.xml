@@ -59,4 +59,6 @@
     <string name="scan_qr_code_contact_name">Name :</string>
     <string name="scan_qr_code_contact_title">Beruf :</string>
     <string name="scan_qr_code_contact_organization">"Gesellschaft : "</string>
+    <string name="select_mode_upload_scan_successful">Der Scan wurde gesendet!</string>
+    <string name="select_mode_upload_files_successful">Die Dateien wurden gesendet!</string>
 </resources>
