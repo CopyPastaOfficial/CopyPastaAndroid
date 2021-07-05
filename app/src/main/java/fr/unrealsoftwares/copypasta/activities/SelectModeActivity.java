@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -377,7 +378,6 @@ public class SelectModeActivity extends AppCompatActivity {
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url("http://" + ip + ":21987/upload")
-                //.url("https://jsonplaceholder.typicode.com/posts")
                 .post(body)
                 .build();
             Call call = client.newCall(request);
@@ -402,7 +402,7 @@ public class SelectModeActivity extends AppCompatActivity {
                             alertErrorConnection();
                         } else
                         {
-                            Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_upload_scan_successful), Toast.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(R.id.layout), getString(R.string.select_mode_upload_scan_successful), Snackbar.LENGTH_LONG).show();
                         }
                     });
                 }
@@ -477,14 +477,12 @@ public class SelectModeActivity extends AppCompatActivity {
 
                     if (response.isSuccessful())
                     {
-                        Toast.makeText(SelectModeActivity.this, getString(R.string.select_mode_upload_files_successful), Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(R.id.layout), getString(R.string.select_mode_upload_files_successful), Snackbar.LENGTH_LONG).show();
                     } else
                     {
                         alertErrorConnection();
                     }
                 });
-                Log.i("DEBUG", String.valueOf(response.code()));
-                Log.i("DEBUG", String.valueOf(response.isSuccessful()));
             }
         });
     }
