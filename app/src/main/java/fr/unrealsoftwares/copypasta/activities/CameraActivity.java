@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Size;
@@ -28,7 +29,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -82,6 +82,8 @@ public class CameraActivity extends AppCompatActivity {
      */
     String json;
 
+    Scan scan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,8 +106,7 @@ public class CameraActivity extends AppCompatActivity {
         submitButton.setOnClickListener(v -> {
             Intent intent = getIntent();
             intent.putExtra("response", true);
-            intent.putExtra("content", textResult.getText());
-            intent.putExtra("json", json);
+            intent.putExtra("scan", scan);
             setResult(1, intent);
             finish();
         });
@@ -185,6 +186,7 @@ public class CameraActivity extends AppCompatActivity {
             ScanHelper scan = new ScanHelper(getApplicationContext(), inputImage, CameraActivity.this.getIntent().getIntExtra("request", -1), (Vibrator) getSystemService(Context.VIBRATOR_SERVICE)) {
                 @Override
                 public void onSuccess(Scan scan) {
+                    CameraActivity.this.scan = scan;
                     String text = scan.getPlainText();
                     json = scan.getJson();
                     textResult.setText(text);
@@ -199,8 +201,7 @@ public class CameraActivity extends AppCompatActivity {
                     if(getIntent().getIntExtra("request", -1) == CODE_SCAN_BARCODE)
                     {
                         Intent intent = getIntent();
-                        intent.putExtra("content", textResult.getText());
-                        intent.putExtra("json", json);
+                        intent.putExtra("scan", (Parcelable) scan);
                         setResult(1, intent);
                         finish();
                     }
@@ -227,8 +228,7 @@ public class CameraActivity extends AppCompatActivity {
         if(resultCode == 1)
         {
             Intent intent = getIntent();
-            intent.putExtra("content", data.getStringExtra("content"));
-            intent.putExtra("json", data.getStringExtra("json"));
+            intent.putExtra("scan", (Scan) data.getParcelableExtra("scan"));
             setResult(1, intent);
             finish();
         }

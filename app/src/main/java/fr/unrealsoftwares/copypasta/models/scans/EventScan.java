@@ -1,6 +1,8 @@
 package fr.unrealsoftwares.copypasta.models.scans;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Parcel;
 
 import com.google.mlkit.vision.barcode.Barcode;
 
@@ -16,18 +18,14 @@ import fr.unrealsoftwares.copypasta.models.Scan;
 
 public class EventScan extends Scan {
 
-    private final String summary;
-    private final String description;
-    private final String organizer;
-    private final String location;
+    private String summary;
+    private String description;
+    private String organizer;
+    private String location;
     private Date startAt;
     private Date endAt;
 
     private SimpleDateFormat simpleDateFormat;
-
-    public SimpleDateFormat getSimpleDateFormat() {
-        return simpleDateFormat;
-    }
 
     /**
      * @param context Context of activity or directly the activity
@@ -48,6 +46,15 @@ public class EventScan extends Scan {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public EventScan(Parcel in) {
+        super();
+        super.NAME = "event";
+    }
+
+    public SimpleDateFormat getSimpleDateFormat() {
+        return simpleDateFormat;
     }
 
     @Override
@@ -81,6 +88,21 @@ public class EventScan extends Scan {
         return result;
     }
 
+    @Override
+    public Drawable getComplementaryButtonDrawable() {
+        return null;
+    }
+
+    @Override
+    public String getComplementaryButtonText() {
+        return null;
+    }
+
+    @Override
+    public void complementaryButtonAction() {
+
+    }
+
     public String getSummary() {
         return summary;
     }
@@ -105,4 +127,38 @@ public class EventScan extends Scan {
     {
         return dateTime.getYear() + "-" + dateTime.getMonth() + "-" + dateTime.getDay() + " " + dateTime.getHours() + ":" + dateTime.getMinutes();
     }
+
+    public void setStartAt(Date startAt) {
+        this.startAt = startAt;
+    }
+
+    public void setEndAt(Date endAt) {
+        this.endAt = endAt;
+    }
+
+    public void setSimpleDateFormat(SimpleDateFormat simpleDateFormat) {
+        this.simpleDateFormat = simpleDateFormat;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+    }
+
+    public static final Creator<EventScan> CREATOR = new Creator<EventScan>() {
+        @Override
+        public EventScan createFromParcel(Parcel in) {
+            return new EventScan(in);
+        }
+
+        @Override
+        public EventScan[] newArray(int size) {
+            return new EventScan[size];
+        }
+    };
 }

@@ -1,6 +1,8 @@
 package fr.unrealsoftwares.copypasta.models;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Parcelable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +13,7 @@ import java.util.Date;
 
 import fr.unrealsoftwares.copypasta.tools.DatabaseManager;
 
-public abstract class Scan {
+public abstract class Scan implements Parcelable {
 
     /**
      * Contains the type's name of the scan
@@ -41,12 +43,37 @@ public abstract class Scan {
     public abstract String getPlainText();
 
     /**
+     * @return Returns the icon of the complementary button
+     * @see fr.unrealsoftwares.copypasta.activities.SelectModeActivity
+     */
+    public abstract Drawable getComplementaryButtonDrawable();
+
+    /**
+     * @return Returns text of the complementary button
+     * @see fr.unrealsoftwares.copypasta.activities.SelectModeActivity
+     */
+    public abstract String getComplementaryButtonText();
+
+    /**
+     * Called when click on the complementary button
+     * @see fr.unrealsoftwares.copypasta.activities.SelectModeActivity
+     */
+    public abstract void complementaryButtonAction();
+
+    /**
      * @param context Context of activity or directly the activity
      */
     public Scan(Context context) {
         this.context = context;
         databaseManager = new DatabaseManager(context);
     }
+
+    /**
+     * Do not delete this constructor
+     * This construtor is used by the childs of this class
+     */
+    protected Scan()
+    {}
 
     /**
      * Remove the scan in the database
@@ -90,5 +117,21 @@ public abstract class Scan {
         }
 
         return jsonObject.toString();
+    }
+
+    public String getNAME() {
+        return NAME;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public DatabaseManager getDatabaseManager() {
+        return databaseManager;
+    }
+
+    public void setDatabaseManager(DatabaseManager databaseManager) {
+        this.databaseManager = databaseManager;
     }
 }

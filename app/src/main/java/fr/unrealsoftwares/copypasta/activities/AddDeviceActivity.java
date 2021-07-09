@@ -27,6 +27,7 @@ public class AddDeviceActivity extends AppCompatActivity implements AddDeviceFra
     private FrameLayout frameLayout;
 
     private AddDeviceFragment addDeviceFragment;
+
     private AddDeviceQrCodeFragment addDeviceQrCodeFragment;
 
     private String currentFragment;

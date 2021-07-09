@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -31,11 +32,7 @@ public class ImageActivity extends AppCompatActivity {
     ImageView imageView;
     Toolbar toolbar;
 
-    /**
-     * Contains the json to the scan to send at computer
-     * @see Scan
-     */
-    String json;
+    Scan scan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +69,8 @@ public class ImageActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent().putExtra("content", textResult.getText());
-                intent.putExtra("json", json);
+                Intent intent = getIntent();
+                intent.putExtra("scan", scan);
                 setResult(1, intent);
 
                 setIntent(intent);
@@ -113,11 +110,11 @@ public class ImageActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Scan scan) {
                     textResult.setText(scan.getPlainText());
-                    json = scan.getJson();
+                    ImageActivity.this.scan = scan;
                     if (getIntent().getIntExtra("request", -1) == ScanHelper.CODE_SCAN_BARCODE)
                     {
-                        Intent intent = getIntent().putExtra("content", textResult.getText());
-                        intent.putExtra("json", scan.getJson());
+                        Intent intent = getIntent();
+                        intent.putExtra("scan", scan);
                         setResult(1, intent);
 
                         setIntent(intent);

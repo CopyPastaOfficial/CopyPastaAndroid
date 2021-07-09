@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.loader.content.CursorLoader;
 
@@ -47,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.unrealsoftwares.copypasta.R;
+import fr.unrealsoftwares.copypasta.models.Scan;
 import fr.unrealsoftwares.copypasta.models.scans.TextScan;
 import fr.unrealsoftwares.copypasta.tools.Advert;
 import fr.unrealsoftwares.copypasta.tools.FileUtil;
@@ -87,7 +89,6 @@ public class SelectModeActivity extends AppCompatActivity {
      */
     private Button uploadFileButton;
 
-
     /**
      * Button to recognize text in the layout
      */
@@ -107,6 +108,8 @@ public class SelectModeActivity extends AppCompatActivity {
      * Button in the CardView to copy button
      */
     private MaterialButton copyButton;
+
+    private MaterialButton complementaryButton;
 
     /**
      * TextView in the CardView contains the last scanned text
@@ -185,6 +188,7 @@ public class SelectModeActivity extends AppCompatActivity {
         sendButton = findViewById(R.id.card_send_button);
         progressBar = findViewById(R.id.progress_bar);
         sendClipboard = findViewById(R.id.send_clipboard_button);
+        complementaryButton = findViewById(R.id.card_complementary_button);
     }
 
     /**
@@ -225,6 +229,21 @@ public class SelectModeActivity extends AppCompatActivity {
                 TextScan textScan = new TextScan(getApplicationContext(), clipboard);
                 jsonLastScan = textScan.getJson();
                 sendMessage(jsonLastScan);
+
+                if (textScan.getComplementaryButtonText() != null)
+                {
+                    complementaryButton.setIcon(textScan.getComplementaryButtonDrawable());
+                    complementaryButton.setText(textScan.getComplementaryButtonText());
+                    complementaryButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            textScan.complementaryButtonAction();
+                        }
+                    });
+                    complementaryButton.setVisibility(View.VISIBLE);
+                } else {
+                    complementaryButton.setVisibility(View.GONE);
+                }
             } catch (NullPointerException exception) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(SelectModeActivity.this);
                 alert.setTitle(getString(R.string.select_mode_error_clipboard_title));
@@ -312,17 +331,39 @@ public class SelectModeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1)
         {
+            Scan scan = (Scan) data.getParcelableExtra("scan");
+            scan.setContext(getApplicationContext());
+
             CardView cardView = findViewById(R.id.card);
             TextView content = findViewById(R.id.card_content);
             cardView.setVisibility(View.VISIBLE);
             assert data != null;
-            content.setText(HtmlCompat.fromHtml(data.getStringExtra("content"), HtmlCompat.FROM_HTML_MODE_COMPACT));
+            content.setText(HtmlCompat.fromHtml(scan.getPlainText(), HtmlCompat.FROM_HTML_MODE_COMPACT));
             textAlreadyScanned = true;
-            jsonLastScan = data.getStringExtra("json");
+
             if(!getIntent().getBooleanExtra("isLocally", false))
             {
-                sendMessage(data.getStringExtra("json"));
+                sendMessage(scan.getJson());
             }
+
+            if (scan.getComplementaryButtonText() != null)
+            {
+                complementaryButton.setText(scan.getComplementaryButtonText());
+                complementaryButton.setIcon(scan.getComplementaryButtonDrawable());
+                complementaryButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        scan.complementaryButtonAction();
+                    }
+                });
+                complementaryButton.setVisibility(View.VISIBLE);
+            } else
+            {
+                complementaryButton.setVisibility(View.GONE);
+            }
+
+
+
 
         }
         if (requestCode == 4 && resultCode == RESULT_OK){

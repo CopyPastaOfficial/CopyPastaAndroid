@@ -62,5 +62,13 @@
     <string name="scan_qr_code_contact_organization">Société :</string>
     <string name="select_mode_upload_scan_successful">Le scan a bien été envoyé !</string>
     <string name="select_mode_upload_files_successful">Les fichiers ont bien étés envoyés !</string>
+    <string name="select_mode_search_button">Chercher sur Google</string>
+    <string name="select_mode_map_button">Ouvrir dans Google Maps</string>
+    <string name="select_mode_phone_button" >Appeler</string>
+    <string name="select_mode_wifi_button">Se connecter au WiFi</string>
+    <string name="select_mode_url_button">Ouvrir dans le navigateur</string>
+    <string name="select_mode_contact_button">Ajouter aux contacts</string>
+    <string name="select_mode_email_button">Envoyer le mail</string>
+    <string name="select_mode_sms_button">Envoyer le SMS</string>
 
 </resources>

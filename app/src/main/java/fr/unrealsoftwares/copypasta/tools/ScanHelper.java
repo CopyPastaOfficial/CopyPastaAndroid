@@ -107,7 +107,7 @@ public abstract class ScanHelper {
                                         String encryption = "";
                                         switch (barcode.getWifi().getEncryptionType()) {
                                             case Barcode.WiFi.TYPE_OPEN:
-                                                encryption = context.getString(R.string.scan_qr_code_wireless_encryption_open);
+                                                encryption = "OPEN";
                                                 break;
                                             case Barcode.WiFi.TYPE_WEP:
                                                 encryption = "WEP";
@@ -202,9 +202,13 @@ public abstract class ScanHelper {
         ImageLabeler labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS);
         labeler.process(inputImage)
                 .addOnSuccessListener(labels -> {
-                    ImageLabel imageLabel = labels.get(0);
-
-                    ScanHelper.this.onSuccess(new TextScan(context, imageLabel.getText()));
+                    try {
+                        ImageLabel imageLabel = labels.get(0);
+                        ScanHelper.this.onSuccess(new TextScan(context, imageLabel.getText()));
+                    } catch (IndexOutOfBoundsException e)
+                    {
+                        e.printStackTrace();
+                    }
                 })
                 .addOnCompleteListener(task -> ScanHelper.this.onComplete(""))
                 .addOnFailureListener(e -> {
