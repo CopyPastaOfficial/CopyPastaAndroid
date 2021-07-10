@@ -46,10 +46,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
 import fr.unrealsoftwares.copypasta.models.scans.TextScan;
+import fr.unrealsoftwares.copypasta.models.scans.UrlScan;
 import fr.unrealsoftwares.copypasta.tools.Advert;
 import fr.unrealsoftwares.copypasta.tools.FileUtil;
 import fr.unrealsoftwares.copypasta.tools.ScanHelper;
@@ -226,18 +229,27 @@ public class SelectModeActivity extends AppCompatActivity {
                 cardView.setVisibility(View.VISIBLE);
                 content.setText(clipboard);
                 textAlreadyScanned = true;
-                TextScan textScan = new TextScan(getApplicationContext(), clipboard);
-                jsonLastScan = textScan.getJson();
+                Scan scan = new TextScan(getApplicationContext(), clipboard);
+
+                Pattern pattern = Pattern.compile("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$");
+                Matcher matcher = pattern.matcher(clipboard);
+                if (matcher.find())
+                {
+                    scan = new UrlScan(getApplicationContext(), clipboard);
+                }
+
+                jsonLastScan = scan.getJson();
                 sendMessage(jsonLastScan);
 
-                if (textScan.getComplementaryButtonText() != null)
+                if (scan.getComplementaryButtonText() != null)
                 {
-                    complementaryButton.setIcon(textScan.getComplementaryButtonDrawable());
-                    complementaryButton.setText(textScan.getComplementaryButtonText());
+                    complementaryButton.setIcon(scan.getComplementaryButtonDrawable());
+                    complementaryButton.setText(scan.getComplementaryButtonText());
+                    Scan finalScan = scan;
                     complementaryButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            textScan.complementaryButtonAction();
+                            finalScan.complementaryButtonAction();
                         }
                     });
                     complementaryButton.setVisibility(View.VISIBLE);

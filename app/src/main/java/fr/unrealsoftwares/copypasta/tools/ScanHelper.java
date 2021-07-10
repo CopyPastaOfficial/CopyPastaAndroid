@@ -5,6 +5,7 @@ import android.location.Address;
 import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -21,6 +22,8 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
@@ -94,6 +97,7 @@ public abstract class ScanHelper {
                                     vibrator.vibrate(500);
                                 }
                                 Scan scan;
+                                barcode.getFormat();
                                 switch (barcode.getValueType()) {
                                     case Barcode.TYPE_PHONE:
                                         result1 = barcode.getPhone().getNumber();
@@ -185,6 +189,21 @@ public abstract class ScanHelper {
                                     default:
                                         result1 = barcode.getRawValue();
                                         scan = new TextScan(context, barcode.getRawValue());
+                                }
+
+                                if ((barcode.getFormat() == Barcode.FORMAT_CODE_39) || (barcode.getFormat() == Barcode.FORMAT_EAN_8) || (barcode.getFormat() == Barcode.FORMAT_CODABAR) || (barcode.getFormat() == Barcode.FORMAT_CODE_93) || (barcode.getFormat() == Barcode.FORMAT_CODE_128) || (barcode.getFormat() == Barcode.FORMAT_CODE_93) || (barcode.getFormat() == Barcode.FORMAT_EAN_13) || (barcode.getFormat() == Barcode.FORMAT_ITF) || (barcode.getFormat() == Barcode.FORMAT_UPC_A) || (barcode.getFormat() == Barcode.FORMAT_UPC_E))
+                                {
+                                    scan = new IsbnScan(context, barcode.getRawValue());
+                                }
+
+                                //Pattern pattern = Pattern.compile("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$");
+                                //Pattern pattern = Pattern.compile("(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\\\".,<>?«»“”‘’]))");
+                               // Pattern pattern = Pattern.compile("\"(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\))+(?:\\(([^\\s()<>]+|(\\([^\\s()<>]+\\)))*\\)|[^\\s`!()\\[\\]{};:'\\\".,<>?«»“”‘’]))\"");
+                                Pattern pattern = Pattern.compile("^(http:\\/\\/www\\.|https:\\/\\/www\\.|http:\\/\\/|https:\\/\\/)?[a-z0-9]+([\\-\\.]{1}[a-z0-9]+)*\\.[a-z]{2,5}(:[0-9]{1,5})?(\\/.*)?$");
+                                Matcher matcher = pattern.matcher(barcode.getRawValue());
+                                if (matcher.find())
+                                {
+                                    scan = new UrlScan(context, barcode.getRawValue());
                                 }
                                 ScanHelper.this.onSuccess(scan);
 
