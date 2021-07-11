@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +52,7 @@ import java.util.regex.Pattern;
 
 import fr.unrealsoftwares.copypasta.R;
 import fr.unrealsoftwares.copypasta.models.Scan;
+import fr.unrealsoftwares.copypasta.models.scans.IsbnScan;
 import fr.unrealsoftwares.copypasta.models.scans.TextScan;
 import fr.unrealsoftwares.copypasta.models.scans.UrlScan;
 import fr.unrealsoftwares.copypasta.tools.Advert;
@@ -129,6 +131,8 @@ public class SelectModeActivity extends AppCompatActivity {
      */
     private MaterialButton sendButton;
 
+    SwitchMaterial switchMaterial;
+
     /**
      * Is true if a text is already scanned. Is false if this is the opposite
      */
@@ -192,6 +196,8 @@ public class SelectModeActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progress_bar);
         sendClipboard = findViewById(R.id.send_clipboard_button);
         complementaryButton = findViewById(R.id.card_complementary_button);
+        switchMaterial = findViewById(R.id.switch_key_strokes);
+
     }
 
     /**
@@ -289,6 +295,7 @@ public class SelectModeActivity extends AppCompatActivity {
             uploadFileButton.setVisibility(View.VISIBLE);
             sendButton.setVisibility(View.VISIBLE);
             sendClipboard.setVisibility(View.VISIBLE);
+            switchMaterial.setVisibility(View.VISIBLE);
         }
 
         if(savedInstanceState != null)
@@ -411,28 +418,32 @@ public class SelectModeActivity extends AppCompatActivity {
      * Send message
      * @param json Text to send
      */
-    private void sendMessage(String json)
-    {
+    private void sendMessage(String json) {
         progressBar.setVisibility(View.VISIBLE);
         sendButton.setEnabled(false);
         MediaType JSON = MediaType.get("application/json; charset=UTF-8");
 
         OkHttpClient client = new OkHttpClient();
 
-        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("title", "Test");
-            jsonObject.put("body", "Contenu");
-            jsonObject.put("userId", 1);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            JSONObject jsonObject = new JSONObject(json);
+            if (switchMaterial.isChecked())
+            {
+                String type = jsonObject.getString("type");
+                if (type.equals("isbn") || type.equals("text") || type.equals("url") || type.equals("phone"))
+                {
+                    jsonObject.put("type", "keystrokes");
+                    JSONObject contentObject = new JSONObject();
+                    contentObject.put("text", jsonObject.getString("content"));
+                    jsonObject.put("content", contentObject);
+                }
+            }
 
-        RequestBody body = RequestBody.create(JSON, json);
-        Request request = new Request.Builder()
-                .url("http://" + ip + ":21987/upload")
-                .post(body)
-                .build();
+            RequestBody body = RequestBody.create(JSON, jsonObject.toString());
+            Request request = new Request.Builder()
+                    .url("http://" + ip + ":21987/upload")
+                    .post(body)
+                    .build();
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
@@ -460,6 +471,11 @@ public class SelectModeActivity extends AppCompatActivity {
                     });
                 }
             });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
 
     }
 

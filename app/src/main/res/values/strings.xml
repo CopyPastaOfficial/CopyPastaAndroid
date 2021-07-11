@@ -72,6 +72,7 @@
     <string name="select_mode_contact_button">Add to contacts</string>
     <string name="select_mode_email_button">Send the mail</string>
     <string name="select_mode_sms_button">Send the SMS</string>
+    <string name="select_mode_switch_key_strokes" >Automatically paste scans on the computer</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

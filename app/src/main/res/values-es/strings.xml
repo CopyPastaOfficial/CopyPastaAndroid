@@ -69,4 +69,5 @@
     <string name="select_mode_contact_button">Añadir contactos</string>
     <string name="select_mode_email_button">Enviar correo</string>
     <string name="select_mode_sms_button">Enviar SMS</string>
+    <string name="select_mode_switch_key_strokes" >Pegar escaneos automáticamente en la computadora</string>
 </resources>
