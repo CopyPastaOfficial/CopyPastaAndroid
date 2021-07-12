@@ -62,20 +62,20 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/add_button"
+                android:id="@+id/scan_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_add"
-                android:text="@string/add_device_button" />
+                android:drawableLeft="@drawable/ic_baseline_qr_code_24"
+                android:text="@string/add_device_scan_qr_code" />
         </LinearLayout>
     </ScrollView>
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/scan_button"
+        android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:icon="@drawable/ic_baseline_qr_code_24"
+        app:icon="@drawable/ic_add"
         android:layout_gravity="bottom|right"
         android:layout_margin="16dp"
-        android:text="@string/add_device_scan_qr_code"
+        android:text="@string/add_device_title"
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

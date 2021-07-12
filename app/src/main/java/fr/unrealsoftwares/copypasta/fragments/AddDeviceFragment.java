@@ -42,12 +42,12 @@ public class AddDeviceFragment extends Fragment implements FragmentInterface {
     /**
      * Add device button contains in the layout
      */
-    private Button addButton;
+    private ExtendedFloatingActionButton addButton;
 
     /**
      * Scan button contains in the layout
      */
-    private ExtendedFloatingActionButton scanButton;
+    private Button scanButton;
 
     /**
      * Device name
