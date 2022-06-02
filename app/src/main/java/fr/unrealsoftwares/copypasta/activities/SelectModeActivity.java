@@ -362,7 +362,8 @@ public class SelectModeActivity extends AppCompatActivity {
 
             if(!getIntent().getBooleanExtra("isLocally", false))
             {
-                sendMessage(scan.getJson());
+                jsonLastScan = scan.getJson();
+                sendMessage(jsonLastScan);
             }
 
             if (scan.getComplementaryButtonText() != null)
