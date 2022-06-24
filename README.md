@@ -29,4 +29,4 @@ If you want send scan, result of recognition, image, and send it to your compute
 - **Send the scans to your computer** (after scanning or from your clipboard)
 
 ## Usage
-Go in the [CopyPasta website (https://copypastaofficial.github.io)](https://copypastaofficial.github.io).
+Go in the [CopyPasta website (https://copypastaofficial.github.io)](https://copypastaofficial.github.io) and follow the installation instructions.
