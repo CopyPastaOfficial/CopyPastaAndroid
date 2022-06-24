@@ -1,5 +1,11 @@
 # CopyPasta Android
 
+> **Warning**
+> Don't forget to download the PC version to receive texts and files from your phone [here](https://copypastaofficial.github.io/#download)!
+
+> **Note**
+> You can see the desktop version on our [repository](https://github.com/CopyPastaOfficial/CopyPasta).
+
 ## What is it ?
 With this android application, you can scan QR Code, barcode, text recongnition, object recognition, with your camera or your gallery and **send it at your computer connected on the same Wifi of your mobile phone**.
 
