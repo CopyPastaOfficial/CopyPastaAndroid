@@ -5,7 +5,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -95,6 +97,22 @@ public class SelectDeviceActivity extends AppCompatActivity {
         this.adapter = new DevicesAdapter(getApplicationContext(), this.databaseManager);
         this.adapter.notifyDataSetChanged();
         devices_list.setAdapter(this.adapter);
+        if (this.adapter.getCount() == 0)
+        {
+            AlertDialog.Builder alert = new AlertDialog.Builder(SelectDeviceActivity.this);
+            alert.setTitle(getString(R.string.add_device_software_download_reminder_title));
+            alert.setMessage(getString(R.string.add_device_software_download_reminder_content));
+            alert.setPositiveButton(getString(R.string.add_device_software_download_reminder_positive_button), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://copypastaofficial.github.io"));
+                    startActivity(browserIntent);
+                }
+            });
+            alert.setNegativeButton(getString(R.string.add_device_software_download_reminder_negative_button), null);
+
+            alert.show();
+        }
     }
 
     /**

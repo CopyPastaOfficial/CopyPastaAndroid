@@ -70,4 +70,8 @@
     <string name="select_mode_email_button">Mail senden</string>
     <string name="select_mode_sms_button">SMS senden</string>
     <string name="select_mode_switch_key_strokes" >Scans automatisch auf dem Computer einfügen</string>
+    <string name="add_device_software_download_reminder_title">Information</string>
+    <string name="add_device_software_download_reminder_content">Vergessen Sie nicht, unsere Software auf Ihren Computer herunterzuladen!</string>
+    <string name="add_device_software_download_reminder_positive_button">" Herunterladen"</string>
+    <string name="add_device_software_download_reminder_negative_button">Später</string>
 </resources>

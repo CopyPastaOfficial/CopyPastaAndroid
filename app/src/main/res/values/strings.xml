@@ -73,6 +73,10 @@
     <string name="select_mode_email_button">Send the mail</string>
     <string name="select_mode_sms_button">Send the SMS</string>
     <string name="select_mode_switch_key_strokes" >Automatically paste scans on the computer</string>
+    <string name="add_device_software_download_reminder_title">Information</string>
+    <string name="add_device_software_download_reminder_content">Don\'t forget to download our software on your computer!</string>
+    <string name="add_device_software_download_reminder_positive_button">Download</string>
+    <string name="add_device_software_download_reminder_negative_button">Later</string>
     <!-- TODO: Remove or change this placeholder text -->
 
 </resources>

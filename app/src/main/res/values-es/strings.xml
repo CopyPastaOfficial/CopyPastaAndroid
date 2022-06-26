@@ -70,4 +70,8 @@
     <string name="select_mode_email_button">Enviar correo</string>
     <string name="select_mode_sms_button">Enviar SMS</string>
     <string name="select_mode_switch_key_strokes" >Pegar escaneos automáticamente en la computadora</string>
+    <string name="add_device_software_download_reminder_content">¡No olvides descargar nuestro software en tu computadora!</string>
+    <string name="add_device_software_download_reminder_title">Información</string>
+    <string name="add_device_software_download_reminder_positive_button">Descarga</string>
+    <string name="add_device_software_download_reminder_negative_button">Más tarde</string>
 </resources>
