@@ -275,7 +275,7 @@ public class SelectModeActivity extends AppCompatActivity {
         shareButton.setOnClickListener(v -> {
             Intent sendIntent = new Intent();
             sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_TEXT, content.getText());
+            sendIntent.putExtra(Intent.EXTRA_TEXT, content.getText().toString());
             sendIntent.setType("text/plain");
 
             Intent shareIntent = Intent.createChooser(sendIntent, null);
